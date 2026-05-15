@@ -93,7 +93,6 @@
 
         /* Tool Boxes */
         .tool-box { background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 25px 20px; text-align: center; margin-bottom: 25px;}
-        .terminal-text { font-family: monospace; color: var(--secondary); font-size: 13px; margin-bottom: 20px; text-align: left; background: rgba(0,0,0,0.8); padding: 12px; border-radius: 6px; border-left: 3px solid var(--secondary); line-height: 1.5; }
         
         .result-box { margin-top: 15px; padding: 20px; background: rgba(0,0,0,0.9); border-radius: 10px; display: none; border: 1px solid #333; }
         .res-big { color: #2ecc71; font-size: 40px; font-weight: 900; font-family: var(--font-head); text-shadow: 0 0 20px rgba(46, 204, 113, 0.5); }
@@ -110,6 +109,153 @@
         <div class="popup-box">
             <i class="fas fa-book-open popup-icon"></i>
             <div class="popup-title">SYSTEM GUIDE</div>
+            <ul class="rules-list">
+                <li><b>TOOL 1: CHART HACKER</b><br>Unlock the vault with the Vault Password. Use the Calculator to get direct Top/Bottom chart results instantly.</li>
+                <li><b>TOOL 2: PDF DOWNLOAD</b><br>Inside the unlocked vault, download the Original VIP Chart uploaded by the Admin.</li>
+            </ul>
+            <button class="btn btn-glow sound-btn" onclick="document.getElementById('rulesModal').style.display='none'">I UNDERSTAND</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="loginModal">
+        <div class="popup-box">
+            <i class="fas fa-fingerprint popup-icon"></i>
+            <div class="popup-title">BIOMETRIC LOCK</div>
+            <div id="loginForm">
+                <div class="input-group">
+                    <i class="fas fa-key"></i>
+                    <input type="password" id="sitePass" placeholder="Enter Access Key" autocomplete="off">
+                </div>
+                <button class="btn btn-glow sound-btn" onclick="startLoginProcess()">ACCESS SYSTEM</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="jarvisHUD">
+        <div class="scanning-line"></div>
+        <div class="hud-ring ring-1"></div>
+        <div class="hud-ring ring-2"></div>
+        <div class="hud-ring ring-3"></div>
+        <div class="hud-text" id="hudText">AUTHENTICATING...</div>
+        <div style="font-family: monospace; color: #fff; opacity: 0.5; margin-top: 10px; font-size: 11px;">BYPASSING ENCRYPTION [88.42.11.0]</div>
+    </div>
+
+    <div class="glass-panel" id="mainDashboard">
+        <div class="user-counter">
+            <div class="dot"></div>
+            ACTIVE USERS: <span id="userCount">342</span>
+        </div>
+
+        <div class="brand-header">
+            <button class="guide-btn sound-btn" onclick="document.getElementById('rulesModal').style.display='flex'"><i class="fas fa-question-circle"></i> GUIDE</button>
+            <div class="title" id="displayTitle">ROCKY BHAI</div>
+            <div class="subtitle">VIP PREDICTION SYSTEM</div>
+        </div>
+
+        <div class="dash-body">
+            <div class="col-left">
+                <div class="section-title"><i class="fas fa-chart-pie"></i> SYSTEM STATS</div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-val" id="valSureShot">99%</div>
+                        <div style="color:#aaa; font-size:12px; font-weight:bold; margin-top:5px;">SURE SHOT</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-val" id="valAccuracy">95%</div>
+                        <div style="color:#aaa; font-size:12px; font-weight:bold; margin-top:5px;">ACCURACY</div>
+                    </div>
+                </div>
+
+                <div class="section-title"><i class="fas fa-users"></i> COMMUNITY</div>
+                <div class="social-grid">
+                    <a href="#" target="_blank" id="btnTg" class="social-btn sound-btn" style="background: rgba(0, 136, 204, 0.15); border-color: #0088cc;">
+                        <i class="fab fa-telegram-plane" style="color:#0088cc;"></i> TELEGRAM
+                    </a>
+                    <a href="#" target="_blank" id="btnIg" class="social-btn sound-btn" style="background: rgba(220, 39, 67, 0.15); border-color: #e6683c;">
+                        <i class="fab fa-instagram" style="color:#e6683c;"></i> INSTAGRAM
+                    </a>
+                    <a href="#" target="_blank" id="btnYt" class="social-btn sound-btn" style="background: rgba(204, 0, 0, 0.15); border-color: #ff0000;">
+                        <i class="fab fa-youtube" style="color:#ff0000;"></i> YOUTUBE
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-right">
+                <div class="section-title"><i class="fas fa-vault"></i> SECURE CHART VAULT</div>
+                <div class="tool-box" id="vaultContainer" style="border-color: var(--secondary);">
+                    <div class="validity-tag" id="validityDisplay"><i class="fas fa-clock"></i> Valid Till: Loading...</div>
+                    
+                    <div id="vaultLocked">
+                        <p style="font-size:14px; color:#ccc; margin-bottom:20px;">Unlock vault for VIP Tools.</p>
+                        <div class="input-group">
+                            <i class="fas fa-file-pdf"></i>
+                            <input type="password" id="vaultPass" placeholder="Vault Password">
+                        </div>
+                        <button class="btn btn-outline sound-btn" onclick="unlockVault()"><i class="fas fa-lock-open"></i> UNLOCK VAULT</button>
+                    </div>
+
+                    <div id="vaultUnlocked" style="display:none; text-align: left;">
+                        
+                        <div style="background: rgba(0,0,0,0.8); padding: 25px; border-radius: 12px; border: 1px solid var(--primary); margin-bottom: 25px; text-align: center;">
+                            <h4 style="color:var(--secondary); font-family:var(--font-head); margin-bottom:15px; letter-spacing: 1px;">TOOL 1: CHART HACKER</h4>
+                            <div class="vault-grid">
+                                <input type="number" id="topNum" placeholder="Top">
+                                <input type="number" id="bottomNum" placeholder="Bottom">
+                            </div>
+                            <button class="btn btn-glow sound-btn" onclick="checkChartValue()">CHECK CHART RESULT</button>
+                            <div id="chartResBox" style="margin-top: 20px; font-size: 34px; font-family: var(--font-head); font-weight: 900;"></div>
+                        </div>
+
+                        <div style="background: rgba(0,0,0,0.8); padding: 25px; border-radius: 12px; border: 1px solid #444; text-align: center;">
+                            <h4 style="color:#aaa; font-family:var(--font-head); margin-bottom:10px; letter-spacing: 1px;">TOOL 2: FULL CHART</h4>
+                            <p style="font-size:13px; color:#888; margin-bottom:20px;">Download the original PDF/Image chart provided by Admin.</p>
+                            <button class="btn btn-outline sound-btn" onclick="downloadSecurePDF()"><i class="fas fa-download"></i> DOWNLOAD FILE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+        // FIREBASE SETUP
+        const firebaseConfig = {
+            apiKey: "AIzaSyBTFFk_wM5Ji8Wa3kiVdn7_3kasnOZ_DPI", authDomain: "rockey-c164a.firebaseapp.com",
+            databaseURL: "https://rockey-c164a-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "rockey-c164a"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        let systemData = null;
+
+        // AUTO ALGORITHM FALLBACK
+        const autoAlgorithm = {
+            "0": { "0":"SMALL", "1":"BIG", "2":"BIG", "3":"SMALL", "4":"BIG", "5":"SMALL", "6":"SMALL", "7":"SMALL", "8":"BIG", "9":"SMALL" },
+            "1": { "0":"BIG", "1":"SMALL", "2":"BIG", "3":"BIG", "4":"BIG", "5":"SMALL", "6":"SMALL", "7":"SMALL", "8":"BIG", "9":"SMALL" },
+            "2": { "0":"BIG", "1":"BIG", "2":"SMALL", "3":"SMALL", "4":"BIG", "5":"SMALL", "6":"SMALL", "7":"BIG", "8":"BIG", "9":"BIG" },
+            "3": { "0":"SMALL", "1":"SMALL", "2":"BIG", "3":"SMALL", "4":"BIG", "5":"SMALL", "6":"SMALL", "7":"SMALL", "8":"SMALL", "9":"BIG" },
+            "4": { "0":"BIG", "1":"SMALL", "2":"SMALL", "3":"BIG", "4":"SMALL", "5":"BIG", "6":"SMALL", "7":"SMALL", "8":"BIG", "9":"BIG" },
+            "5": { "0":"BIG", "1":"SMALL", "2":"SMALL", "3":"BIG", "4":"SMALL", "5":"BIG", "6":"BIG", "7":"SMALL", "8":"BIG", "9":"BIG" },
+            "6": { "0":"BIG", "1":"BIG", "2":"BIG", "3":"BIG", "4":"BIG", "5":"SMALL", "6":"SMALL", "7":"BIG", "8":"SMALL", "9":"SMALL" },
+            "7": { "0":"SMALL", "1":"BIG", "2":"BIG", "3":"BIG", "4":"BIG", "5":"SMALL", "6":"BIG", "7":"BIG", "8":"BIG", "9":"BIG" },
+            "8": { "0":"SMALL", "1":"BIG", "2":"SMALL", "3":"SMALL", "4":"SMALL", "5":"BIG", "6":"BIG", "7":"BIG", "8":"SMALL", "9":"SMALL" },
+            "9": { "0":"BIG", "1":"BIG", "2":"SMALL", "3":"SMALL", "4":"BIG", "5":"SMALL", "6":"SMALL", "7":"BIG", "8":"SMALL", "9":"SMALL" }
+        };
+
+        // CUSTOM AUDIO ENGINE
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playTone(freq, type, duration, vol=0.1) {
+            try {
+                const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+                osc.type = type; osc.frequency.value = freq; osc.connect(gain); gain.connect(audioCtx.destination);
+                gain.gain.setValueAtTime(vol, audioCtx.currentTime); osc.start(); osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+        
+        // Add click sound to all elements with class 'sound-btn'
+                <div class="popup-title">SYSTEM GUIDE</div>
             <ul class="rules-list">
                 <li><b>TOOL 1: ALGORITHM ENGINE</b><br>Enter your Engine Password and the Period Number. System decrypts the outcome using AI algorithms.</li>
                 <li><b>TOOL 2: CHART HACKER</b><br>Unlock the vault with the PDF Password. Use the Calculator to get direct Top/Bottom chart results instantly.</li>
