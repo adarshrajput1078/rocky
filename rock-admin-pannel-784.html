@@ -12,7 +12,7 @@
         
         /* Admin Lock Screen */
         #adminLock { position: fixed; top:0; left:0; width:100%; height:100%; background: #000; z-index: 3000; display: flex; justify-content: center; align-items: center; flex-direction: column; }
-        .lock-box { background: #111; padding: 40px; border-radius: 15px; border: 2px solid #ff4500; text-align: center; box-shadow: 0 0 30px rgba(255,69,0,0.4); }
+        .lock-box { background: #111; padding: 40px; border-radius: 15px; border: 2px solid #ff4500; text-align: center; box-shadow: 0 0 30px rgba(255,69,0,0.4); width: 90%; max-width: 400px;}
         .lock-box input { width: 100%; padding: 15px; margin-bottom: 20px; font-size: 24px; text-align: center; letter-spacing: 10px; font-family: 'Orbitron', sans-serif; background: #000; border: 1px solid #ff4500; color: #fff; outline: none; border-radius: 8px;}
         
         /* Main Container */
@@ -42,14 +42,6 @@
         input:focus, select:focus { border-color: #ffaa00; box-shadow: 0 0 10px rgba(255,170,0,0.3); }
 
         .row { display: flex; flex-wrap: wrap; gap: 15px; } .col { flex: 1; min-width: 150px; }
-        
-        .switch-box { display: flex; align-items: center; justify-content: space-between; background: #000; padding: 15px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px;}
-        .switch { position: relative; width: 50px; height: 26px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #e74c3c; transition: .4s; border-radius: 30px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #2ecc71; }
-        input:checked + .slider:before { transform: translateX(24px); }
 
         /* Grid */
         .top-num-group { background: #0a0a0a; border: 1px solid #333; border-radius: 8px; margin-bottom: 15px; }
@@ -63,7 +55,7 @@
         /* Buttons */
         .btn-save { background: linear-gradient(90deg, #ff4500, #ffaa00); color: #000; border: none; width: 100%; padding: 18px; font-size: 20px; font-weight: 900; border-radius: 10px; cursor: pointer; text-transform: uppercase; margin-top: 15px; font-family: 'Orbitron', sans-serif; letter-spacing: 2px;}
         .btn-save:active { transform: scale(0.98); }
-        .btn-reset { background: #e74c3c; color: #fff; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px; letter-spacing: 1px;}
+        .btn-reset { background: #e74c3c; color: #fff; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px; letter-spacing: 1px;}
         
         .file-upload-status { font-size: 13px; color: #2ecc71; margin-top: -5px; margin-bottom: 10px; display: none; font-weight: bold; }
         
@@ -80,7 +72,7 @@
 <div id="adminLock">
     <div class="lock-box">
         <h2 style="font-family: 'Orbitron', sans-serif; color: #ffaa00; margin-bottom: 10px;">MASTER PIN</h2>
-        <p style="color: #888; font-size: 12px; margin-bottom: 20px;">Enter 4-Digit Security PIN to Access</p>
+        <p style="color: #888; font-size: 12px; margin-bottom: 20px;">Enter 4-Digit Security PIN</p>
         <input type="password" id="adminPin" maxlength="4" placeholder="••••">
         <button class="btn-save" onclick="unlockAdmin()" style="font-size: 16px; padding: 15px;">UNLOCK PANEL</button>
     </div>
@@ -91,7 +83,7 @@
 
     <div class="tabs">
         <div class="tab-btn active" onclick="switchTab('settings')">⚙️ Configurations</div>
-        <div class="tab-btn" onclick="switchTab('chart')">📊 Chart & PDF Setup</div>
+        <div class="tab-btn" onclick="switchTab('chart')">📊 Chart Setup</div>
     </div>
 
     <div class="split-view">
@@ -110,6 +102,238 @@
                     <div class="col"><label>Instagram Link</label><input type="text" id="igLink"></div>
                 </div>
                 <div class="row">
+                    <div class="col"><label>YouTube Link</label><input type="text" id="ytLink"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Access Keys & Passwords</div>
+                <div class="row">
+                    <div class="col"><label>Website Entrance Key</label><input type="text" id="webPass"></div>
+                    <div class="col"><label style="color:#ffaa00;">Vault (PDF) Password</label><input type="text" id="pdfPass"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Stats Control</div>
+                <div class="row">
+                    <div class="col"><label>Sure Shot %</label><input type="text" id="sureShot"></div>
+                    <div class="col"><label>Accuracy %</label><input type="text" id="accuracy"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-chart" class="tab-content">
+            <div class="section" style="border-color: #2ecc71;">
+                <div class="section-title" style="color: #2ecc71; display:flex; justify-content:space-between; align-items:center;">
+                    <span>Daily File Uploads</span>
+                    <button class="btn-reset" onclick="resetDayData()">CLEAR DAY</button>
+                </div>
+                <div class="row">
+                    <div class="col"><label>Valid Date (e.g. 15-May-2026)</label><input type="text" id="validDate"></div>
+                </div>
+                
+                <label style="color:#ffaa00; margin-top: 10px;">Upload Original PDF/Image (Max 2MB)</label>
+                <input type="file" id="customPdfUpload" accept=".pdf, image/*" style="padding: 10px; font-size: 12px; background: #222;">
+                <div id="uploadStatus" class="file-upload-status">File Selected!</div>
+                <input type="hidden" id="fileBase64">
+            </div>
+
+            <div style="font-size: 13px; color: #aaa; margin-bottom: 15px; text-align: center; font-weight: bold;">
+                MANUAL CHART OVERRIDE (0-0 TO 9-9)<br>
+                <span style="font-size:10px; font-weight:normal; color:#888;">This controls the result shown in the "Chart Hacker" Tool.</span>
+            </div>
+            <div id="gridBody" style="max-height: 500px; overflow-y: auto; padding-right: 5px;"></div>
+        </div>
+    </div>
+
+    <button class="btn-save" id="saveBtn" onclick="saveData()">🚀 PUBLISH ALL TO LIVE SERVER</button>
+    <div style="text-align:center; font-size:11px; color:#ffaa00; margin-top:15px; font-weight:bold; letter-spacing: 1px;">🔒 256-BIT ENCRYPTED CONNECTION</div>
+</div>
+
+<div id="toast">✅ SYSTEM SYNCED SUCCESSFULLY</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBTFFk_wM5Ji8Wa3kiVdn7_3kasnOZ_DPI", authDomain: "rockey-c164a.firebaseapp.com",
+        databaseURL: "https://rockey-c164a-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "rockey-c164a"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const ADMIN_SECRET_KEY = "WtEPcxhW6iWF55JtosZM8OkW4ZidXtuWFjELfEsx";
+
+    // 1. ADMIN PIN LOCK LOGIC
+    window.unlockAdmin = async function() {
+        const pin = document.getElementById('adminPin').value;
+        if(pin === "9999") { // Aap is PIN ko change kar sakte hain
+            document.getElementById('adminLock').style.display = 'none';
+            document.getElementById('adminContainer').style.display = 'block';
+            await loadData(); 
+        } else {
+            alert("❌ INCORRECT SECURITY PIN");
+        }
+    };
+
+    // UI Tab Switcher
+    window.switchTab = function(tab) {
+        if(window.innerWidth >= 900) return; 
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        if(tab === 'settings') { document.querySelectorAll('.tab-btn')[0].classList.add('active'); document.getElementById('tab-settings').classList.add('active'); }
+        else { document.querySelectorAll('.tab-btn')[1].classList.add('active'); document.getElementById('tab-chart').classList.add('active'); }
+    };
+
+    // Show Smooth Notification
+    function showToast(msg, isError = false) {
+        const toast = document.getElementById("toast");
+        toast.innerText = msg;
+        toast.style.backgroundColor = isError ? "#e74c3c" : "#2ecc71";
+        toast.className = "show";
+        setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+    }
+
+    // Grid Generation (0-0 to 9-9)
+    const states = ['SKIP', 'BIG', 'SMALL'];
+    const gridBody = document.getElementById('gridBody');
+    for (let t = 0; t <= 9; t++) {
+        let groupHTML = `<div class="top-num-group"><div class="group-header"><h4 style="color:#ffaa00; font-size:14px; font-family:'Orbitron',sans-serif;">Top: ${t}</h4></div><div class="grid-container">`;
+        for (let b = 0; b <= 9; b++) {
+            groupHTML += `<div class="grid-item"><div style="font-size:13px; font-weight:900; color:#888;">${t} > ${b}</div><button id="btn_${t}_${b}" class="toggle-btn btn-skip" data-state="0" onclick="toggleState(${t}, ${b})">SKIP</button></div>`;
+        }
+        groupHTML += `</div></div>`;
+        gridBody.innerHTML += groupHTML;
+    }
+
+    window.toggleState = function(t, b) {
+        const btn = document.getElementById(`btn_${t}_${b}`);
+        let next = (parseInt(btn.getAttribute('data-state')) + 1) % 3;
+        btn.setAttribute('data-state', next);
+        btn.innerText = states[next];
+        btn.className = 'toggle-btn ' + (next === 1 ? 'btn-big' : (next === 2 ? 'btn-small' : 'btn-skip'));
+    };
+
+    // File Upload Handler
+    document.getElementById('customPdfUpload').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if(file) {
+            if(file.size > 2 * 1024 * 1024) {
+                showToast("❌ File too large! Max 2MB allowed.", true);
+                this.value = ''; return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                document.getElementById('fileBase64').value = evt.target.result;
+                document.getElementById('uploadStatus').style.display = 'block';
+                document.getElementById('uploadStatus').innerText = "✅ New File Ready: " + file.name;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // 1-CLICK RESET SYSTEM
+    window.resetDayData = function() {
+        if(confirm("Are you sure? This will clear today's Date, File and Manual Grid Data.")) {
+            document.getElementById('validDate').value = "";
+            document.getElementById('customPdfUpload').value = "";
+            document.getElementById('fileBase64').value = "";
+            document.getElementById('uploadStatus').style.display = 'none';
+            
+            for (let t = 0; t <= 9; t++) {
+                for (let b = 0; b <= 9; b++) {
+                    const btn = document.getElementById(`btn_${t}_${b}`);
+                    btn.setAttribute('data-state', 0);
+                    btn.innerText = "SKIP";
+                    btn.className = 'toggle-btn btn-skip';
+                }
+            }
+            showToast("🧹 Day Data Cleared! Don't forget to Publish.");
+        }
+    };
+
+    // Load Data
+    async function loadData() {
+        const snap = await get(ref(db, 'RockyVIPSystem'));
+        if (snap.exists()) {
+            const d = snap.val();
+            document.getElementById('themeSelect').value = d.activeTheme || "theme-fire";
+            document.getElementById('mainTitle').value = d.websiteTitle || "ROCKY BHAI";
+            document.getElementById('tgLink').value = d.tgLink || "";
+            document.getElementById('igLink').value = d.igLink || "";
+            document.getElementById('ytLink').value = d.ytLink || "";
+            document.getElementById('sureShot').value = d.sureShot || "";
+            document.getElementById('accuracy').value = d.accuracy || "";
+            document.getElementById('webPass').value = d.websitePassword || "";
+            document.getElementById('pdfPass').value = d.pdfPassword || "";
+            document.getElementById('validDate').value = d.validDate || "";
+            
+            if(d.uploadedFileUrl) {
+                document.getElementById('fileBase64').value = d.uploadedFileUrl;
+                document.getElementById('uploadStatus').style.display = 'block';
+                document.getElementById('uploadStatus').innerText = "📌 Old file is active on server.";
+            }
+
+            if(d.predictions) {
+                for (const [key, result] of Object.entries(d.predictions)) {
+                    let [t, b] = key.split('_');
+                    const btn = document.getElementById(`btn_${t}_${b}`);
+                    if(btn) {
+                        let state = result === 'BIG' ? 1 : (result === 'SMALL' ? 2 : 0);
+                        btn.setAttribute('data-state', state);
+                        btn.innerText = states[state];
+                        btn.className = 'toggle-btn ' + (state === 1 ? 'btn-big' : (state === 2 ? 'btn-small' : 'btn-skip'));
+                    }
+                }
+            }
+        }
+    }
+
+    // Save Data
+    window.saveData = async function() {
+        const btn = document.getElementById('saveBtn');
+        btn.innerText = "UPLOADING..."; btn.disabled = true;
+
+        let predictions = {};
+        for (let t = 0; t <= 9; t++) {
+            for (let b = 0; b <= 9; b++) {
+                const state = parseInt(document.getElementById(`btn_${t}_${b}`).getAttribute('data-state'));
+                if (state !== 0) predictions[`${t}_${b}`] = states[state];
+            }
+        }
+
+        const payload = {
+            secretKey: ADMIN_SECRET_KEY,
+            activeTheme: document.getElementById('themeSelect').value,
+            websiteTitle: document.getElementById('mainTitle').value,
+            tgLink: document.getElementById('tgLink').value,
+            igLink: document.getElementById('igLink').value,
+            ytLink: document.getElementById('ytLink').value,
+            sureShot: document.getElementById('sureShot').value,
+            accuracy: document.getElementById('accuracy').value,
+            websitePassword: document.getElementById('webPass').value,
+            pdfPassword: document.getElementById('pdfPass').value,
+            validDate: document.getElementById('validDate').value,
+            uploadedFileUrl: document.getElementById('fileBase64').value,
+            predictions: predictions
+        };
+
+        try {
+            await set(ref(db, 'RockyVIPSystem'), payload);
+            showToast("✅ SYSTEM SYNCED SUCCESSFULLY!");
+            btn.innerText = "🚀 PUBLISHED";
+            setTimeout(() => { btn.innerText = "🚀 PUBLISH ALL TO LIVE SERVER"; btn.disabled = false; }, 2000);
+        } catch (e) {
+            showToast("❌ ERROR: Check Internet & Secret Key", true);
+            btn.innerText = "❌ FAILED";
+            btn.disabled = false;
+        }
+    };
+</script>
+</body>
+</html>
+<div class="row">
                     <div class="col"><label>YouTube Link</label><input type="text" id="ytLink"></div>
                 </div>
             </div>
