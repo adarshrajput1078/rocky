@@ -3,382 +3,279 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ROCKY BHAI - ULTIMATE VIP SYSTEM</title>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-    
+    <title>ROCKY VIP SYSTEM</title>
     <style>
-        /* THEME VARIABLES (Controlled by Admin Panel) */
-        body.theme-fire { --primary: #ff4500; --secondary: #ffaa00; --glow: 0 0 20px rgba(255, 69, 0, 0.6); --bg-grad: linear-gradient(rgba(0,0,0,0.85), rgba(15,0,0,0.95)), url('IMG_20260515_111240_594.jpg'); }
-        body.theme-water { --primary: #00d2ff; --secondary: #3a7bd5; --glow: 0 0 20px rgba(0, 210, 255, 0.6); --bg-grad: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); }
-        body.theme-neon { --primary: #39ff14; --secondary: #00ffcc; --glow: 0 0 20px rgba(57, 255, 20, 0.6); --bg-grad: linear-gradient(135deg, #000000 0%, #0a1911 100%); }
-
-        :root { --dark: #0a0a0a; --panel: rgba(10, 10, 10, 0.85); --font-main: 'Rajdhani', sans-serif; --font-head: 'Orbitron', sans-serif; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); user-select: none; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; user-select: none; }
         
-        /* Core Body Settings */
-        body { background-color: var(--dark); color: #fff; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; background-image: var(--bg-grad); background-size: cover; background-position: center; background-attachment: fixed; padding: 15px; overflow-x: hidden; transition: background 0.5s ease; }
-
-        /* Main Dashboard Panel */
-        .glass-panel { width: 100%; max-width: 550px; background: var(--panel); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-top: 3px solid var(--primary); border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.9), var(--glow); margin-top: 30px; margin-bottom: 20px; transition: 0.5s ease-in-out; filter: blur(10px); pointer-events: none; transform: scale(0.98); position: relative; }
-        .unlocked { filter: blur(0px); pointer-events: auto; transform: scale(1); }
-
-        /* PC Layout Adjustments */
-        @media (min-width: 850px) { body { align-items: center; } .glass-panel { max-width: 1000px; } .dash-body { display: grid; grid-template-columns: 1fr 1.2fr; gap: 30px; padding: 30px; } }
-
-        /* Live User Counter */
-        .user-counter { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: #000; border: 1px solid var(--primary); padding: 5px 20px; border-radius: 20px; font-size: 11px; font-weight: bold; color: #fff; z-index: 5; display: flex; align-items: center; gap: 8px; box-shadow: var(--glow); letter-spacing: 1px;}
-        .dot { width: 8px; height: 8px; background: #2ecc71; border-radius: 50%; box-shadow: 0 0 10px #2ecc71; animation: blink 1s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-        /* Header Elements */
-        .brand-header { text-align: center; padding: 30px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); position: relative; }
-        .title { font-family: var(--font-head); font-size: 34px; font-weight: 900; color: #fff; text-shadow: var(--glow); letter-spacing: 4px; text-transform: uppercase; }
-        .subtitle { color: var(--secondary); font-size: 14px; font-weight: 700; letter-spacing: 6px; margin-top: 5px; text-shadow: 0 0 10px rgba(255, 170, 0, 0.5); }
-        .guide-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: 1px solid var(--secondary); color: var(--secondary); padding: 5px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .guide-btn:hover { background: var(--secondary); color: #000; }
-
-        /* Modals & Popups */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .popup-box { background: rgba(10, 10, 10, 0.95); border: 2px solid var(--primary); border-radius: 16px; padding: 35px 25px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 0 40px var(--primary); max-height: 90vh; overflow-y: auto; }
-        .popup-icon { font-size: 50px; color: var(--primary); margin-bottom: 15px; text-shadow: var(--glow); animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-        .popup-title { font-family: var(--font-head); font-size: 24px; margin-bottom: 25px; letter-spacing: 2px; }
-
-        /* Form Inputs */
-        .input-group { position: relative; margin-bottom: 15px; }
-        .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary); font-size: 18px; }
-        input { width: 100%; padding: 15px 15px 15px 45px; border-radius: 8px; border: 1px solid var(--primary); background: rgba(0,0,0,0.8); color: #fff; font-size: 16px; font-weight: bold; outline: none; transition: 0.3s; letter-spacing: 2px;}
-        input:focus { box-shadow: inset 0 0 15px var(--primary); border-color: var(--secondary); }
+        /* Animated Hacker Background */
+        body { background: #000; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; flex-direction: column; padding: 15px; position: relative; overflow-x: hidden;}
+        body::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, #1a0033 0%, #000 100%); z-index: -2; }
+        body::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px); background-size: 30px 30px; z-index: -1; }
         
-        /* Buttons */
-        .btn { width: 100%; padding: 15px; border-radius: 8px; border: none; font-size: 16px; font-family: var(--font-head); font-weight: 900; cursor: pointer; text-transform: uppercase; transition: 0.3s; letter-spacing: 2px; }
-        .btn-glow { background: var(--primary); color: #000; box-shadow: var(--glow); }
-        .btn-glow:active { transform: scale(0.95); box-shadow: 0 0 10px rgba(255,69,0,0.8); }
-        .btn-outline { background: transparent; border: 2px solid var(--primary); color: #fff; }
-        .btn-outline:hover { background: rgba(255,255,255,0.1); }
-
-        /* Guide List */
-        .rules-list { text-align: left; font-size: 14px; line-height: 1.6; color: #ccc; margin-bottom: 20px;}
-        .rules-list b { color: var(--secondary); }
-        .rules-list li { margin-bottom: 15px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; border-left: 3px solid var(--primary); list-style: none;}
-
-        /* JARVIS HUD ANIMATION */
-        #jarvisHUD { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 1500; justify-content: center; align-items: center; flex-direction: column; }
-        .hud-ring { position: absolute; border: 2px solid var(--primary); border-radius: 50%; border-top: 2px solid transparent; border-bottom: 2px solid transparent; animation: rotate 2s linear infinite; opacity: 0.6; }
-        .ring-1 { width: 300px; height: 300px; animation-duration: 3s; }
-        .ring-2 { width: 250px; height: 250px; animation-direction: reverse; animation-duration: 2s; border-left: 2px solid transparent; }
-        .ring-3 { width: 400px; height: 400px; opacity: 0.2; }
-        .scanning-line { position: absolute; width: 100%; height: 2px; background: var(--primary); box-shadow: 0 0 15px var(--primary); top: 0; animation: scan 3s linear infinite; }
-        .hud-text { font-family: var(--font-head); color: var(--primary); font-size: 16px; text-transform: uppercase; letter-spacing: 3px; text-shadow: var(--glow); z-index: 10; text-align: center; margin-top: 20px;}
-        @keyframes rotate { 100% { transform: rotate(360deg); } }
-        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
-
-        /* Dashboard Body Sections */
-        .dash-body { padding: 20px; }
-        .section-title { font-family: var(--font-head); font-size: 14px; color: var(--secondary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.5); padding: 10px 15px; border-radius: 6px; border-left: 3px solid var(--primary);}
+        /* Glassmorphism Container */
+        .container { background: rgba(10, 15, 25, 0.7); border: 1px solid rgba(0, 240, 255, 0.3); padding: 30px 25px; border-radius: 20px; width: 100%; max-width: 420px; text-align: center; box-shadow: 0 8px 32px 0 rgba(0, 240, 255, 0.15); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: none; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+        @keyframes popIn { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
-        .stat-card { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 15px; text-align: center; border-bottom: 3px solid var(--secondary); transition: 0.3s; }
-        .stat-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); }
-        .stat-val { font-size: 32px; font-weight: 900; color: #fff; font-family: var(--font-head); }
+        h1 { color: #00f0ff; font-size: 28px; font-weight: 900; margin-bottom: 5px; font-family: 'Orbitron', sans-serif; text-transform: uppercase; text-shadow: 0 0 15px rgba(0,240,255,0.5);}
         
-        .social-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
-        .social-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px 5px; border-radius: 8px; text-decoration: none; color: #fff; font-weight: 700; font-size: 12px; transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;}
-        .social-btn i { font-size: 22px; margin-bottom: 8px; }
-        .social-btn:active { transform: scale(0.95); }
-
-        /* Tool Boxes */
-        .tool-box { background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 25px 20px; text-align: center; margin-bottom: 25px;}
+        /* Form Elements */
+        input[type="password"], input[type="number"] { width: 100%; padding: 18px; margin-bottom: 20px; font-size: 20px; text-align: center; font-family: 'Orbitron', sans-serif; background: rgba(0,0,0,0.6); border: 2px solid #333; color: #fff; border-radius: 12px; outline: none; transition: 0.3s;}
+        input:focus { border-color: #00f0ff; box-shadow: 0 0 20px rgba(0,240,255,0.3); transform: scale(1.02);}
         
-        .result-box { margin-top: 15px; padding: 20px; background: rgba(0,0,0,0.9); border-radius: 10px; display: none; border: 1px solid #333; }
-        .res-big { color: #2ecc71; font-size: 40px; font-weight: 900; font-family: var(--font-head); text-shadow: 0 0 20px rgba(46, 204, 113, 0.5); }
-        .res-small { color: #e74c3c; font-size: 40px; font-weight: 900; font-family: var(--font-head); text-shadow: 0 0 20px rgba(231, 76, 60, 0.5); }
-
-        .vault-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .vault-grid input { padding: 15px; text-align: center; font-size: 20px; }
-        .validity-tag { display: inline-block; background: rgba(255, 255, 255, 0.1); color: var(--secondary); padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.2);}
+        .btn-action { background: linear-gradient(135deg, #00f0ff, #0055ff); color: #000; border: none; width: 100%; padding: 18px; font-size: 18px; font-weight: 900; border-radius: 12px; cursor: pointer; text-transform: uppercase; font-family: 'Orbitron', sans-serif; margin-bottom:15px; box-shadow: 0 5px 20px rgba(0,240,255,0.4); transition: 0.2s;}
+        .btn-action:active { transform: scale(0.95); }
+        
+        /* Dashboard & Tool Specifics */
+        .trust-box { background: rgba(0,0,0,0.5); border: 1px solid #ffaa00; border-radius: 12px; padding: 20px; margin-bottom: 25px; }
+        .exp-text { color: #ffaa00; font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 900; margin-bottom: 10px; text-shadow: 0 0 10px rgba(255,170,0,0.3);}
+        .trust-lines { font-size: 14px; color: #ccc; line-height: 1.6; font-weight: bold;}
+        
+        .social-btn { display: flex; justify-content:center; align-items:center; width: 100%; padding: 16px; margin-bottom: 15px; border-radius: 12px; font-weight: 900; font-size: 15px; text-decoration: none; color: #fff; text-transform: uppercase; letter-spacing: 1px; transition:0.3s;}
+        .social-btn:active { transform: scale(0.98); }
+        
+        .timer-box { background: rgba(0,0,0,0.6); padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 2px dashed #ff4500; position:relative; overflow:hidden;}
+        .bingo-text { font-family: 'Orbitron', sans-serif; color: #ff4500; font-size: 20px; font-weight: 900; margin-bottom: 8px;}
+        .timer { font-size: 32px; color: #fff; font-family: 'Orbitron', sans-serif; font-weight: 900; text-shadow: 0 0 10px rgba(255,255,255,0.5);}
+        
+        /* 0-9 Input Row */
+        .number-row { display: flex; gap: 15px; margin-bottom: 10px;}
+        .number-row input { font-size: 28px; padding: 15px 0; border-color: #ffaa00;}
+        .number-row input:focus { border-color: #2ecc71; box-shadow: 0 0 20px rgba(46,204,113,0.4); }
+        
+        .history-box { background: rgba(0,0,0,0.6); border: 1px solid #333; border-radius: 12px; padding: 15px; margin-top: 25px; text-align: left; max-height:180px; overflow-y:auto; backdrop-filter: blur(5px);}
+        
+        /* Modals Overlays */
+        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:5000; display:flex; justify-content:center; align-items:center; backdrop-filter: blur(10px);}
     </style>
 </head>
-<body class="theme-fire">
+<body>
 
-    <div class="modal-overlay" id="rulesModal" style="display: none;">
-        <div class="popup-box">
-            <i class="fas fa-book-open popup-icon"></i>
-            <div class="popup-title">SYSTEM GUIDE</div>
-            <ul class="rules-list">
-                <li><b>TOOL 1: CHART HACKER</b><br>Unlock the vault with the Vault Password. Use the Calculator to get direct Top/Bottom chart results instantly.</li>
-                <li><b>TOOL 2: PDF DOWNLOAD</b><br>Inside the unlocked vault, download the Original VIP Chart uploaded by the Admin.</li>
-            </ul>
-            <button class="btn btn-glow sound-btn" onclick="document.getElementById('rulesModal').style.display='none'">I UNDERSTAND</button>
+    <div id="godOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.98); z-index:99999; display:none; justify-content:center; align-items:center; flex-direction:column; text-align:center; padding:20px;">
+        <h1 id="godTitle" style="color:#ffaa00; font-size:30px; margin-bottom:15px;">SYSTEM DOWN</h1>
+        <p id="godMsg" style="color:#ccc; font-size:16px; font-weight:bold; margin-bottom:25px;"></p>
+        <div id="godTimer" style="font-size:40px; color:#ff4500; font-family:'Orbitron', sans-serif; font-weight:900; margin-bottom:20px; display:none;">00:00:00</div>
+        <a id="godBtn" href="#" style="background:#2ecc71; color:#000; padding:15px 30px; font-size:18px; font-weight:bold; text-decoration:none; border-radius:8px; display:none; font-family:'Orbitron', sans-serif;">DOWNLOAD VIP APK</a>
+    </div>
+
+    <div id="screen1_WebLock" class="modal">
+        <div class="container" style="display:block; animation:none;">
+            <h2 style="color:#00f0ff; font-family:'Orbitron', sans-serif; margin-bottom:25px; font-size:24px;">SYSTEM PORTAL</h2>
+            <p style="color:#aaa; font-size:13px; font-weight:bold; margin-bottom:15px; text-transform:uppercase;">Authentication Required</p>
+            <input type="password" id="webPassInput" placeholder="Enter Access Key">
+            <button class="btn-action" onclick="verifyWebPass()">AUTHORIZE</button>
+            <p id="webErr" style="color:#e74c3c; display:none; margin-top:10px; font-weight:bold;">❌ INVALID KEY</p>
         </div>
     </div>
 
-    <div class="modal-overlay" id="loginModal">
-        <div class="popup-box">
-            <i class="fas fa-fingerprint popup-icon"></i>
-            <div class="popup-title">BIOMETRIC LOCK</div>
-            <div id="loginForm">
-                <div class="input-group">
-                    <i class="fas fa-key"></i>
-                    <input type="password" id="sitePass" placeholder="Enter Access Key" autocomplete="off">
-                </div>
-                <button class="btn btn-glow sound-btn" onclick="startLoginProcess()">ACCESS SYSTEM</button>
+    <div id="screen2_Dashboard" class="container">
+        <h1>ROCKY VIP</h1>
+        <p style="font-size:12px; color:#888; font-weight:bold; margin-bottom:20px;" id="lastUpdateText">Connecting to server...</p>
+        
+        <div class="trust-box">
+            <div class="exp-text" id="expYearsText">9+ YEARS EXP</div>
+            <div class="trust-lines">
+                "We don't sell fake 100% guarantees.<br>
+                Pure logic & algorithm-based predictions.<br>
+                Transparent Profit & Loss record."
             </div>
+        </div>
+
+        <a href="#" id="linkTg" class="social-btn" style="background: #0088cc; box-shadow: 0 4px 15px rgba(0,136,204,0.3);" target="_blank">📲 JOIN TELEGRAM</a>
+        <a href="#" id="linkIg" class="social-btn" style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); box-shadow: 0 4px 15px rgba(225,48,108,0.3);" target="_blank">📸 FOLLOW INSTAGRAM</a>
+
+        <button class="btn-action" style="background: linear-gradient(90deg, #ffaa00, #ff4500); margin-top:15px; color:#000; box-shadow: 0 5px 20px rgba(255,170,0,0.4);" onclick="showToolModal()">⚡ ACCESS VIP TOOL</button>
+        
+        <a href="#" id="linkManager" style="color:#888; font-size:12px; font-weight:bold; text-decoration:none; margin-top:10px; display:inline-block;">Need Help? Contact Manager</a>
+    </div>
+
+    <div id="toolLockModal" class="modal" style="display:none;">
+        <div class="container" style="display:block; animation:none; border-color:#ffaa00; box-shadow: 0 0 30px rgba(255,170,0,0.2);">
+            <h2 style="color:#ffaa00; font-family:'Orbitron', sans-serif; margin-bottom:20px;">ENGINE LOCKED</h2>
+            <p style="color:#aaa; font-size:13px; font-weight:bold; margin-bottom:15px;">Ask Admin for Engine Key</p>
+            <input type="password" id="toolPassInput" placeholder="Engine Password" style="border-color:#ffaa00;">
+            <button class="btn-action" style="background:linear-gradient(90deg, #ffaa00, #ff4500); color:#000;" onclick="verifyToolPass()">UNLOCK ALGORITHM</button>
+            <p id="toolErr" style="color:#e74c3c; display:none; margin-top:10px; font-weight:bold;">❌ WRONG PASSWORD</p>
         </div>
     </div>
 
-    <div id="jarvisHUD">
-        <div class="scanning-line"></div>
-        <div class="hud-ring ring-1"></div>
-        <div class="hud-ring ring-2"></div>
-        <div class="hud-ring ring-3"></div>
-        <div class="hud-text" id="hudText">AUTHENTICATING...</div>
-        <div style="font-family: monospace; color: #fff; opacity: 0.5; margin-top: 10px; font-size: 11px;">BYPASSING ENCRYPTION [88.42.11.0]</div>
-    </div>
+    <div id="screen3_MainTool" class="container">
+        
+        <button id="btnDownloadPDF" class="btn-action" style="background: #2ecc71; color: #000; padding:14px; font-size:15px; margin-bottom:20px; box-shadow: 0 0 15px rgba(46,204,113,0.4);" onclick="openPDF()">📥 VIEW HANDWRITTEN CHART</button>
 
-    <div class="glass-panel" id="mainDashboard">
-        <div class="user-counter">
-            <div class="dot"></div>
-            ACTIVE USERS: <span id="userCount">342</span>
+        <div class="timer-box">
+            <div class="bingo-text">BINGO 1 MINUTE</div>
+            <div class="period" id="currentPeriodText" style="color:#ccc;">PERIOD: RUNNING...</div>
+            <div class="timer" id="currentTimerText">00s</div>
         </div>
-
-        <div class="brand-header">
-            <button class="guide-btn sound-btn" onclick="document.getElementById('rulesModal').style.display='flex'"><i class="fas fa-question-circle"></i> GUIDE</button>
-            <div class="title" id="displayTitle">ROCKY BHAI</div>
-            <div class="subtitle">VIP PREDICTION SYSTEM</div>
+        
+        <div class="number-row">
+            <input type="number" id="userNum1" placeholder="TOP" max="9" min="0" oninput="if(this.value.length > 1) this.value = this.value.slice(0,1); if(this.value) document.getElementById('userNum2').focus();">
+            <input type="number" id="userNum2" placeholder="BOT" max="9" min="0" oninput="if(this.value.length > 1) this.value = this.value.slice(0,1);">
         </div>
+        
+        <button id="btnBypass" class="btn-action" onclick="fetchResult()">INJECT ALGORITHM</button>
+        <div id="finalResult" style="margin-top:15px; font-size:40px; font-family:'Orbitron', sans-serif; display:none; font-weight:900; text-shadow: 0 0 20px currentColor;"></div>
 
-        <div class="dash-body">
-            <div class="col-left">
-                <div class="section-title"><i class="fas fa-chart-pie"></i> SYSTEM STATS</div>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-val" id="valSureShot">99%</div>
-                        <div style="color:#aaa; font-size:12px; font-weight:bold; margin-top:5px;">SURE SHOT</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-val" id="valAccuracy">95%</div>
-                        <div style="color:#aaa; font-size:12px; font-weight:bold; margin-top:5px;">ACCURACY</div>
-                    </div>
-                </div>
-
-                <div class="section-title"><i class="fas fa-users"></i> COMMUNITY</div>
-                <div class="social-grid">
-                    <a href="#" target="_blank" id="btnTg" class="social-btn sound-btn" style="background: rgba(0, 136, 204, 0.15); border-color: #0088cc;">
-                        <i class="fab fa-telegram-plane" style="color:#0088cc;"></i> TELEGRAM
-                    </a>
-                    <a href="#" target="_blank" id="btnIg" class="social-btn sound-btn" style="background: rgba(220, 39, 67, 0.15); border-color: #e6683c;">
-                        <i class="fab fa-instagram" style="color:#e6683c;"></i> INSTAGRAM
-                    </a>
-                    <a href="#" target="_blank" id="btnYt" class="social-btn sound-btn" style="background: rgba(204, 0, 0, 0.15); border-color: #ff0000;">
-                        <i class="fab fa-youtube" style="color:#ff0000;"></i> YOUTUBE
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-right">
-                <div class="section-title"><i class="fas fa-vault"></i> SECURE CHART VAULT</div>
-                <div class="tool-box" id="vaultContainer" style="border-color: var(--secondary);">
-                    <div class="validity-tag" id="validityDisplay"><i class="fas fa-clock"></i> Valid Till: Loading...</div>
-                    
-                    <div id="vaultLocked">
-                        <p style="font-size:14px; color:#ccc; margin-bottom:20px;">Unlock vault for VIP Tools.</p>
-                        <div class="input-group">
-                            <i class="fas fa-file-pdf"></i>
-                            <input type="password" id="vaultPass" placeholder="Vault Password">
-                        </div>
-                        <button class="btn btn-outline sound-btn" onclick="unlockVault()"><i class="fas fa-lock-open"></i> UNLOCK VAULT</button>
-                    </div>
-
-                    <div id="vaultUnlocked" style="display:none; text-align: left;">
-                        
-                        <div style="background: rgba(0,0,0,0.8); padding: 25px; border-radius: 12px; border: 1px solid var(--primary); margin-bottom: 25px; text-align: center;">
-                            <h4 style="color:var(--secondary); font-family:var(--font-head); margin-bottom:15px; letter-spacing: 1px;">TOOL 1: CHART HACKER</h4>
-                            <div class="vault-grid">
-                                <input type="number" id="topNum" placeholder="Top">
-                                <input type="number" id="bottomNum" placeholder="Bottom">
-                            </div>
-                            <button class="btn btn-glow sound-btn" onclick="checkChartValue()">CHECK CHART RESULT</button>
-                            <div id="chartResBox" style="margin-top: 20px; font-size: 34px; font-family: var(--font-head); font-weight: 900;"></div>
-                        </div>
-
-                        <div style="background: rgba(0,0,0,0.8); padding: 25px; border-radius: 12px; border: 1px solid #444; text-align: center;">
-                            <h4 style="color:#aaa; font-family:var(--font-head); margin-bottom:10px; letter-spacing: 1px;">TOOL 2: FULL CHART</h4>
-                            <p style="font-size:13px; color:#888; margin-bottom:20px;">Download the original PDF/Image chart provided by Admin.</p>
-                            <button class="btn btn-outline sound-btn" onclick="downloadSecurePDF()"><i class="fas fa-download"></i> DOWNLOAD FILE</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="history-box" id="historyListContainer">
+            <div style="text-align:center; color:#555; font-size:13px; font-weight:bold;">Waiting for live server sync...</div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+        import { getDatabase, ref, get, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-        // FIREBASE SETUP
-        const firebaseConfig = {
-            apiKey: "AIzaSyBTFFk_wM5Ji8Wa3kiVdn7_3kasnOZ_DPI", authDomain: "rockey-c164a.firebaseapp.com",
-            databaseURL: "https://rockey-c164a-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "rockey-c164a"
-        };
+        const firebaseConfig = { apiKey: "AIzaSyBTFFk_wM5Ji8Wa3kiVdn7_3kasnOZ_DPI", authDomain: "rockey-c164a.firebaseapp.com", databaseURL: "https://rockey-c164a-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "rockey-c164a" };
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        let systemData = null;
 
-        // AUTO ALGORITHM FALLBACK
-        const autoAlgorithm = {
-            "0": { "0":"SMALL", "1":"BIG", "2":"BIG", "3":"SMALL", "4":"BIG", "5":"SMALL", "6":"SMALL", "7":"SMALL", "8":"BIG", "9":"SMALL" },
-            "1": { "0":"BIG", "1":"SMALL", "2":"BIG", "3":"BIG", "4":"BIG", "5":"SMALL", "6":"SMALL", "7":"SMALL", "8":"BIG", "9":"SMALL" },
-            "2": { "0":"BIG", "1":"BIG", "2":"SMALL", "3":"SMALL", "4":"BIG", "5":"SMALL", "6":"SMALL", "7":"BIG", "8":"BIG", "9":"BIG" },
-            "3": { "0":"SMALL", "1":"SMALL", "2":"BIG", "3":"SMALL", "4":"BIG", "5":"SMALL", "6":"SMALL", "7":"SMALL", "8":"SMALL", "9":"BIG" },
-            "4": { "0":"BIG", "1":"SMALL", "2":"SMALL", "3":"BIG", "4":"SMALL", "5":"BIG", "6":"SMALL", "7":"SMALL", "8":"BIG", "9":"BIG" },
-            "5": { "0":"BIG", "1":"SMALL", "2":"SMALL", "3":"BIG", "4":"SMALL", "5":"BIG", "6":"BIG", "7":"SMALL", "8":"BIG", "9":"BIG" },
-            "6": { "0":"BIG", "1":"BIG", "2":"BIG", "3":"BIG", "4":"BIG", "5":"SMALL", "6":"SMALL", "7":"BIG", "8":"SMALL", "9":"SMALL" },
-            "7": { "0":"SMALL", "1":"BIG", "2":"BIG", "3":"BIG", "4":"BIG", "5":"SMALL", "6":"BIG", "7":"BIG", "8":"BIG", "9":"BIG" },
-            "8": { "0":"SMALL", "1":"BIG", "2":"SMALL", "3":"SMALL", "4":"SMALL", "5":"BIG", "6":"BIG", "7":"BIG", "8":"SMALL", "9":"SMALL" },
-            "9": { "0":"BIG", "1":"BIG", "2":"SMALL", "3":"SMALL", "4":"BIG", "5":"SMALL", "6":"SMALL", "7":"BIG", "8":"SMALL", "9":"SMALL" }
-        };
+        let serverData = {};
 
-        // CUSTOM AUDIO ENGINE
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playTone(freq, type, duration, vol=0.1) {
-            try {
-                const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
-                osc.type = type; osc.frequency.value = freq; osc.connect(gain); gain.connect(audioCtx.destination);
-                gain.gain.setValueAtTime(vol, audioCtx.currentTime); osc.start(); osc.stop(audioCtx.currentTime + duration);
-            } catch(e) {}
-        }
-        
-        // Add click sound to all elements with class 'sound-btn'
-        
-        document.querySelectorAll('.sound-btn').forEach(btn => {
-            btn.addEventListener('click', () => { playTone(800, 'sine', 0.1, 0.05); });
+        // --- GOD MODE INTERCEPTOR ---
+        onValue(ref(db, 'RockyVIPSystem/devControls'), (snapshot) => {
+            if(snapshot.exists()) {
+                let devData = snapshot.val();
+                let overlay = document.getElementById("godOverlay");
+                let timerDiv = document.getElementById("godTimer");
+                
+                if(devData.mode === 'maintenance') {
+                    overlay.style.display = "flex";
+                    document.getElementById("godTitle").innerText = "🛠️ MAINTENANCE";
+                    document.getElementById("godMsg").innerText = "Upgrading algorithm accuracy. Be back soon.";
+                    document.getElementById("godBtn").style.display = "none";
+                    timerDiv.style.display = "block";
+                    
+                    let maintInterval = setInterval(() => {
+                        let remaining = devData.endTime - Date.now();
+                        if(remaining > 0) {
+                            let h = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            let m = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+                            let s = Math.floor((remaining % (1000 * 60)) / 1000);
+                            timerDiv.innerText = `${h}h ${m}m ${s}s`;
+                        } else {
+                            timerDiv.innerText = "ALMOST DONE..."; clearInterval(maintInterval);
+                        }
+                    }, 1000);
+                } else if (devData.mode === 'apk') {
+                    overlay.style.display = "flex";
+                    document.getElementById("godTitle").innerText = "🚨 MOVED TO APP";
+                    document.getElementById("godMsg").innerHTML = "Web version closed. Download VIP APK.";
+                    timerDiv.style.display = "none";
+                    document.getElementById("godBtn").style.display = "inline-block";
+                    document.getElementById("godBtn").href = devData.apkLink;
+                } else {
+                    overlay.style.display = "none";
+                }
+            }
         });
 
-        // JARVIS VOICE SYNTHESIS
-        function speakVoice(text) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utter = new SpeechSynthesisUtterance(text);
-                utter.rate = 1.0; utter.pitch = 0.8;
-                window.speechSynthesis.speak(utter);
-            }
-        }
+        // Calculate Experience dynamically
+        document.getElementById("expYearsText").innerText = (new Date().getFullYear() - 2017) + "+ YEARS EXP";
 
-        // ANTI-THEFT PROTECTION
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.onkeydown = function(e) {
-            if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
-        };
-
-        // LIVE USER COUNTER
+        // Bingo 1 Minute Timer Engine
         setInterval(() => {
-            document.getElementById('userCount').innerText = Math.floor(Math.random() * (450 - 320 + 1)) + 320;
-        }, 4000);
+            let d = new Date();
+            let seconds = d.getUTCSeconds();
+            let totalMins = (d.getUTCHours() * 60) + d.getUTCMinutes();
+            let dateStr = d.getUTCFullYear() + String(d.getUTCMonth()+1).padStart(2,'0') + String(d.getUTCDate()).padStart(2,'0');
+            
+            document.getElementById("currentPeriodText").innerText = "PERIOD: " + dateStr + "1000" + (10001 + totalMins);
+            document.getElementById("currentTimerText").innerText = String(60 - seconds).padStart(2,'0') + "s";
+        }, 1000);
 
-        // FETCH FIREBASE DATA
-        onValue(ref(db, 'RockyVIPSystem'), (snapshot) => {
-            if (snapshot.exists()) { systemData = snapshot.val(); updateUI(); }
-        });
+        window.verifyWebPass = async function() {
+            const entered = document.getElementById("webPassInput").value;
+            try {
+                const snap = await get(ref(db, 'RockyVIPSystem'));
+                if(snap.exists()) {
+                    serverData = snap.val();
+                    let truePass = (serverData.passwords && serverData.passwords.web) ? serverData.passwords.web : "1234";
+                    
+                    if(entered === truePass) {
+                        document.getElementById("screen1_WebLock").style.display = "none";
+                        document.getElementById("screen2_Dashboard").style.display = "block";
+                        
+                        if(serverData.links) {
+                            document.getElementById("linkTg").href = serverData.links.tg || "#";
+                            document.getElementById("linkIg").href = serverData.links.ig || "#";
+                            document.getElementById("linkManager").href = serverData.links.manager || "#";
+                        }
+                        if(serverData.meta) {
+                            document.getElementById("lastUpdateText").innerText = "Last Setup: " + (serverData.meta.lastUpdate || "Today");
+                            startFakeCraze(serverData.meta.crazeMin || 200, serverData.meta.crazeMax || 500);
+                        } else startFakeCraze(200, 500);
+                    } else document.getElementById("webErr").style.display = "block";
+                }
+            } catch(e) {}
+        };
 
-        function updateUI() {
-            if(!systemData) return;
-            document.body.className = systemData.activeTheme || 'theme-fire';
-            document.getElementById('displayTitle').innerText = systemData.websiteTitle || "ROCKY BHAI";
-            document.getElementById('valSureShot').innerText = systemData.sureShot || "99%";
-            document.getElementById('valAccuracy').innerText = systemData.accuracy || "95%";
-            document.getElementById('btnTg').href = systemData.tgLink || "#";
-            document.getElementById('btnIg').href = systemData.igLink || "#";
-            document.getElementById('btnYt').href = systemData.ytLink || "#";
-            document.getElementById('validityDisplay').innerHTML = `<i class="fas fa-clock"></i> Valid Till: ${systemData.validDate || "Today"} ${systemData.validTime || ""}`;
+        function startFakeCraze(min, max) {
+            setInterval(() => {
+                let val = Math.floor(Math.random() * (max - min + 1)) + min;
+                document.getElementById("liveUserCount").innerText = val;
+            }, 2500);
         }
 
-        // LOGIN PROCESS (JARVIS HUD)
-        window.startLoginProcess = function() {
-            if(!systemData) return alert("Connecting to Server... Wait.");
-            
-            // Allow audio context to start
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-
-            const pass = document.getElementById('sitePass').value;
-            if(pass !== (systemData.websitePassword || "rocky123")) {
-                playTone(300, 'sawtooth', 0.5, 0.2);
-                speakVoice("Access Denied. Intruder Alert.");
-                return alert("❌ ERROR: Invalid Access Key");
-            }
-
-            // Success Start
-            speakVoice("Access Granted. Initializing Jarvis System.");
-            document.getElementById('loginModal').style.display = 'none';
-            document.getElementById('jarvisHUD').style.display = 'flex';
-            
-            const hudText = document.getElementById('hudText');
-            
-            // HUD Timers
-            setTimeout(() => { playTone(600, 'square', 0.1); hudText.innerText = "DECRYPTING DATABASE..."; }, 1500);
-            setTimeout(() => { playTone(700, 'square', 0.1); hudText.innerText = "ESTABLISHING SECURE LINK..."; }, 3000);
-            setTimeout(() => { playTone(800, 'square', 0.1); hudText.innerText = "WELCOME BACK TO VIP SYSTEM"; }, 4500);
-
-            // Final Reveal
-            setTimeout(() => {
-                document.getElementById('jarvisHUD').style.display = 'none';
-                document.getElementById('mainDashboard').classList.add('unlocked');
-                playTone(1000, 'sine', 0.5);
-            }, 6000); 
+        window.showToolModal = () => document.getElementById("toolLockModal").style.display = "flex";
+        
+        window.verifyToolPass = function() {
+            let entered = document.getElementById("toolPassInput").value;
+            let truePass = (serverData.passwords && serverData.passwords.tool) ? serverData.passwords.tool : "VIP888"; 
+            if(entered === truePass) {
+                document.getElementById("toolLockModal").style.display = "none";
+                document.getElementById("screen2_Dashboard").style.display = "none";
+                document.getElementById("screen3_MainTool").style.display = "block";
+            } else document.getElementById("toolErr").style.display = "block";
         };
 
-        // VAULT UNLOCK
-        window.unlockVault = function() {
-            if(!systemData) return;
-            if(document.getElementById('vaultPass').value !== systemData.pdfPassword) { playTone(300, 'sawtooth', 0.3); return alert("❌ Incorrect Vault Password"); }
-            
-            playTone(800, 'sine', 0.3);
-            document.getElementById('vaultLocked').style.display = 'none';
-            document.getElementById('vaultUnlocked').style.display = 'block';
+        window.openPDF = function() {
+            let pdfUrl = (serverData.links && serverData.links.pdf) ? serverData.links.pdf : "#";
+            if(pdfUrl !== "#") window.open(pdfUrl, '_blank');
+            else alert("No PDF uploaded by Admin yet.");
         };
 
-        // TOOL 1: MANUAL CHART HACKER
-        window.checkChartValue = function() {
-            const top = document.getElementById('topNum').value;
-            const bottom = document.getElementById('bottomNum').value;
-            if(top === "" || bottom === "" || top > 9 || bottom > 9) return alert("Enter numbers between 0 and 9");
+        window.fetchResult = function() {
+            let n1 = document.getElementById("userNum1").value;
+            let n2 = document.getElementById("userNum2").value;
+            if(n1==="" || n2==="") { alert("Enter both numbers!"); return; }
 
             let res = "SKIP";
-            if(systemData.predictions && systemData.predictions[`${top}_${bottom}`] && systemData.predictions[`${top}_${bottom}`] !== 'SKIP') {
-                res = systemData.predictions[`${top}_${bottom}`];
-            } else if(autoAlgorithm[top] && autoAlgorithm[top][bottom]) {
-                res = autoAlgorithm[top][bottom];
+            if(serverData.predictions && serverData.predictions[`${n1}_${n2}`]) res = serverData.predictions[`${n1}_${n2}`];
+
+            let btn = document.getElementById("btnBypass");
+            btn.innerText = "DECRYPTING...";
+            btn.style.pointerEvents = "none";
+
+            setTimeout(() => {
+                btn.innerText = "INJECT ALGORITHM";
+                btn.style.pointerEvents = "auto";
+                let rDiv = document.getElementById("finalResult");
+                rDiv.innerText = res;
+                if(res==="BIG") rDiv.style.color = "#2ecc71";
+                else if(res==="SMALL") rDiv.style.color = "#ff4500";
+                else rDiv.style.color = "#ffaa00";
+                rDiv.style.display = "block";
+            }, 3000);
+        };
+
+        // Live History Sync (From Dev Panel)
+        onValue(ref(db, 'RockyVIPSystem/liveHistory'), (snapshot) => {
+            const container = document.getElementById("historyListContainer");
+            if(snapshot.exists()) {
+                let html = `<div style="color:#00f0ff; font-size:12px; font-weight:bold; margin-bottom:12px; text-align:center; font-family:'Orbitron', sans-serif;">[ LIVE SERVER ACCURACY ]</div>`;
+                let dataArray = Object.values(snapshot.val()).sort((a,b) => b.time - a.time);
+                
+                dataArray.forEach(item => {
+                    let color = item.status === "WIN" ? "#2ecc71" : "#e74c3c";
+                    let icon = item.status === "WIN" ? "✅" : "❌";
+                    html += `<div style="display:flex; justify-content:space-between; background:rgba(0,0,0,0.5); padding:10px 12px; margin-bottom:6px; border-radius:6px; border-left:3px solid ${color};">
+                        <span style="color:#aaa; font-weight:bold; font-size:14px;">Period: ***${item.period.slice(-3)}</span>
+                        <span style="color:${color}; font-weight:900; letter-spacing:1px;">${icon} ${item.status}</span></div>`;
+                });
+                container.innerHTML = html;
             }
-
-            const box = document.getElementById('chartResBox');
-            box.innerText = res;
-            box.style.color = res === 'BIG' ? '#2ecc71' : (res === 'SMALL' ? '#e74c3c' : '#888');
-            box.style.textShadow = res === 'BIG' ? '0 0 20px rgba(46,204,113,0.5)' : (res === 'SMALL' ? '0 0 20px rgba(231,76,60,0.5)' : 'none');
-            
-            speakVoice(res);
-            playTone(500, 'triangle', 0.2);
-        };
-
-        // TOOL 2: SECURE PDF DOWNLOAD
-        window.downloadSecurePDF = function() {
-            if(!systemData || !systemData.uploadedFileUrl) return alert("❌ Admin hasn't uploaded a chart file today.");
-            
-            playTone(700, 'sine', 0.3);
-            const a = document.createElement('a');
-            a.href = systemData.uploadedFileUrl;
-            
-            let ext = "pdf";
-            if(systemData.uploadedFileUrl.startsWith("data:image/jpeg")) ext = "jpg";
-            else if(systemData.uploadedFileUrl.startsWith("data:image/png")) ext = "png";
-
-            a.download = `ROCKY_VIP_CHART_${systemData.validDate || 'Today'}.${ext}`;
-            document.body.appendChild(a); a.click(); document.body.removeChild(a);
-        };
+        });
     </script>
 </body>
 </html>
