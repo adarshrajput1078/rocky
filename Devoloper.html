@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOD MODE - DEVELOPER PANEL</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
+        body { background: #050011; color: #FFF; padding: 20px; display: flex; justify-content: center; }
+        .dev-box { background: #0a001a; border: 2px solid #a200ff; padding: 30px; border-radius: 15px; width: 100%; max-width: 600px; box-shadow: 0 0 30px rgba(162,0,255,0.3); }
+        h1 { font-family: 'Orbitron', sans-serif; color: #d400ff; text-align: center; margin-bottom: 25px; text-shadow: 0 0 10px #d400ff; }
+        .section { background: #110022; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #d400ff; }
+        label { font-size: 13px; color: #aaa; margin-bottom: 8px; display: block; font-weight: bold; text-transform: uppercase;}
+        input, select { width: 100%; padding: 12px; margin-bottom: 15px; background: #000; border: 1px solid #d400ff; color: #FFF; border-radius: 6px; font-weight: bold; outline: none; }
+        button { background: linear-gradient(90deg, #8a2be2, #d400ff); color: #fff; border: none; width: 100%; padding: 15px; font-size: 16px; font-weight: 900; border-radius: 8px; cursor: pointer; font-family: 'Orbitron', sans-serif; margin-bottom: 10px;}
+        .row { display: flex; gap: 10px; } .col { flex: 1; }
+        .btn-red { background: #e74c3c; color: #fff; }
+        .btn-green { background: #2ecc71; color: #000; }
+    </style>
+</head>
+<body>
+    <div class="dev-box">
+        <h1>[ DEVELOPER CORE ]</h1>
+
+        <div class="section" style="border-color:#ffaa00;">
+            <label style="color:#ffaa00;">1. LIVE SCREEN HISTORY (WIN/LOSS)</label>
+            <div class="row">
+                <div class="col"><input type="number" id="histPeriod" placeholder="Period (e.g. 145)"></div>
+                <div class="col">
+                    <select id="histStatus">
+                        <option value="WIN">✅ WIN (SURE SHOT)</option>
+                        <option value="LOSE">❌ LOSE (TRANSPARENT)</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="pushHistory()">➕ INJECT LIVE HISTORY</button>
+            <button class="btn-red" style="font-size:12px; padding:10px;" onclick="clearHistory()">🧹 WIPE HISTORY</button>
+        </div>
+
+        <div class="section" style="border-color:#f39c12;">
+            <label style="color:#f39c12;">2. SYSTEM MAINTENANCE MODE</label>
+            <input type="number" id="maintHours" placeholder="How many hours? (e.g. 2)">
+            <div class="row">
+                <div class="col"><button class="btn-red" onclick="setSystemStatus('maintenance')">🛑 START MAINTENANCE</button></div>
+                <div class="col"><button class="btn-green" onclick="setSystemStatus('active')">✅ RESTORE SYSTEM</button></div>
+            </div>
+        </div>
+
+        <div class="section" style="border-color:#2ecc71;">
+            <label style="color:#2ecc71;">3. PERMANENT APK SHIFT</label>
+            <input type="text" id="apkLinkInput" placeholder="Paste APK Download Link Here">
+            <div class="row">
+                <div class="col"><button class="btn-red" onclick="setSystemStatus('apk')">🚨 SHIFT TO APK</button></div>
+                <div class="col"><button class="btn-green" onclick="setSystemStatus('active')">✅ CANCEL SHIFT</button></div>
+            </div>
+        </div>
+
+        <div class="section" style="border-color:#3498db;">
+            <label style="color:#3498db;">4. OVERRIDE ADMIN PIN</label>
+            <div class="row">
+                <div class="col" style="flex:2;"><input type="password" id="adminPinInput" placeholder="New 4-digit PIN for Admin" maxlength="4"></div>
+                <div class="col" style="flex:1;"><button style="background:#3498db;" onclick="updateAdminPin()">UPDATE</button></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getDatabase, ref, set, push, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+        const firebaseConfig = { apiKey: "AIzaSyBTFFk_wM5Ji8Wa3kiVdn7_3kasnOZ_DPI", authDomain: "rockey-c164a.firebaseapp.com", databaseURL: "https://rockey-c164a-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "rockey-c164a" };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // 1. History Logic
+        window.pushHistory = async function() {
+            let period = document.getElementById("histPeriod").value;
+            let status = document.getElementById("histStatus").value;
+            if(period) {
+                await push(ref(db, 'RockyVIPSystem/liveHistory'), { period: period, status: status, time: Date.now() });
+                alert("✅ Target History Pushed to User Screens!");
+                document.getElementById("histPeriod").value = "";
+            }
+        };
+        window.clearHistory = async function() {
+            if(confirm("Wipe all history?")) { await remove(ref(db, 'RockyVIPSystem/liveHistory')); alert("History Wiped!"); }
+        };
+
+        // 2 & 3. System Status Control (Maintenance & APK)
+        window.setSystemStatus = async function(mode) {
+            let payload = { mode: mode };
+            
+            if(mode === 'maintenance') {
+                let hrs = document.getElementById("maintHours").value;
+                if(!hrs) { alert("Enter hours for maintenance!"); return; }
+                payload.endTime = Date.now() + (hrs * 60 * 60 * 1000); // Current time + hours
+            } 
+            else if (mode === 'apk') {
+                let link = document.getElementById("apkLinkInput").value;
+                if(!link) { alert("Enter APK link first!"); return; }
+                payload.apkLink = link;
+            }
+
+            await set(ref(db, 'RockyVIPSystem/devControls'), payload);
+            alert("🚀 System Status Updated to: " + mode.toUpperCase());
+        };
+
+        // 4. Admin PIN Override
+        window.updateAdminPin = async function() {
+            let pin = document.getElementById("adminPinInput").value;
+            if(pin && pin.length === 4) { 
+                await set(ref(db, 'RockyVIPSystem/master/adminPin'), pin); 
+                alert("✅ Admin PIN Locked to: " + pin); 
+            } else alert("Enter 4 digits!");
+        };
+    </script>
+</body>
+</html>
+
