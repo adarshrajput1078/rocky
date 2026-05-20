@@ -2,208 +2,211 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ROCKY VIP - SMART ADMIN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rocky VIP - 1-Click Admin Panel</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
-        body { background-color: #050505; color: #fff; padding: 15px; display:flex; justify-content:center; }
-        
-        /* Modals & Layout */
-        #adminLock { position: fixed; top:0; left:0; width:100%; height:100%; background: #000; z-index: 3000; display: flex; justify-content: center; align-items: center; padding:20px;}
-        .lock-box { background: #111; padding: 40px 20px; border-radius: 15px; border: 2px solid #ff4500; text-align: center; width:100%; max-width:400px; box-shadow: 0 0 30px rgba(255,69,0,0.3);}
-        .admin-container { width: 100%; max-width: 1000px; background: #0a0a0a; border: 1px solid #ff4500; border-radius: 16px; padding: 25px; display: none; margin-bottom: 50px;}
-        
-        h1 { text-align: center; color: #ffaa00; font-size: 28px; margin-bottom: 5px; font-family: 'Orbitron', sans-serif; text-transform: uppercase;}
-        .status-dot { height: 10px; width: 10px; background-color: #2ecc71; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #2ecc71; animation: pulse 1.5s infinite;}
-        @keyframes pulse { 50% { opacity: 0.5; } }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f9; padding: 15px; margin: 0; color: #333; padding-bottom: 80px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 500px; margin: 0 auto 20px auto; }
+        h3 { margin-top: 0; color: #222; border-bottom: 2px solid #00ff55; padding-bottom: 10px; font-size: 18px;}
+        input, select, button { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 14px;}
+        .btn-main { background: #00ff55; color: black; font-weight: bold; cursor: pointer; border: none; font-size: 16px; text-transform: uppercase;}
+        .btn-main:active { background: #00cc44; transform: scale(0.98); }
+        .switch { display: flex; align-items: center; justify-content: space-between; }
+        .switch select { width: 60%; }
+        .switch button { width: 35%; margin: 0; }
 
-        /* Responsive Grid & Forms */
-        .section { background: #111; padding: 20px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #ff4500; }
-        label { display: block; font-size: 13px; color: #aaa; margin-bottom: 5px; font-weight: bold; text-transform: uppercase;}
-        input, select { width: 100%; padding: 14px; background: #000; border: 1px solid #333; color: #fff; margin-bottom: 15px; border-radius: 8px; font-weight: bold; font-size:16px; transition: 0.3s;}
-        input:focus { border-color: #ffaa00; outline: none; box-shadow: 0 0 10px rgba(255,170,0,0.2);}
+        /* 1-Click Matrix Styles */
+        .matrix-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .matrix-header select { width: auto; min-width: 120px; margin: 0; font-weight: bold;}
+        .row-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .pair-label { font-size: 16px; font-weight: bold; width: 80px; color: #555;}
         
-        .row { display: flex; gap: 15px; flex-wrap: wrap;} .col { flex: 1; min-width: 250px;}
+        .action-btns { display: flex; gap: 10px; flex: 1; justify-content: flex-end;}
+        .btn-res { padding: 10px 15px; border: 1px solid #ccc; background: #f9f9f9; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.2s; flex: 1; max-width: 100px;}
         
-        /* Smart Accordion for 0-9 */
-        details { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; margin-bottom: 10px; overflow: hidden; }
-        summary { padding: 15px; font-weight: bold; font-size: 16px; cursor: pointer; background: #222; outline: none; color: #ffaa00; font-family: 'Orbitron', sans-serif;}
-        .details-content { padding: 15px; background: #111; }
-        
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 10px; }
-        .grid-item { background: #050505; padding: 10px; border: 1px solid #333; text-align:center; border-radius:8px;}
-        .toggle-btn { width: 100%; padding: 10px 0; font-weight: 900; border: none; cursor: pointer; margin-top:8px; border-radius:6px; font-size:14px; transition: 0.2s;}
-        .btn-skip { background: #222; color: #888; } .btn-big { background: #2ecc71; color: #000; box-shadow: 0 0 10px rgba(46,204,113,0.4);} .btn-small { background: #e74c3c; color: #fff; box-shadow: 0 0 10px rgba(231,76,60,0.4);}
-        
-        .bulk-btn { background: #333; color:#fff; border:none; padding:8px 15px; border-radius:5px; font-size:12px; cursor:pointer; font-weight:bold; margin-left:10px;}
-        .bulk-btn:hover { background: #ffaa00; color:#000; }
+        /* Selected Colors (Only BIG and SMALL now) */
+        .btn-res.active-BIG { background: #f2cc60; color: black; border-color: #f2cc60; }
+        .btn-res.active-SMALL { background: #58a6ff; color: white; border-color: #58a6ff; }
 
-        .btn-save { background: linear-gradient(90deg, #ff4500, #ffaa00); color: #000; border: none; width: 100%; padding: 18px; font-size: 20px; font-weight: 900; cursor: pointer; border-radius: 10px; font-family: 'Orbitron', sans-serif; text-transform: uppercase; box-shadow: 0 0 20px rgba(255,69,0,0.4);}
-        .btn-save:active { transform: scale(0.98); }
+        /* Toast Notification */
+        #toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 6px; padding: 12px; position: fixed; z-index: 2000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        #toast.show { visibility: visible; animation: fadein 0.3s, fadeout 0.3s 1.7s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
+        /* Floating Publish Button */
+        .fab-publish {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, #00ff55, #00cc44);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            box-shadow: 0 6px 20px rgba(0, 255, 85, 0.4);
+            cursor: pointer;
+            border: 2px solid #fff;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .fab-publish:active {
+            transform: scale(0.9);
+            box-shadow: 0 2px 10px rgba(0, 255, 85, 0.4);
+        }
     </style>
 </head>
 <body>
 
-    <div id="godOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.98); z-index:99999; display:none; justify-content:center; align-items:center; flex-direction:column; text-align:center; padding:20px;">
-        <h1 id="godTitle" style="color:#ffaa00; font-family:'Orbitron', sans-serif; font-size:30px; margin-bottom:15px;">SYSTEM DOWN</h1>
-        <p id="godMsg" style="color:#ccc; font-size:16px; font-weight:bold; margin-bottom:25px;"></p>
-        <div id="godTimer" style="font-size:40px; color:#ff4500; font-family:'Orbitron', sans-serif; font-weight:900; margin-bottom:20px; display:none;">00:00:00</div>
-        <a id="godBtn" href="#" style="background:#2ecc71; color:#000; padding:15px 30px; font-size:18px; font-weight:bold; text-decoration:none; border-radius:8px; display:none;">DOWNLOAD VIP APK</a>
+    <h2 style="text-align: center; color: #222; text-transform: uppercase;">Rocky VIP Admin</h2>
+
+    <div class="card">
+        <h3>🔒 1. Update Daily Password</h3>
+        <input type="text" id="new-password" placeholder="Enter new password (e.g. 1234)">
+        <button id="update-pass-btn" class="btn-main">Save Password</button>
     </div>
 
-    <div id="adminLock">
-        <div class="lock-box">
-            <h2 style="color: #ffaa00; font-family:'Orbitron', sans-serif; margin-bottom:15px;">ADMIN AUTH</h2>
-            <input type="password" id="adminPin" maxlength="4" placeholder="Enter 4-Digit PIN">
-            <button class="btn-save" onclick="unlockAdmin()" style="font-size: 16px; padding: 15px;">LOGIN TO PANEL</button>
+    <div class="card switch">
+        <h3 style="margin: 0; border: none; font-size: 16px;">⚙️ 2. App Status</h3>
+        <div style="display: flex; gap: 10px; width: 60%;">
+            <select id="maint-select">
+                <option value="false">Online</option>
+                <option value="true">Offline</option>
+            </select>
+            <button id="update-maint-btn" class="btn-main" style="width: 100%;">Set</button>
         </div>
     </div>
 
-    <div class="admin-container" id="adminContainer">
-        <h1>ROCKY VIP</h1>
-        <div style="text-align:center; font-size:12px; color:#aaa; margin-bottom:25px; font-weight:bold;">
-            <span class="status-dot"></span> SERVER ONLINE & SYNCED
+    <div class="card">
+        <div class="matrix-header">
+            <h3>🎯 3. 1-Click Setup</h3>
+            <select id="top-filter">
+                <option value="0">Top No: 0</option>
+                <option value="1">Top No: 1</option>
+                <option value="2">Top No: 2</option>
+                <option value="3">Top No: 3</option>
+                <option value="4">Top No: 4</option>
+                <option value="5">Top No: 5</option>
+                <option value="6">Top No: 6</option>
+                <option value="7">Top No: 7</option>
+                <option value="8">Top No: 8</option>
+                <option value="9">Top No: 9</option>
+            </select>
         </div>
-
-        <div class="section">
-            <h3 style="color:#ffaa00; margin-bottom:15px; font-family:'Orbitron', sans-serif;">⚙️ SYSTEM CONFIGURATION</h3>
-            <div class="row">
-                <div class="col"><label>App Access Password</label><input type="text" id="webPass" placeholder="e.g. 1122"></div>
-                <div class="col"><label>VIP Tool Password</label><input type="text" id="toolPass" placeholder="e.g. VIP888"></div>
-            </div>
-            <label>Handwritten PDF Link</label><input type="text" id="pdfLink" placeholder="Google Drive / Mediafire Link">
-            <div class="row">
-                <div class="col"><label>Telegram Link</label><input type="text" id="tgLink"></div>
-                <div class="col"><label>Instagram Link</label><input type="text" id="igLink"></div>
-            </div>
-            <label>Manager Contact Link (Bottom)</label><input type="text" id="managerLink" placeholder="https://t.me/yourusername">
-        </div>
-
-        <div class="section" id="gridWrapper">
-            <h3 style="color:#ffaa00; margin-bottom:15px; font-family:'Orbitron', sans-serif;">📊 SMART RESULT GENERATOR</h3>
-            <p style="font-size:12px; color:#888; margin-bottom:15px;">Click on a 'Top Number' row to expand and set results.</p>
-            <div id="gridBody"></div>
-        </div>
-
-        <button class="btn-save" onclick="saveAdminData()">🚀 PUBLISH TO LIVE SERVER</button>
+        
+        <p style="font-size: 12px; color: #888; margin-top: -10px;">Select a Top Number, then 1-click to save results.</p>
+        
+        <div id="matrix-list"></div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+    <div class="fab-publish" id="publish-btn" title="Publish All Changes">🚀</div>
 
-        const firebaseConfig = { apiKey: "AIzaSyBTFFk_wM5Ji8Wa3kiVdn7_3kasnOZ_DPI", authDomain: "rockey-c164a.firebaseapp.com", databaseURL: "https://rockey-c164a-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "rockey-c164a" };
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+    <div id="toast">Saved Successfully!</div>
 
-        // --- GOD MODE INTERCEPTOR ---
-        onValue(ref(db, 'RockyVIPSystem/devControls'), (snapshot) => {
-            if(snapshot.exists()) {
-                let devData = snapshot.val();
-                let overlay = document.getElementById("godOverlay");
-                if(devData.mode === 'maintenance' || devData.mode === 'apk') {
-                    overlay.style.display = "flex";
-                    document.getElementById("godTitle").innerText = devData.mode === 'maintenance' ? "🛠️ MAINTENANCE" : "🚨 SYSTEM MOVED";
-                    document.getElementById("godMsg").innerHTML = devData.mode === 'maintenance' ? "System is under maintenance." : "Admin Panel moved to APK.";
-                } else overlay.style.display = "none";
-            }
-        });
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
 
-        // --- ADMIN LOGIN LOGIC ---
-        window.unlockAdmin = async function() {
-            const pin = document.getElementById('adminPin').value;
-            const snap = await get(ref(db, 'RockyVIPSystem/master/adminPin'));
-            let livePin = snap.exists() ? snap.val() : "9999";
-            if(pin === livePin) {
-                document.getElementById('adminLock').style.display = 'none';
-                document.getElementById('adminContainer').style.display = 'block';
-                loadData();
-            } else alert("❌ WRONG PIN");
-        };
+    // Firebase Config
+    const firebaseConfig = {
+        apiKey: "AIzaSyBTFFk_wM5Ji8Wa3kiVdn7_3kasnOZ_DPI",
+        authDomain: "rockey-c164a.firebaseapp.com",
+        databaseURL: "https://rockey-c164a-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "rockey-c164a",
+        storageBucket: "rockey-c164a.firebasestorage.app",
+        messagingSenderId: "996149364006",
+        appId: "1:996149364006:web:7a9382e8244631f322ade7",
+        measurementId: "G-YYN7MP58B0"
+    };
 
-        // --- SMART GRID GENERATOR ---
-        const states = ['SKIP', 'BIG', 'SMALL'];
-        const gridBody = document.getElementById('gridBody');
-        for (let t = 0; t <= 9; t++) {
-            let html = `
-            <details>
-                <summary>Top Number: ${t} 
-                    <button class="bulk-btn" onclick="bulkSet(${t}, 1, event)">All BIG</button>
-                    <button class="bulk-btn" onclick="bulkSet(${t}, 2, event)">All SMALL</button>
-                    <button class="bulk-btn" onclick="bulkSet(${t}, 0, event)">Reset</button>
-                </summary>
-                <div class="details-content">
-                    <div class="grid-container">`;
-            for (let b = 0; b <= 9; b++) {
-                html += `<div class="grid-item">
-                            <div style="font-size:14px; font-weight:900; color:#888;">${t} ▼ ${b}</div>
-                            <button id="btn_${t}_${b}" class="toggle-btn btn-skip" data-state="0" onclick="toggleState(${t}, ${b})">SKIP</button>
-                         </div>`;
-            }
-            gridBody.innerHTML += html + `</div></div></details>`;
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Toast Function
+    function showToast(msg) {
+        const toast = document.getElementById("toast");
+        toast.innerText = msg;
+        toast.className = "show";
+        setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 2000);
+    }
+
+    // Password Update
+    document.getElementById('update-pass-btn').addEventListener('click', () => {
+        const pass = document.getElementById('new-password').value;
+        if(pass === "") return showToast("Please enter a password first!");
+        set(ref(db, 'admin_settings/daily_password'), pass)
+            .then(() => { showToast("✅ Password Updated!"); document.getElementById('new-password').value = "";})
+            .catch((e) => showToast("Error: " + e));
+    });
+
+    // Maintenance Mode Update
+    document.getElementById('update-maint-btn').addEventListener('click', () => {
+        const isOffline = document.getElementById('maint-select').value === "true";
+        set(ref(db, 'admin_settings/maintenance_mode'), isOffline)
+            .then(() => showToast(isOffline ? "⚠️ App is now Offline!" : "✅ App is now Online!"))
+            .catch((e) => showToast("Error: " + e));
+    });
+
+    // 1-CLICK MATRIX LOGIC
+    let currentResults = {}; 
+
+    onValue(ref(db, 'results'), (snapshot) => {
+        currentResults = snapshot.val() || {};
+        renderMatrixList(); 
+    });
+
+    document.getElementById('top-filter').addEventListener('change', renderMatrixList);
+
+    function renderMatrixList() {
+        const topNum = document.getElementById('top-filter').value;
+        const container = document.getElementById('matrix-list');
+        container.innerHTML = ''; 
+
+        for (let bottomNum = 0; bottomNum <= 9; bottomNum++) {
+            const pairKey = `${topNum}-${bottomNum}`;
+            const activeResult = currentResults[pairKey] || ''; 
+
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'row-item';
+
+            const label = document.createElement('div');
+            label.className = 'pair-label';
+            label.innerText = `[ ${topNum} - ${bottomNum} ]`;
+            rowDiv.appendChild(label);
+
+            const btnsDiv = document.createElement('div');
+            btnsDiv.className = 'action-btns';
+
+            // ONLY BIG AND SMALL OPTIONS NOW
+            const options = ['BIG', 'SMALL'];
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = `btn-res ${activeResult === opt ? 'active-' + opt : ''}`;
+                btn.innerText = opt; // Full text 'BIG' or 'SMALL'
+
+                // Realtime Auto-Save
+                btn.onclick = () => {
+                    set(ref(db, `results/${pairKey}`), opt)
+                        .then(() => showToast(`✅ [${topNum}-${bottomNum}] set to ${opt}`))
+                        .catch((e) => showToast("Error: " + e));
+                };
+                btnsDiv.appendChild(btn);
+            });
+
+            rowDiv.appendChild(btnsDiv);
+            container.appendChild(rowDiv);
         }
+    }
 
-        window.toggleState = function(t, b) {
-            const btn = document.getElementById(`btn_${t}_${b}`);
-            let next = (parseInt(btn.getAttribute('data-state')) + 1) % 3;
-            updateBtn(btn, next);
-        };
+    // Publish Button Logic
+    document.getElementById('publish-btn').addEventListener('click', () => {
+        showToast("🚀 All Changes Published Live to the App!");
+    });
 
-        window.bulkSet = function(t, stateIndex, event) {
-            event.preventDefault(); // Prevents accordion from closing
-            for(let b=0; b<=9; b++) {
-                let btn = document.getElementById(`btn_${t}_${b}`);
-                updateBtn(btn, stateIndex);
-            }
-        };
-
-        function updateBtn(btn, stateIndex) {
-            btn.setAttribute('data-state', stateIndex); 
-            btn.innerText = states[stateIndex];
-            btn.className = 'toggle-btn ' + (stateIndex === 1 ? 'btn-big' : (stateIndex === 2 ? 'btn-small' : 'btn-skip'));
-        }
-
-        // --- LOAD & SAVE DATA ---
-        async function loadData() {
-            const snap = await get(ref(db, 'RockyVIPSystem'));
-            if (snap.exists()) {
-                let d = snap.val();
-                if(d.passwords) { document.getElementById('webPass').value = d.passwords.web || ""; document.getElementById('toolPass').value = d.passwords.tool || ""; }
-                if(d.links) { document.getElementById('tgLink').value = d.links.tg || ""; document.getElementById('igLink').value = d.links.ig || ""; document.getElementById('managerLink').value = d.links.manager || ""; document.getElementById('pdfLink').value = d.links.pdf || ""; }
-                if(d.predictions) {
-                    for (const [key, result] of Object.entries(d.predictions)) {
-                        let [t, b] = key.split('_');
-                        const btn = document.getElementById(`btn_${t}_${b}`);
-                        if(btn) {
-                            let state = result === 'BIG' ? 1 : (result === 'SMALL' ? 2 : 0);
-                            updateBtn(btn, state);
-                        }
-                    }
-                }
-            }
-        }
-
-        window.saveAdminData = async function() {
-            let btn = document.querySelector(".btn-save:last-child");
-            btn.innerText = "UPLOADING..."; btn.disabled = true;
-
-            let predictions = {};
-            for (let t=0; t<=9; t++) for (let b=0; b<=9; b++) {
-                const st = parseInt(document.getElementById(`btn_${t}_${b}`).getAttribute('data-state'));
-                if (st !== 0) predictions[`${t}_${b}`] = states[st];
-            }
-            await set(ref(db, 'RockyVIPSystem/passwords/web'), document.getElementById('webPass').value);
-            await set(ref(db, 'RockyVIPSystem/passwords/tool'), document.getElementById('toolPass').value);
-            await set(ref(db, 'RockyVIPSystem/links/tg'), document.getElementById('tgLink').value);
-            await set(ref(db, 'RockyVIPSystem/links/ig'), document.getElementById('igLink').value);
-            await set(ref(db, 'RockyVIPSystem/links/manager'), document.getElementById('managerLink').value);
-            await set(ref(db, 'RockyVIPSystem/links/pdf'), document.getElementById('pdfLink').value);
-            await set(ref(db, 'RockyVIPSystem/predictions'), predictions);
-            
-            alert("🚀 System Live!");
-            btn.innerText = "🚀 PUBLISH ALL TO SERVER"; btn.disabled = false;
-        };
-    </script>
+</script>
 </body>
 </html>
