@@ -1,329 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- [Tumhara Same CSS Aur Layout Yahan Hoga... Usme Koi Change Nahi Hai] -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rocky VIP Prediction Tool</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP AI EXPLOIT SYSTEM</title>
     <style>
-        /* ---------------- PLASMA RED THEME ---------------- */
-        :root {
-            var(--theme-main): #ff2a2a; 
-            --theme-glow: #ff003c; 
-            --dark-bg: #0a0303; 
-            --grid-color: rgba(255, 42, 42, 0.07);
-            
-            --res-green: #00ff55; 
-            --res-red: #ff003c; 
-            --res-big: #f2cc60; 
-            --res-small: #58a6ff;
-        }
-        
-        body {
-            background-color: var(--dark-bg);
-            background-image: linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-            background-size: 20px 20px; color: #ffffff; font-family: 'Share Tech Mono', monospace;
-            display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; user-select: none;
-        }
-        
-        .cyber-frame { position: absolute; top: 15px; left: 15px; right: 15px; bottom: 15px; pointer-events: none; z-index: 0; }
-        .cyber-frame::before, .cyber-frame::after { content: ''; position: absolute; width: 30px; height: 30px; border-color: #ff2a2a; border-style: solid; box-shadow: 0 0 10px var(--theme-glow); }
-        .cyber-frame::before { top: 0; left: 0; border-width: 3px 0 0 3px; }
-        .cyber-frame::after { bottom: 0; right: 0; border-width: 0 3px 3px 0; }
-        .cyber-frame .top-right { position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 3px solid #ff2a2a; border-right: 3px solid #ff2a2a; box-shadow: inset -2px 2px 5px rgba(255,42,42,0.2); }
-        .cyber-frame .bottom-left { position: absolute; bottom: 0; left: 0; width: 30px; height: 30px; border-bottom: 3px solid #ff2a2a; border-left: 3px solid #ff2a2a; box-shadow: inset 2px -2px 5px rgba(255,42,42,0.2); }
-
-        .screen-container { width: 100%; max-width: 360px; padding: 20px; text-align: center; position: relative; z-index: 10; display: none; }
-        #login-screen { display: block; }
-
-        h2 { font-family: 'Orbitron', sans-serif; letter-spacing: 2px; color: #ff2a2a; text-shadow: 0 0 15px var(--theme-glow); margin-bottom: 5px;}
-        .subtitle { font-size: 10px; color: #a18b8b; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 30px; }
-        .app-logo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px auto; display: block; box-shadow: 0 0 20px rgba(255, 42, 42, 0.4); border: 2px solid #ff2a2a; }
-        
-        .version-badge { font-size: 10px; color: #ff2a2a; border: 1px solid rgba(255,42,42,0.4); padding: 3px 15px; letter-spacing: 2px; display: inline-block; margin-bottom: 10px; background: rgba(255,42,42,0.08); text-shadow: 0 0 5px var(--theme-glow);}
-        
-        .brand-title { font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 900; margin: 5px 0; }
-        .brand-rocky { color: #ffffff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
-        .brand-tool { color: #ff2a2a; text-shadow: 0 0 15px var(--theme-glow); }
-
-        .status-box { background: rgba(255, 42, 42, 0.05); border: 1px solid rgba(255, 42, 42, 0.4); color: #ff2a2a; font-size: 12px; padding: 8px 0; width: 80%; margin: 20px auto; letter-spacing: 2px; box-shadow: inset 0 0 10px rgba(255,42,42,0.1); }
-        .live-dot { animation: blink 1s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--theme-glow); } 50% { opacity: 0.3; } }
-
-        .input-section { display: flex; justify-content: space-between; margin-bottom: 25px; }
-        .input-box { width: 45%; }
-        .input-box p { margin: 0 0 5px 0; font-size: 12px; color: #a18b8b; letter-spacing: 1px; }
-        .input-box input { width: 100%; padding: 15px 0; font-size: 24px; font-family: 'Orbitron', sans-serif; text-align: center; background: rgba(0, 0, 0, 0.6); border: 1px solid #3d2626; border-bottom: 2px solid #ff2a2a; color: #ffffff; outline: none; transition: 0.3s; box-sizing: border-box; }
-        .input-box input:focus { background: rgba(255, 42, 42, 0.1); box-shadow: 0 5px 15px rgba(255, 42, 42, 0.2); border-color: var(--theme-glow); }
-        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-
-        .btn-cyber { width: 100%; padding: 15px; font-size: 16px; font-family: 'Orbitron', sans-serif; font-weight: 700; background: rgba(255, 42, 42, 0.08); color: #ff2a2a; border: 2px solid #ff2a2a; cursor: pointer; letter-spacing: 3px; text-transform: uppercase; transition: 0.3s; box-shadow: inset 0 0 10px rgba(255,42,42,0.1), 0 0 15px rgba(255,42,42,0.2); margin-bottom: 15px; text-shadow: 0 0 5px var(--theme-glow);}
-        .btn-cyber:active { transform: scale(0.98); background: rgba(255, 42, 42, 0.2); }
-        .btn-cyber:disabled { border-color: #3d2626; color: #a18b8b; box-shadow: none; cursor: not-allowed; text-shadow: none; background: transparent;}
-
-        .period-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,42,42,0.2); padding-bottom: 10px;}
-        .p-label { font-size: 10px; color: #a18b8b; letter-spacing: 1px; }
-        .p-number { font-size: 14px; color: #ffffff; letter-spacing: 1px; }
-        .timer-display { font-family: 'Orbitron', sans-serif; font-size: 22px; color: #ff2a2a; font-weight: bold; text-shadow: 0 0 8px var(--theme-glow);}
-        
-        .timer-alert { color: #ffffff !important; text-shadow: 0 0 15px var(--theme-glow); animation: heartbeat 0.5s infinite; }
-        @keyframes heartbeat { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-
-        .result-box { margin-top: 10px; min-height: 40px; }
-        .loading-text { font-size: 12px; color: #ff2a2a; display: none; animation: blink 1s infinite; letter-spacing: 2px;}
-        .final-result { font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: bold; display: none; text-transform: uppercase; letter-spacing: 2px;}
-        
-        .res-GREEN { color: var(--res-green); text-shadow: 0 0 15px var(--res-green); }
-        .res-RED { color: var(--res-red); text-shadow: 0 0 15px var(--res-red); }
-        .res-BIG { color: var(--res-big); text-shadow: 0 0 15px var(--res-big); }
-        .res-SMALL { color: var(--res-small); text-shadow: 0 0 15px var(--res-small); }
-
-        .error-shake { animation: shake 0.4s; border-bottom-color: #ff0000 !important; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 50% { transform: translateX(10px); } 75% { transform: translateX(-10px); } }
-        
-        #maintenance-screen h2 { color: #ff2a2a; text-shadow: 0 0 15px var(--theme-glow); }
-        .alert-icon { font-size: 60px; margin-bottom: 20px; animation: heartbeat 1s infinite; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@400;600;800&display=swap');
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Poppins', sans-serif; display: flex; flex-direction: column; background-color: #050505; overflow: hidden; }
+        #top-panel { background: radial-gradient(circle at center, #111 0%, #000 100%); height: 21%; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; border-bottom: 2px solid rgba(0, 255, 204, 0.3); box-shadow: 0px 5px 25px rgba(0, 255, 204, 0.15); z-index: 10; position: relative; overflow: hidden; }
+        .glass-box { background: linear-gradient(135deg, rgba(20, 20, 20, 0.9), rgba(5, 5, 5, 0.95)); backdrop-filter: blur(15px); border: 1px solid rgba(0, 255, 204, 0.2); padding: 6px 12px; border-radius: 8px; text-align: center; width: 96%; max-width: 420px; box-shadow: 0 0 20px rgba(0,0,0,0.8), inset 0 0 10px rgba(0, 255, 204, 0.05); box-sizing: border-box; animation: slideDown 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        h3 { margin: 0 0 4px 0; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 13px; letter-spacing: 2px; color: #fff; text-transform: uppercase; text-shadow: 0 0 8px rgba(255, 255, 255, 0.5); }
+        h3 span { color: #00ffcc; text-shadow: 0 0 10px #00ffcc; }
+        input { padding: 5px 8px; border: 1px solid #333; border-radius: 4px; width: 100%; text-align: center; font-size: 12px; font-family: 'Orbitron', sans-serif; background: rgba(0, 0, 0, 0.7); color: #00ffcc; transition: all 0.3s ease; box-sizing: border-box; }
+        input:focus { border: 1px solid #00ffcc; box-shadow: 0 0 12px rgba(0, 255, 204, 0.4); outline: none; }
+        input::placeholder { color: #555; font-family: 'Poppins', sans-serif; }
+        button { padding: 5px 8px; font-size: 11px; font-family: 'Orbitron', sans-serif; font-weight: 800; cursor: pointer; border-radius: 4px; border: 1px solid #00ffcc; background: rgba(0, 255, 204, 0.1); color: #00ffcc; width: 100%; text-transform: uppercase; box-shadow: 0 0 10px rgba(0, 255, 204, 0.2); transition: all 0.2s; box-sizing: border-box; position: relative; overflow: hidden; }
+        button::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0,255,204,0.4), transparent); transition: 0.5s; }
+        button:hover::before { left: 100%; }
+        button:hover { background: rgba(0, 255, 204, 0.3); box-shadow: 0 0 15px rgba(0, 255, 204, 0.5); }
+        button:active { transform: scale(0.95); }
+        button:disabled { border-color: #444; color: #444; background: transparent; box-shadow: none; cursor: not-allowed; }
+        .flex-row { display: flex; gap: 6px; margin-bottom: 4px; align-items: center; }
+        .info-row { display: flex; justify-content: space-between; background: rgba(0,0,0,0.6); padding: 3px 8px; border-radius: 4px; border: 1px solid #222; margin-bottom: 4px; font-size: 9px; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
+        .neon-cyan { color: #00ffcc; text-shadow: 0 0 5px #00ffcc;}
+        .neon-red { color: #ff2a2a; text-shadow: 0 0 5px #ff2a2a;}
+        .history-row { text-align: left; font-size: 8px; color: #666; font-family: 'Orbitron', sans-serif; margin-bottom: 4px; padding-left: 2px;}
+        .hist-item { background: rgba(0, 255, 204, 0.1); border: 1px solid rgba(0, 255, 204, 0.3); color: #00ffcc; padding: 1px 4px; border-radius: 2px; margin-right: 3px; display: inline-block;}
+        .result-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
+        .result-box-mini { background: rgba(0,0,0,0.8); padding: 4px 8px; border-radius: 4px; display: flex; align-items: center; border: 1px solid rgba(0, 255, 204, 0.2); position: relative; overflow: hidden; width: 75%; justify-content: center; }
+        .prediction-text { font-size: 12px; font-family: 'Orbitron', sans-serif; font-weight: 900; color: #fff; margin-left: 6px; letter-spacing: 1px; }
+        .scanner-line { position: absolute; left: -100%; top: 0; width: 30%; height: 100%; background: linear-gradient(90deg, transparent, #00ffcc, #fff, #00ffcc, transparent); box-shadow: 0 0 10px #00ffcc; display: none; z-index: 5; }
+        .scanning .scanner-line { display: block; animation: laserScan 0.6s linear infinite; }
+        .scanning .prediction-text { color: #00ffcc; animation: textGlitch 0.2s infinite; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes laserScan { 0% { left: -50%; } 100% { left: 150%; } }
+        @keyframes textGlitch { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .badge-container { position: absolute; top: 4px; left: 8px; right: 8px; display: flex; justify-content: space-between; pointer-events: none; }
+        .cyber-badge { font-size: 8px; font-weight: bold; color: #00ffcc; background: rgba(0, 0, 0, 0.8); padding: 3px 6px; border-radius: 3px; border: 1px solid rgba(0, 255, 204, 0.2); font-family: 'Orbitron', sans-serif; display: flex; align-items: center; gap: 4px;}
+        .badge-yellow { color: #ffeb3b; border-color: rgba(255, 235, 59, 0.3); text-shadow: 0 0 4px rgba(255, 235, 59, 0.5); }
+        .dot { height: 5px; width: 5px; background-color: #ff2a2a; border-radius: 50%; box-shadow: 0 0 5px #ff2a2a; animation: pulseRed 1s infinite; }
+        @keyframes pulseRed { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+        #alertPopup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 999; opacity: 0; visibility: hidden; transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); pointer-events: auto; }
+        #alertPopup.show { opacity: 1; visibility: visible; }
+        .popup-content { background: #0a0a0a; padding: 20px; border-radius: 8px; width: 80%; max-width: 280px; text-align: center; border: 1px solid #00ffcc; box-shadow: 0 0 30px rgba(0,255,204,0.2); transform: scale(0.5); transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+        #alertPopup.show .popup-content { transform: scale(1); }
+        .popup-icon { font-size: 35px; margin-bottom: 10px; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        .popup-msg { font-size: 11px; color: #ccc; margin-bottom: 15px; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; line-height: 1.5;}
+        .popup-btn { background: #00ffcc; color: black; padding: 8px 15px; border-radius: 4px; font-weight: 900; font-family: 'Orbitron', sans-serif; cursor: pointer; display: inline-block; font-size: 10px; text-decoration: none; border: none; }
+        .tg-btn { background: #0088cc; color: white; width: 80%; margin-top: 10px; box-shadow: 0 0 10px rgba(0,136,204,0.4);}
+        #toast-container { position: absolute; top: 5px; right: 10px; z-index: 100; pointer-events: none; display: flex; flex-direction: column; gap: 4px; }
+        .toast { background: rgba(0, 0, 0, 0.9); color: #00ffcc; padding: 4px 8px; border-radius: 3px; font-size: 8px; font-family: 'Orbitron', sans-serif; border-left: 2px solid #00ffcc; box-shadow: 0 0 10px rgba(0,255,204,0.2); transform: translateX(120%); animation: slideIn 3.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes slideIn { 0% { transform: translateX(120%); } 15%, 85% { transform: translateX(0); } 100% { transform: translateX(120%); } }
+        #bottom-panel { background-color: #000; height: 79%; width: 100%; border-top: 1px solid #222;}
+        iframe { width: 100%; height: 100%; border: none; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-<div class="cyber-frame">
-    <div class="top-right"></div>
-    <div class="bottom-left"></div>
-</div>
-
-<div class="screen-container" id="maintenance-screen">
-    <div class="alert-icon">⚠️</div>
-    <h2>SYSTEM OFFLINE</h2>
-    <div class="subtitle" id="maint-msg">UNDER SERVER MAINTENANCE</div>
-</div>
-
-<div class="screen-container" id="login-screen">
-    <img src="logo.png" alt="Logo" class="app-logo" style="margin-top: 40px;">
-    <h2>SYSTEM LOCKED</h2>
-    <div class="subtitle">Enter API Authorization Key</div>
-    <div class="input-box" style="width: 100%; margin-bottom: 30px;">
-        <input type="password" id="vip-pin" placeholder="ACCESS KEY" maxlength="6" style="letter-spacing: 5px;">
-    </div>
-    <button class="btn-cyber" id="login-btn">INITIALIZE ▶</button>
-    <p id="login-error" style="color: #ff2a2a; font-size: 12px; display: none; letter-spacing: 1px;">ERROR: UNAUTHORIZED USER</p>
-</div>
-
-<div class="screen-container" id="main-app">
-    <img src="logo.png" alt="Logo" class="app-logo">
-    <div class="version-badge">♦ VERSION 4.0 ♦</div>
-    
-    <div class="brand-title">
-        <span class="brand-rocky">ROCKY VIP</span><br>
-        <span class="brand-tool">TOOL</span>
-    </div>
-    <div class="subtitle" style="margin-bottom: 10px;">ALL GAMES CONNECTED<br>• DIRECT API SERVER •</div>
-
-    <div class="status-box"><span class="live-dot">●</span> SYSTEM ONLINE</div>
-
-    <div class="period-info">
-        <div style="text-align: left;">
-            <div class="p-label">PERIOD ID</div>
-            <div class="p-number" id="period-display">Loading...</div>
-        </div>
-        <div style="text-align: right;">
-            <div class="p-label">COUNTDOWN</div>
-            <div class="timer-display" id="timer-display">00:00</div>
+    <div id="toast-container"></div>
+    <div id="alertPopup">
+        <div class="popup-content">
+            <div id="popupIcon" class="popup-icon">⚠️</div>
+            <div id="popupMessage" class="popup-msg">SYSTEM ERROR</div>
+            <!-- DYNAMIC TELEGRAM BUTTON -->
+            <a id="popupTgBtn" href="#" class="popup-btn tg-btn hidden" target="_blank">CONTACT ADMIN</a><br>
+            <button class="popup-btn" onclick="closePopup()" style="margin-top:10px; background:#222; color:#fff; border:1px solid #444;">DISMISS</button>
         </div>
     </div>
 
-    <div class="input-section">
-        <div class="input-box">
-            <p>DATA 1 [TOP]</p>
-            <input type="number" id="top-input" placeholder="0">
+    <!-- TOP CONTROL PANEL (21%) -->
+    <div id="top-panel">
+        <div class="badge-container">
+            <div class="cyber-badge"><span class="dot"></span> <span id="onlineCount">NODE: 245</span></div>
+            <div class="cyber-badge badge-yellow" id="netSpeed">NET: 0.00 MB/s</div>
         </div>
-        <div class="input-box">
-            <p>DATA 2 [BTM]</p>
-            <input type="number" id="bottom-input" placeholder="0">
+
+        <div id="authScreen" class="glass-box" style="margin-top: 15px;">
+            <h3>PREDICTION <span>AI</span></h3>
+            <div class="flex-row">
+                <input type="number" id="userUidInput" placeholder="ENTER GAME UID" style="width: 65%;">
+                <button id="verifyBtn" onclick="verifyUid()" style="width: 35%;">SYNC</button>
+            </div>
+        </div>
+
+        <div id="toolScreen" class="glass-box hidden" style="margin-top: 15px;">
+            <div class="info-row">
+                <div>ID: <span id="displayPeriod" class="neon-cyan">SYNCING...</span></div>
+                <div>TMR: <span id="displayTimer" class="neon-red">00:00</span></div>
+            </div>
+            <div class="flex-row">
+                <input type="number" id="num1" placeholder="N-1" min="0" max="9" style="width: 30%;">
+                <input type="number" id="num2" placeholder="N-2" min="0" max="9" style="width: 30%;">
+                <button id="analyzeBtn" onclick="checkPattern()" style="width: 40%;">RUN EXPLOIT</button>
+            </div>
+            <div class="history-row" id="historyRow">HIST: <span style="color:#444;">NO DATA YET</span></div>
+            <div class="result-bar">
+                <div class="result-box-mini" id="resultContainer">
+                    <div class="scanner-line"></div>
+                    <span style="font-size: 9px; color: #555; margin-right:5px; font-family:'Poppins', sans-serif;">OUT:</span>
+                    <span id="predictionDisplay" class="prediction-text" style="color:#555;">AWAITING...</span>
+                </div>
+                <span style="font-size: 9px; cursor:pointer; color: #ff2a2a; font-family:'Orbitron', sans-serif; text-decoration: none; padding: 5px;" onclick="logoutTool()">[X] EXIT</span>
+            </div>
         </div>
     </div>
 
-    <button class="btn-cyber" id="predict-btn">ACTIVATE ▶</button>
-    <div class="result-box">
-        <div class="loading-text" id="loading-anim">FETCHING SERVER DATA...</div>
-        <div class="final-result" id="final-result"></div>
+    <!-- BOTTOM GAME PANEL (79%) -->
+    <div id="bottom-panel">
+        <iframe id="gameIframe" src="https://sikkimgg.com/#/register?invitationCode=481415207260"></iframe>
     </div>
-</div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-    import { getDatabase, ref, onValue, get, child } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, get, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyBTFFk_wM5Ji8Wa3kiVdn7_3kasnOZ_DPI",
-        authDomain: "rockey-c164a.firebaseapp.com",
-        databaseURL: "https://rockey-c164a-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "rockey-c164a",
-        storageBucket: "rockey-c164a.firebasestorage.app",
-        messagingSenderId: "996149364006",
-        appId: "1:996149364006:web:7a9382e8244631f322ade7",
-        measurementId: "G-YYN7MP58B0"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const dbRef = ref(db);
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-
-    let userLoggedIn = false;
-
-    // Maintenance Listener
-    onValue(ref(db, 'admin_settings/maintenance_mode'), (snapshot) => {
-        const isMaintenance = snapshot.val();
-        if(isMaintenance === true) {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('main-app').style.display = 'none';
-            document.getElementById('maintenance-screen').style.display = 'block';
-        } else {
-            document.getElementById('maintenance-screen').style.display = 'none';
-            if(userLoggedIn) {
-                document.getElementById('main-app').style.display = 'block';
-            } else {
-                document.getElementById('login-screen').style.display = 'block';
-            }
-        }
-    });
-
-    // Login System
-    document.getElementById('login-btn').addEventListener('click', async () => {
-        const pinInput = document.getElementById('vip-pin');
-        const errorMsg = document.getElementById('login-error');
-        const btn = document.getElementById('login-btn');
+        const firebaseConfig = { apiKey: "AIzaSyB2w6_FoCuFfrSJWZGk2x3zLn6xaVwUT5I", authDomain: "rocky-tool.firebaseapp.com", databaseURL: "https://rocky-tool-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "rocky-tool" };
+        const db = getDatabase(initializeApp(firebaseConfig));
         
-        btn.innerText = "VERIFYING...";
-        try {
-            const snapshot = await get(child(dbRef, 'admin_settings/daily_password'));
-            if (snapshot.exists()) {
-                const realPassword = snapshot.val();
-                if(pinInput.value === String(realPassword)) {
-                    if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                    userLoggedIn = true;
-                    document.getElementById('login-screen').style.display = 'none';
-                    document.getElementById('main-app').style.display = 'block';
-                } else {
-                    triggerError(pinInput, errorMsg);
-                }
-            } else {
-                triggerError(pinInput, errorMsg);
+        // DYNAMIC TELEGRAM VARIABLE
+        let liveTelegramId = "Admin"; 
+
+        // LISTEN TO TELEGRAM ID CHANGES FROM ADMIN PANELS
+        onValue(ref(db, 'settings/telegram_id'), (snapshot) => {
+            if (snapshot.exists() && snapshot.val().trim() !== "") {
+                liveTelegramId = snapshot.val().replace('@', '').trim();
             }
-        } catch (error) {
-            console.error(error);
-            triggerError(pinInput, errorMsg);
-        }
-        btn.innerText = "INITIALIZE ▶";
-    });
+        });
 
-    function triggerError(input, msg) {
-        if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-        input.classList.add('error-shake');
-        msg.style.display = 'block';
-        setTimeout(() => { input.classList.remove('error-shake'); }, 400);
-    }
+        // Live Link Route
+        onValue(ref(db, 'settings/active_link'), (snapshot) => {
+            if (snapshot.exists() && snapshot.val().trim() !== "") document.getElementById('gameIframe').src = snapshot.val().trim();
+        });
 
-    // Prediction / Fetch Result System
-    document.getElementById('predict-btn').addEventListener('click', async () => {
-        const topInput = document.getElementById('top-input').value;
-        const bottomInput = document.getElementById('bottom-input').value;
-        const btn = document.getElementById('predict-btn');
-
-        if(topInput === "" || bottomInput === "" || topInput > 9 || bottomInput > 9) {
-            if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-            alert("ENTER SINGLE DIGIT (0-9) IN BOTH FIELDS!");
-            return;
+        let audioCtx;
+        function playSound(type) {
+            if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.connect(gain); gain.connect(audioCtx.destination);
+            let now = audioCtx.currentTime;
+            if(type === 'click') { osc.type = 'square'; osc.frequency.setValueAtTime(800, now); gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1); osc.start(now); osc.stop(now + 0.1); }
+            else if (type === 'scan') { osc.type = 'sawtooth'; osc.frequency.setValueAtTime(400, now); gain.gain.setValueAtTime(0.05, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05); osc.start(now); osc.stop(now + 0.05); }
+            else if (type === 'success') { osc.type = 'sine'; osc.frequency.setValueAtTime(600, now); osc.frequency.exponentialRampToValueAtTime(1200, now + 0.3); gain.gain.setValueAtTime(0.1, now); gain.gain.linearRampToValueAtTime(0, now + 0.3); osc.start(now); osc.stop(now + 0.3); }
+            else if (type === 'error') { osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, now); gain.gain.setValueAtTime(0.1, now); gain.gain.linearRampToValueAtTime(0, now + 0.4); osc.start(now); osc.stop(now + 0.4); }
         }
 
-        if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-        btn.disabled = true; btn.innerText = "PROCESSING...";
-        document.getElementById('final-result').style.display = 'none';
-        document.getElementById('loading-anim').style.display = 'block';
+        function updateSpeed() {
+            let speedDisplay = document.getElementById('netSpeed'); let baseSpeed = 4.2; 
+            if (navigator.connection && navigator.connection.downlink) { baseSpeed = (navigator.connection.downlink / 8) * 0.75; } 
+            else { baseSpeed = 2.0 + Math.random() * 3; }
+            let fluctuation = (Math.random() * 0.5) - 0.25; let finalSpeed = Math.max(0.1, baseSpeed + fluctuation).toFixed(2);
+            speedDisplay.innerText = `NET: ${finalSpeed} MB/s`;
+        }
+        setInterval(updateSpeed, 1500);
 
-        const pairKey = `${topInput}-${bottomInput}`;
+        let historyArray = JSON.parse(localStorage.getItem('exploit_history') || "[]");
+        function updateHistoryUI() {
+            let histDiv = document.getElementById('historyRow');
+            if(historyArray.length === 0) { histDiv.innerHTML = `HIST: <span style="color:#444;">NO DATA YET</span>`; return; }
+            let html = "HIST: "; historyArray.slice(-3).forEach(res => { html += `<span class="hist-item">${res}</span>`; }); histDiv.innerHTML = html;
+        }
+        function addHistory(result) { historyArray.push(result); if(historyArray.length > 3) historyArray.shift(); localStorage.setItem('exploit_history', JSON.stringify(historyArray)); updateHistoryUI(); }
 
-        try {
-            const snapshot = await get(child(dbRef, `results/${pairKey}`));
-            let finalOutput = "RED"; 
-            
-            if (snapshot.exists()) {
-                finalOutput = snapshot.val().toUpperCase();
-            } else {
-                if (topInput < bottomInput) finalOutput = "RED";
-                else if (topInput > bottomInput) finalOutput = "GREEN";
-                else if (parseInt(topInput) % 2 === 0) finalOutput = "BIG";
-                else finalOutput = "SMALL";
-            }
+        window.showPopup = function(icon, message, showTelegram, uidStr) {
+            document.getElementById('popupIcon').innerText = icon;
+            document.getElementById('popupMessage').innerHTML = message;
+            let tgBtn = document.getElementById('popupTgBtn');
+            if(showTelegram) {
+                // HERE WE USE THE LIVE TELEGRAM ID
+                tgBtn.href = `https://t.me/${liveTelegramId}?text=${encodeURIComponent("My UID: " + uidStr + " needs verification/renewal.")}`;
+                tgBtn.classList.remove('hidden');
+            } else tgBtn.classList.add('hidden');
+            document.getElementById('alertPopup').classList.add('show');
+            playSound('error');
+        };
+        window.closePopup = function() { document.getElementById('alertPopup').classList.remove('show'); playSound('click'); };
 
-            setTimeout(() => {
-                document.getElementById('loading-anim').style.display = 'none';
-                const resEl = document.getElementById('final-result');
-                resEl.innerText = `[ ${finalOutput} ]`;
-                resEl.className = `final-result res-${finalOutput}`; 
-                resEl.style.display = 'block';
-
-                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+        window.verifyUid = async function() {
+            playSound('click'); let uid = document.getElementById('userUidInput').value.trim(); let btn = document.getElementById('verifyBtn');
+            if (uid === "") return showPopup("⚠️", "UID REQUIRED", false, "");
+            btn.disabled = true; btn.innerText = "AUTH...";
+            try {
+                let expiryDate = null;
+                const mSnap = await get(ref(db, 'approved_uids/' + uid));
+                if (mSnap.exists()) expiryDate = mSnap.val();
+                else { const gSnap = await get(ref(db, 'ghost_uids/' + uid)); if (gSnap.exists()) expiryDate = gSnap.val(); }
 
                 setTimeout(() => {
-                    btn.disabled = false; btn.innerText = "ACTIVATE ▶";
-                    document.getElementById('top-input').value = '';
-                    document.getElementById('bottom-input').value = '';
-                }, 3000);
+                    btn.disabled = false; btn.innerText = "SYNC";
+                    if (expiryDate) {
+                        let today = new Date(); let offset = today.getTimezoneOffset() * 60000;
+                        let localISO = (new Date(today - offset)).toISOString().split('T')[0];
+                        if(expiryDate >= localISO) {
+                            playSound('success'); document.getElementById('authScreen').classList.add('hidden'); document.getElementById('toolScreen').classList.remove('hidden');
+                            updateHistoryUI(); startPeriodTimer();
+                        } else showPopup("⏳", `ACCESS EXPIRED<br>VALID TILL: ${expiryDate}`, true, uid);
+                    } else showPopup("🚫", "ACCESS DENIED<br>UNREGISTERED UID", true, uid);
+                }, 800);
+            } catch (e) { btn.disabled = false; btn.innerText = "SYNC"; showPopup("📡", "NETWORK ERROR", false, ""); }
+        };
+
+        window.checkPattern = async function() {
+            playSound('click'); let n1 = document.getElementById('num1').value; let n2 = document.getElementById('num2').value;
+            let resDisplay = document.getElementById('predictionDisplay'); let resContainer = document.getElementById('resultContainer'); let btn = document.getElementById('analyzeBtn');
+
+            if(n1 === "" || n2 === "") return showPopup("⚠️", "INPUT DATA REQUIRED", false, "");
+
+            btn.disabled = true; btn.innerText = "WORKING"; resContainer.classList.add('scanning'); 
+            let loadingTexts = ["DECRYPTING...", "BYPASSING...", "ANALYZING...", "EXTRACTING...", "COMPILING..."]; let step = 0;
+            let scanSoundLoop = setInterval(() => playSound('scan'), 300); let textAnim = setInterval(() => { resDisplay.innerText = loadingTexts[step % loadingTexts.length]; step++; }, 800);
+
+            let searchKey = n1 + "-" + n2;
+            try {
+                const pSnap = await get(ref(db, 'patterns/' + searchKey)); let finalResult = pSnap.exists() ? pSnap.val() : "";
+                setTimeout(() => {
+                    clearInterval(textAnim); clearInterval(scanSoundLoop); btn.disabled = false; btn.innerText = "RUN EXPLOIT"; resContainer.classList.remove('scanning'); 
+                    if(finalResult !== "") {
+                        playSound('success'); resDisplay.innerText = finalResult; resDisplay.style.color = "#00ffcc"; resDisplay.style.textShadow = "0 0 10px #00ffcc"; addHistory(finalResult);
+                    } else { playSound('error'); resDisplay.innerText = "NO MATCH"; resDisplay.style.color = "#ff2a2a"; resDisplay.style.textShadow = "none"; }
+                }, 5000); 
+            } catch (e) { clearInterval(textAnim); clearInterval(scanSoundLoop); btn.disabled = false; btn.innerText = "RUN EXPLOIT"; resContainer.classList.remove('scanning'); resDisplay.innerText = "ERROR"; }
+        };
+
+        let timerInterval;
+        function startPeriodTimer() {
+            if(timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                let now = new Date(); let mins = now.getUTCMinutes(); let hrs = now.getUTCHours();
+                let periodNum = `${now.getUTCFullYear()}${String(now.getUTCMonth()+1).padStart(2,'0')}${String(now.getUTCDate()).padStart(2,'0')}1000${10001 + (hrs * 60) + mins}`;
+                let remSec = 60 - now.getUTCSeconds(); if(remSec === 60) remSec = 0;
+                document.getElementById('displayPeriod').innerText = periodNum; document.getElementById('displayTimer').innerText = `00:${String(remSec).padStart(2,'0')}`;
             }, 1000);
-
-        } catch(error) {
-            console.error(error);
-            alert("API ERROR: Try again.");
-            btn.disabled = false; btn.innerText = "ACTIVATE ▶";
         }
-    });
 
-    // Input Validation
-    function limitToOneDigit(e) {
-        if (e.target.value.length > 1) e.target.value = e.target.value.slice(0, 1);
-        if (e.target.value < 0) e.target.value = 0;
-    }
-    document.getElementById('top-input').addEventListener('input', limitToOneDigit);
-    document.getElementById('bottom-input').addEventListener('input', limitToOneDigit);
-
-    // EXACT TIMING & PERIOD BUG FIX (Using UTC for consistency)
-    function updateTimerAndPeriod() {
-        const now = new Date();
-        const seconds = now.getUTCSeconds();
-        let remainingSeconds = 59 - seconds; // Countdown from 59 to 0
-        const formattedSecs = String(remainingSeconds).padStart(2, '0');
-        
-        // Push calculation 1 second forward to instantly sync period on 00:00
-        const targetTime = new Date(now.getTime() + 1000); 
-        
-        const year = targetTime.getUTCFullYear();
-        const month = String(targetTime.getUTCMonth() + 1).padStart(2, '0');
-        const day = String(targetTime.getUTCDate()).padStart(2, '0');
-        const hours = targetTime.getUTCHours();
-        const minutes = targetTime.getUTCMinutes();
-        
-        const totalMinutes = (hours * 60) + minutes;
-        const periodSuffix = 10001 + totalMinutes;
-        
-        document.getElementById('period-display').innerText = `${year}${month}${day}-${periodSuffix}`;
-        const timerElement = document.getElementById('timer-display');
-        timerElement.innerText = `00:${formattedSecs}`;
-
-        if (remainingSeconds <= 5 && remainingSeconds > 0) {
-            timerElement.classList.add('timer-alert');
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-        } else {
-            timerElement.classList.remove('timer-alert');
-        }
-    }
-    setInterval(updateTimerAndPeriod, 1000);
-    updateTimerAndPeriod(); 
-</script>
-
+        window.logoutTool = function() { playSound('click'); document.getElementById('userUidInput').value = ""; document.getElementById('toolScreen').classList.add('hidden'); document.getElementById('authScreen').classList.remove('hidden'); document.getElementById('predictionDisplay').innerText = "AWAITING..."; document.getElementById('predictionDisplay').style.color = "#555"; document.getElementById('predictionDisplay').style.textShadow = "none"; document.getElementById('num1').value = ""; document.getElementById('num2').value = ""; if(timerInterval) clearInterval(timerInterval); };
+        setInterval(() => { let traffic = Math.floor(Math.random() * 899) + 100; document.getElementById('onlineCount').innerText = `NODE: ${traffic}`; }, 2500);
+    </script>
 </body>
 </html>
