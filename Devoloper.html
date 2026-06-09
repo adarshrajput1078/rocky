@@ -1,121 +1,155 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOD MODE - DEVELOPER PANEL</title>
+    <title>GHOST ROOT COMMAND</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
-        body { background: #050011; color: #FFF; padding: 20px; display: flex; justify-content: center; }
-        .dev-box { background: #0a001a; border: 2px solid #a200ff; padding: 30px; border-radius: 15px; width: 100%; max-width: 600px; box-shadow: 0 0 30px rgba(162,0,255,0.3); }
-        h1 { font-family: 'Orbitron', sans-serif; color: #d400ff; text-align: center; margin-bottom: 25px; text-shadow: 0 0 10px #d400ff; }
-        .section { background: #110022; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #d400ff; }
-        label { font-size: 13px; color: #aaa; margin-bottom: 8px; display: block; font-weight: bold; text-transform: uppercase;}
-        input, select { width: 100%; padding: 12px; margin-bottom: 15px; background: #000; border: 1px solid #d400ff; color: #FFF; border-radius: 6px; font-weight: bold; outline: none; }
-        button { background: linear-gradient(90deg, #8a2be2, #d400ff); color: #fff; border: none; width: 100%; padding: 15px; font-size: 16px; font-weight: 900; border-radius: 8px; cursor: pointer; font-family: 'Orbitron', sans-serif; margin-bottom: 10px;}
-        .row { display: flex; gap: 10px; } .col { flex: 1; }
-        .btn-red { background: #e74c3c; color: #fff; }
-        .btn-green { background: #2ecc71; color: #000; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@400;600;800&display=swap');
+        body { margin: 0; padding: 15px; font-family: 'Poppins', sans-serif; background: #03080c; color: white; display: flex; flex-direction: column; align-items: center; }
+        .container { background: linear-gradient(135deg, rgba(10,15,20,0.95), rgba(2,5,8,0.95)); padding: 20px; border-radius: 8px; width: 100%; max-width: 480px; border: 1px solid rgba(0, 170, 255, 0.2); margin-bottom: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
+        h2 { color: #fff; text-align: center; font-weight: 900; margin-top: 0; border-bottom: 1px solid #1a2b3c; padding-bottom: 10px; font-family: 'Orbitron', sans-serif; letter-spacing: 2px;}
+        h2 span { color: #00aaff; text-shadow: 0 0 10px #00aaff; }
+        h3 { color: #fff; font-size: 13px; margin-top: 0; border-left: 3px solid #00aaff; padding-left: 8px; font-family: 'Orbitron', sans-serif;}
+        label { font-size: 10px; font-weight: bold; color: #6688aa; text-transform: uppercase; margin-bottom: 4px; display: block; font-family: 'Orbitron', sans-serif;}
+        input, select { width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #1a2b3c; background: rgba(0,0,0,0.8); color: #00aaff; font-family: 'Orbitron', sans-serif; box-sizing: border-box; text-align:center;}
+        input:focus, select:focus { border-color: #00aaff; outline: none; box-shadow: 0 0 10px rgba(0, 170, 255, 0.3); }
+        button { width: 100%; padding: 10px; color: #000; border: none; border-radius: 4px; font-weight: 900; cursor: pointer; background: #00aaff; text-transform: uppercase; font-family: 'Orbitron', sans-serif; margin-bottom: 5px;}
+        button:active { transform: scale(0.96); }
+        .btn-red { background: #ff2a2a; color: white;}
+        .btn-dark { background: #0a0f14; color: #00aaff; border: 1px solid #00aaff;}
+        .btn-small { padding: 4px 8px; font-size: 9px; width: auto; margin:0;}
+        .stat-box { background: #0a0f14; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #1a2b3c; margin-bottom: 20px; border-bottom: 2px solid #00aaff;}
+        .stat-num { font-size: 24px; font-weight: 800; color: #00aaff; font-family: 'Orbitron', sans-serif;}
+        .pattern-wrap { max-height: 250px; overflow-y: auto; background: #050a0f; border-radius: 4px; border: 1px solid #1a2b3c; margin-top: 10px;}
+        .pattern-wrap table { width: 100%; border-collapse: collapse; font-size: 10px; font-family: 'Orbitron', sans-serif;}
+        .pattern-wrap th, .pattern-wrap td { border-bottom: 1px solid #1a2b3c; padding: 8px 4px; text-align: center; vertical-align: middle;}
+        .pattern-wrap th { background: #0a0f14; color: #6688aa; position: sticky; top: 0; z-index: 2; border-bottom: 2px solid #1a2b3c;}
+        .pattern-wrap td select { margin: 0; padding: 4px; font-size: 9px; width: 70px;}
+        .pattern-wrap td input { margin: 0; padding: 4px; font-size: 10px; width: 40px;}
+        .status-live { color: #00aaff; font-weight: bold; text-shadow: 0 0 5px #00aaff;}
+        .status-unset { color: #444; }
+        #toast { position: fixed; bottom: -50px; left: 50%; transform: translateX(-50%); background: #0a0f14; color: white; padding: 10px 20px; border-radius: 4px; font-size: 11px; font-weight: bold; border-left: 2px solid #00aaff; transition: 0.4s; z-index: 1000; font-family: 'Orbitron', sans-serif;}
+        #toast.show { bottom: 30px; }
+        #dashboard { display: none; width: 100%; flex-direction: column; align-items: center; }
     </style>
 </head>
 <body>
-    <div class="dev-box">
-        <h1>[ DEVELOPER CORE ]</h1>
+    <div id="toast">SYS MSG</div>
+    <div class="container" id="loginScreen" style="margin-top: 50px;">
+        <h2>GHOST <span>ROOT</span></h2>
+        <input type="password" id="adminPass" placeholder="Enter Ghost Key">
+        <button onclick="loginAdmin()">INITIALIZE SHADOWS</button>
+    </div>
 
-        <div class="section" style="border-color:#ffaa00;">
-            <label style="color:#ffaa00;">1. LIVE SCREEN HISTORY (WIN/LOSS)</label>
-            <div class="row">
-                <div class="col"><input type="number" id="histPeriod" placeholder="Period (e.g. 145)"></div>
-                <div class="col">
-                    <select id="histStatus">
-                        <option value="WIN">✅ WIN (SURE SHOT)</option>
-                        <option value="LOSE">❌ LOSE (TRANSPARENT)</option>
-                    </select>
-                </div>
-            </div>
-            <button onclick="pushHistory()">➕ INJECT LIVE HISTORY</button>
-            <button class="btn-red" style="font-size:12px; padding:10px;" onclick="clearHistory()">🧹 WIPE HISTORY</button>
+    <div id="dashboard">
+        <div class="stat-box" style="width: 100%; max-width: 480px; box-sizing: border-box;">
+            <div class="stat-num" id="statUsers">0</div><div style="font-size:9px; color:#6688aa; font-family:'Orbitron', sans-serif;">TOTAL NODES ONLINE</div>
         </div>
 
-        <div class="section" style="border-color:#f39c12;">
-            <label style="color:#f39c12;">2. SYSTEM MAINTENANCE MODE</label>
-            <input type="number" id="maintHours" placeholder="How many hours? (e.g. 2)">
-            <div class="row">
-                <div class="col"><button class="btn-red" onclick="setSystemStatus('maintenance')">🛑 START MAINTENANCE</button></div>
-                <div class="col"><button class="btn-green" onclick="setSystemStatus('active')">✅ RESTORE SYSTEM</button></div>
+        <div class="container">
+            <h3>🔗 SYSTEM ROUTING & SUPPORT</h3>
+            <label>Live Game Routing URL</label>
+            <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+                <input type="text" id="linkA" placeholder="Sikkim URL" style="margin:0;">
+                <button class="btn-dark" style="width: auto; padding: 0 15px;" onclick="setActiveLink()">DEPLOY</button>
             </div>
+            
+            <label>Master Telegram ID</label>
+            <div style="display: flex; gap: 8px;">
+                <input type="text" id="tgInput" placeholder="TG Username" style="margin:0;">
+                <button class="btn-dark" style="width: auto; padding: 0 15px;" onclick="setTelegram()">SET TG</button>
+            </div>
+            <p style="font-size: 9px; color: #6688aa; text-align: center; margin:5px 0 0 0; font-family:'Orbitron', sans-serif;">LIVE TG ID: <span id="currentTg" style="color:#00aaff; font-weight:bold;">Loading...</span></p>
         </div>
 
-        <div class="section" style="border-color:#2ecc71;">
-            <label style="color:#2ecc71;">3. PERMANENT APK SHIFT</label>
-            <input type="text" id="apkLinkInput" placeholder="Paste APK Download Link Here">
-            <div class="row">
-                <div class="col"><button class="btn-red" onclick="setSystemStatus('apk')">🚨 SHIFT TO APK</button></div>
-                <div class="col"><button class="btn-green" onclick="setSystemStatus('active')">✅ CANCEL SHIFT</button></div>
-            </div>
-        </div>
-
-        <div class="section" style="border-color:#3498db;">
-            <label style="color:#3498db;">4. OVERRIDE ADMIN PIN</label>
-            <div class="row">
-                <div class="col" style="flex:2;"><input type="password" id="adminPinInput" placeholder="New 4-digit PIN for Admin" maxlength="4"></div>
-                <div class="col" style="flex:1;"><button style="background:#3498db;" onclick="updateAdminPin()">UPDATE</button></div>
+        <div class="container">
+            <h3>📝 COMBINATIONS & MODES</h3>
+            
+            <!-- NAYA REVERSE MODE BUTTON -->
+            <button id="revToggleBtn" class="btn-dark" onclick="toggleReverseMode()" style="margin-bottom: 15px;">🔄 MIRROR MODE: OFF</button>
+            
+            <div class="pattern-wrap">
+                <table>
+                    <thead><tr><th>COMB</th><th>SIZE</th><th>NUM</th><th>LIVE</th><th>ACT</th></tr></thead>
+                    <tbody id="patternTableBody"></tbody>
+                </table>
             </div>
         </div>
 
+        <button class="btn-red" style="max-width: 480px; margin-bottom: 30px;" onclick="location.reload()">ERASE LOGS & LOGOUT</button>
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getDatabase, ref, set, push, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        const db = getDatabase(initializeApp({ apiKey: "AIzaSyB2w6_FoCuFfrSJWZGk2x3zLn6xaVwUT5I", databaseURL: "https://rocky-tool-default-rtdb.asia-southeast1.firebasedatabase.app" }));
 
-        const firebaseConfig = { apiKey: "AIzaSyBTFFk_wM5Ji8Wa3kiVdn7_3kasnOZ_DPI", authDomain: "rockey-c164a.firebaseapp.com", databaseURL: "https://rockey-c164a-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "rockey-c164a" };
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSnd(type) {
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.connect(gain); gain.connect(audioCtx.destination);
+            let now = audioCtx.currentTime;
+            if(type==='click'){ osc.type='square'; osc.frequency.setValueAtTime(800, now); gain.gain.setValueAtTime(0.1,now); gain.gain.exponentialRampToValueAtTime(0.01,now+0.1); osc.start(now); osc.stop(now+0.1); }
+            else if(type==='success'){ osc.type='sine'; osc.frequency.setValueAtTime(600, now); osc.frequency.exponentialRampToValueAtTime(1200, now+0.3); gain.gain.setValueAtTime(0.1,now); gain.gain.linearRampToValueAtTime(0,now+0.3); osc.start(now); osc.stop(now+0.3); }
+        }
 
-        // 1. History Logic
-        window.pushHistory = async function() {
-            let period = document.getElementById("histPeriod").value;
-            let status = document.getElementById("histStatus").value;
-            if(period) {
-                await push(ref(db, 'RockyVIPSystem/liveHistory'), { period: period, status: status, time: Date.now() });
-                alert("✅ Target History Pushed to User Screens!");
-                document.getElementById("histPeriod").value = "";
+        function showToast(msg, isErr=false) { let t = document.getElementById("toast"); t.innerText = "> " + msg; t.style.borderLeftColor = isErr ? "#ff2a2a" : "#00aaff"; t.className = "show"; setTimeout(() => t.className = "", 3000); playSnd(isErr ? 'click' : 'success'); }
+
+        function generatePatternTable() {
+            let tbody = document.getElementById('patternTableBody'); tbody.innerHTML = "";
+            for(let i=0; i<=9; i++) {
+                for(let j=0; j<=9; j++) {
+                    let key = `${i}-${j}`; let tr = document.createElement('tr');
+                    tr.innerHTML = `<td style="color:#fff; font-weight:bold;">${key}</td><td><select id="size-${key}"><option value="BIG">BIG</option><option value="SMALL">SMALL</option></select></td><td><input type="number" id="num-${key}" min="0" max="9" placeholder="#"></td><td id="status-${key}" class="status-unset">UNSET</td><td><button class="btn-small btn-dark" onclick="publishPattern('${key}')">PUBLISH</button></td>`;
+                    tbody.appendChild(tr);
+                }
             }
-        };
-        window.clearHistory = async function() {
-            if(confirm("Wipe all history?")) { await remove(ref(db, 'RockyVIPSystem/liveHistory')); alert("History Wiped!"); }
+        }
+
+        window.loginAdmin = () => {
+            if(document.getElementById('adminPass').value === "GHOST123") {
+                document.getElementById('loginScreen').style.display = 'none'; document.getElementById('dashboard').style.display = 'flex';
+                generatePatternTable(); loadData(); showToast("ROOT ACCESS GRANTED");
+            } else showToast("AUTH FAILED", true);
         };
 
-        // 2 & 3. System Status Control (Maintenance & APK)
-        window.setSystemStatus = async function(mode) {
-            let payload = { mode: mode };
+        let isRevMode = false;
+
+        function loadData() {
+            onValue(ref(db, 'ghost_uids'), (snap) => { let gCount = 0; if(snap.exists()) snap.forEach(c => gCount++); document.getElementById('statUsers').innerText = gCount; });
+            onValue(ref(db, 'settings/telegram_id'), (snap) => { if(snap.exists()) document.getElementById('currentTg').innerText = "@" + snap.val(); });
             
-            if(mode === 'maintenance') {
-                let hrs = document.getElementById("maintHours").value;
-                if(!hrs) { alert("Enter hours for maintenance!"); return; }
-                payload.endTime = Date.now() + (hrs * 60 * 60 * 1000); // Current time + hours
-            } 
-            else if (mode === 'apk') {
-                let link = document.getElementById("apkLinkInput").value;
-                if(!link) { alert("Enter APK link first!"); return; }
-                payload.apkLink = link;
-            }
+            // Listen to Reverse Mode Status
+            onValue(ref(db, 'settings/reverse_mode'), (snap) => { 
+                isRevMode = snap.val() || false;
+                let rBtn = document.getElementById('revToggleBtn');
+                if(isRevMode) { rBtn.innerText = "🔄 MIRROR MODE: ON (ACTIVE)"; rBtn.className = "btn-red"; } 
+                else { rBtn.innerText = "🔄 MIRROR MODE: OFF"; rBtn.className = "btn-dark"; }
+            });
 
-            await set(ref(db, 'RockyVIPSystem/devControls'), payload);
-            alert("🚀 System Status Updated to: " + mode.toUpperCase());
+            onValue(ref(db, 'patterns'), (snap) => {
+                for(let i=0; i<=9; i++) { for(let j=0; j<=9; j++) { let st = document.getElementById(`status-${i}-${j}`); if(st){ st.innerText = "UNSET"; st.className = "status-unset"; } } }
+                if(snap.exists()) { snap.forEach(c => { let statCell = document.getElementById(`status-${c.key}`); if(statCell) { statCell.innerText = c.val(); statCell.className = "status-live"; } }); }
+            });
+        }
+
+        // Toggle Mirror Mode
+        window.toggleReverseMode = async () => {
+            playSnd('click');
+            await set(ref(db, 'settings/reverse_mode'), !isRevMode);
+            showToast("MIRROR MODE " + (!isRevMode ? "ACTIVATED" : "DEACTIVATED"));
         };
 
-        // 4. Admin PIN Override
-        window.updateAdminPin = async function() {
-            let pin = document.getElementById("adminPinInput").value;
-            if(pin && pin.length === 4) { 
-                await set(ref(db, 'RockyVIPSystem/master/adminPin'), pin); 
-                alert("✅ Admin PIN Locked to: " + pin); 
-            } else alert("Enter 4 digits!");
+        window.setActiveLink = async () => { playSnd('click'); let link = document.getElementById('linkA').value; if(!link) return showToast("URL REQUIRED", true); await set(ref(db, 'settings/active_link'), link); showToast("UPLINK ROUTED"); document.getElementById('linkA').value="";};
+        window.setTelegram = async () => { playSnd('click'); let tg = document.getElementById('tgInput').value.replace('@', '').trim(); if(!tg) return showToast("ENTER TG USERNAME", true); await set(ref(db, 'settings/telegram_id'), tg); document.getElementById('tgInput').value = ""; showToast("TG CONTACT UPDATED"); };
+
+        window.publishPattern = async (key) => {
+            playSnd('click'); let size = document.getElementById(`size-${key}`).value; let num = document.getElementById(`num-${key}`).value.trim();
+            if(num === "" || num < 0 || num > 9) return showToast("ENTER VALID NUMBER", true);
+            let finalResult = `${size} [${num}]`; await set(ref(db, `patterns/${key}`), finalResult); showToast(`DEPLOYED: ${key}`); document.getElementById(`num-${key}`).value = "";
         };
     </script>
 </body>
 </html>
-
