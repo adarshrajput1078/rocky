@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- [Tumhara Same CSS Aur Layout Yahan Hoga... Usme Koi Change Nahi Hai] -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIP AI EXPLOIT SYSTEM</title>
@@ -64,7 +63,6 @@
         <div class="popup-content">
             <div id="popupIcon" class="popup-icon">⚠️</div>
             <div id="popupMessage" class="popup-msg">SYSTEM ERROR</div>
-            <!-- DYNAMIC TELEGRAM BUTTON -->
             <a id="popupTgBtn" href="#" class="popup-btn tg-btn hidden" target="_blank">CONTACT ADMIN</a><br>
             <button class="popup-btn" onclick="closePopup()" style="margin-top:10px; background:#222; color:#fff; border:1px solid #444;">DISMISS</button>
         </div>
@@ -119,20 +117,14 @@
         const firebaseConfig = { apiKey: "AIzaSyB2w6_FoCuFfrSJWZGk2x3zLn6xaVwUT5I", authDomain: "rocky-tool.firebaseapp.com", databaseURL: "https://rocky-tool-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "rocky-tool" };
         const db = getDatabase(initializeApp(firebaseConfig));
         
-        // DYNAMIC TELEGRAM VARIABLE
         let liveTelegramId = "Admin"; 
+        let isMirrorMode = false; // NAYA MIRROR LOGIC VARIABLE
 
-        // LISTEN TO TELEGRAM ID CHANGES FROM ADMIN PANELS
-        onValue(ref(db, 'settings/telegram_id'), (snapshot) => {
-            if (snapshot.exists() && snapshot.val().trim() !== "") {
-                liveTelegramId = snapshot.val().replace('@', '').trim();
-            }
-        });
-
-        // Live Link Route
-        onValue(ref(db, 'settings/active_link'), (snapshot) => {
-            if (snapshot.exists() && snapshot.val().trim() !== "") document.getElementById('gameIframe').src = snapshot.val().trim();
-        });
+        onValue(ref(db, 'settings/telegram_id'), (snapshot) => { if (snapshot.exists() && snapshot.val().trim() !== "") { liveTelegramId = snapshot.val().replace('@', '').trim(); } });
+        onValue(ref(db, 'settings/active_link'), (snapshot) => { if (snapshot.exists() && snapshot.val().trim() !== "") document.getElementById('gameIframe').src = snapshot.val().trim(); });
+        
+        // LISTEN TO MIRROR MODE
+        onValue(ref(db, 'settings/reverse_mode'), (snapshot) => { isMirrorMode = snapshot.val() || false; });
 
         let audioCtx;
         function playSound(type) {
@@ -164,16 +156,10 @@
         function addHistory(result) { historyArray.push(result); if(historyArray.length > 3) historyArray.shift(); localStorage.setItem('exploit_history', JSON.stringify(historyArray)); updateHistoryUI(); }
 
         window.showPopup = function(icon, message, showTelegram, uidStr) {
-            document.getElementById('popupIcon').innerText = icon;
-            document.getElementById('popupMessage').innerHTML = message;
+            document.getElementById('popupIcon').innerText = icon; document.getElementById('popupMessage').innerHTML = message;
             let tgBtn = document.getElementById('popupTgBtn');
-            if(showTelegram) {
-                // HERE WE USE THE LIVE TELEGRAM ID
-                tgBtn.href = `https://t.me/${liveTelegramId}?text=${encodeURIComponent("My UID: " + uidStr + " needs verification/renewal.")}`;
-                tgBtn.classList.remove('hidden');
-            } else tgBtn.classList.add('hidden');
-            document.getElementById('alertPopup').classList.add('show');
-            playSound('error');
+            if(showTelegram) { tgBtn.href = `https://t.me/${liveTelegramId}?text=${encodeURIComponent("My UID: " + uidStr + " needs verification/renewal.")}`; tgBtn.classList.remove('hidden'); } else tgBtn.classList.add('hidden');
+            document.getElementById('alertPopup').classList.add('show'); playSound('error');
         };
         window.closePopup = function() { document.getElementById('alertPopup').classList.remove('show'); playSound('click'); };
 
@@ -190,8 +176,7 @@
                 setTimeout(() => {
                     btn.disabled = false; btn.innerText = "SYNC";
                     if (expiryDate) {
-                        let today = new Date(); let offset = today.getTimezoneOffset() * 60000;
-                        let localISO = (new Date(today - offset)).toISOString().split('T')[0];
+                        let today = new Date(); let offset = today.getTimezoneOffset() * 60000; let localISO = (new Date(today - offset)).toISOString().split('T')[0];
                         if(expiryDate >= localISO) {
                             playSound('success'); document.getElementById('authScreen').classList.add('hidden'); document.getElementById('toolScreen').classList.remove('hidden');
                             updateHistoryUI(); startPeriodTimer();
@@ -211,7 +196,9 @@
             let loadingTexts = ["DECRYPTING...", "BYPASSING...", "ANALYZING...", "EXTRACTING...", "COMPILING..."]; let step = 0;
             let scanSoundLoop = setInterval(() => playSound('scan'), 300); let textAnim = setInterval(() => { resDisplay.innerText = loadingTexts[step % loadingTexts.length]; step++; }, 800);
 
-            let searchKey = n1 + "-" + n2;
+            // 🔄 NAYA MIRROR LOGIC YAHAN HAI
+            let searchKey = isMirrorMode ? (n2 + "-" + n1) : (n1 + "-" + n2);
+
             try {
                 const pSnap = await get(ref(db, 'patterns/' + searchKey)); let finalResult = pSnap.exists() ? pSnap.val() : "";
                 setTimeout(() => {
