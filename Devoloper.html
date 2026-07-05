@@ -3,192 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GHOST ROOT COMMAND</title>
+    <title>GOD MODE DEV PANEL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Rajdhani:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@400;600;800&display=swap');
-        body { margin: 0; padding: 15px; font-family: 'Poppins', sans-serif; background: #03080c; color: white; display: flex; flex-direction: column; align-items: center; }
-        .container { background: linear-gradient(135deg, rgba(10,15,20,0.95), rgba(2,5,8,0.95)); padding: 20px; border-radius: 8px; width: 100%; max-width: 480px; border: 1px solid rgba(0, 170, 255, 0.2); margin-bottom: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
-        h2 { color: #fff; text-align: center; font-weight: 900; margin-top: 0; border-bottom: 1px solid #1a2b3c; padding-bottom: 10px; font-family: 'Orbitron', sans-serif; letter-spacing: 2px;}
-        h2 span { color: #00aaff; text-shadow: 0 0 10px #00aaff; }
-        h3 { color: #fff; font-size: 13px; margin-top: 0; border-left: 3px solid #00aaff; padding-left: 8px; font-family: 'Orbitron', sans-serif;}
-        label { font-size: 10px; font-weight: bold; color: #6688aa; text-transform: uppercase; margin-bottom: 4px; display: block; font-family: 'Orbitron', sans-serif;}
-        input, select { width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #1a2b3c; background: rgba(0,0,0,0.8); color: #00aaff; font-family: 'Orbitron', sans-serif; box-sizing: border-box; text-align:center;}
-        input:focus, select:focus { border-color: #00aaff; outline: none; box-shadow: 0 0 10px rgba(0, 170, 255, 0.3); }
-        button { width: 100%; padding: 10px; color: #000; border: none; border-radius: 4px; font-weight: 900; cursor: pointer; background: #00aaff; text-transform: uppercase; font-family: 'Orbitron', sans-serif; margin-bottom: 5px;}
-        button:active { transform: scale(0.96); }
-        .btn-red { background: #ff2a2a; color: white;}
-        .btn-dark { background: #0a0f14; color: #00aaff; border: 1px solid #00aaff;}
-        .btn-small { padding: 4px 8px; font-size: 9px; width: auto; margin:0;}
-        .stat-box { background: #0a0f14; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #1a2b3c; margin-bottom: 20px; border-bottom: 2px solid #00aaff;}
-        .stat-num { font-size: 24px; font-weight: 800; color: #00aaff; font-family: 'Orbitron', sans-serif;}
-        .smart-panel { background: rgba(0, 170, 255, 0.05); padding: 15px; border-radius: 6px; border: 1px dashed #00aaff; margin-bottom: 15px; }
-        .smart-row { display: flex; gap: 8px; align-items: flex-end; margin-top: 10px; }
-        .smart-input { font-size: 16px; font-weight: bold; height: 40px; }
-        .pattern-wrap { max-height: 200px; overflow-y: auto; background: #050a0f; border-radius: 4px; border: 1px solid #1a2b3c;}
-        .pattern-wrap table { width: 100%; border-collapse: collapse; font-size: 10px; font-family: 'Orbitron', sans-serif;}
-        .pattern-wrap th, .pattern-wrap td { border-bottom: 1px solid #1a2b3c; padding: 8px 4px; text-align: center; vertical-align: middle;}
-        .pattern-wrap th { background: #0a0f14; color: #6688aa; position: sticky; top: 0; z-index: 2; border-bottom: 2px solid #1a2b3c;}
-        .status-live { color: #00aaff; font-weight: bold; text-shadow: 0 0 5px #00aaff;}
-        .status-unset { color: #444; }
-        .tag-main { background: rgba(255, 42, 42, 0.2); border: 1px solid #ff2a2a; padding: 2px 5px; border-radius: 2px; font-size: 8px; color: #ff2a2a;}
-        .tag-ghost { background: rgba(0, 170, 255, 0.2); border: 1px solid #00aaff; padding: 2px 5px; border-radius: 2px; font-size: 8px; color: #00aaff;}
-        #toast { position: fixed; bottom: -50px; left: 50%; transform: translateX(-50%); background: #0a0f14; color: white; padding: 10px 20px; border-radius: 4px; font-size: 11px; font-weight: bold; border-left: 2px solid #00aaff; transition: 0.4s; z-index: 1000; font-family: 'Orbitron', sans-serif;}
-        #toast.show { bottom: 30px; }
-        #dashboard { display: none; width: 100%; flex-direction: column; align-items: center; }
-        .link-card { background: rgba(0,0,0,0.5); padding: 12px; border-radius: 4px; border: 1px dashed #1a2b3c; margin-bottom: 10px;}
+        :root { --bg-dark: #04040a; --bg-panel: #0a0a14; --primary: #8b5cf6; --red: #ef4444; --text-main: #f8fafc; --text-muted: #94a3b8; --border: #1e1e2d; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text-main); display: flex; justify-content: center; align-items: center; height: 100vh; padding: 20px;}
+        
+        .card { background: var(--bg-panel); border: 1px solid var(--primary); padding: 40px; border-radius: 16px; width: 100%; max-width: 450px; box-shadow: 0 10px 40px rgba(139, 92, 246, 0.2); }
+        h2 { font-family: 'Rajdhani'; font-size: 32px; text-align: center; margin-bottom: 30px; color: var(--primary);}
+        
+        input { width: 100%; padding: 15px; background: #000; border: 1px solid var(--border); color: #fff; border-radius: 8px; outline: none; margin-bottom: 20px; font-family: 'Inter';}
+        button { width: 100%; padding: 15px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; margin-bottom: 20px; font-family: 'Inter';}
+        
+        .switch-container { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 8px; border: 1px solid var(--red); }
+        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--border); border-radius: 34px; transition: .4s;}
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; border-radius: 50%; transition: .4s;}
+        input:checked + .slider { background-color: var(--red); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
-    <div id="toast">SYS MSG</div>
-    <div class="container" id="loginScreen" style="margin-top: 50px;">
-        <h2>GHOST <span>ROOT</span></h2>
-        <input type="password" id="adminPass" placeholder="Enter Ghost Key">
-        <button onclick="loginAdmin()">INITIALIZE SHADOWS</button>
+
+    <div class="card" id="loginBox">
+        <h2>GOD MODE LOGIN</h2>
+        <input type="password" id="pass" placeholder="ENTER PIN (ROCKYDEV)" style="text-align:center; letter-spacing:3px;">
+        <button onclick="login()">AUTHORIZE</button>
     </div>
 
-    <div id="dashboard">
-        <div class="stat-box" style="width: 100%; max-width: 480px; box-sizing: border-box;">
-            <div class="stat-num" id="statUsers">0</div><div style="font-size:9px; color:#6688aa; font-family:'Orbitron', sans-serif;">TOTAL NODES ONLINE</div>
+    <div class="card hidden" id="devBox">
+        <h2>SYSTEM CORE</h2>
+        
+        <div style="margin-bottom: 30px;">
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">UPDATE GAME URL</p>
+            <input type="text" id="gameLink" placeholder="https://13l.com">
+            <button onclick="saveLink()" style="background: var(--text-main); color: #000;">UPDATE LINK</button>
         </div>
 
-        <div class="container">
-            <h3>⚡ SMART COMMAND CENTER</h3>
-            <button id="revToggleBtn" class="btn-dark" onclick="toggleReverseMode()" style="margin-bottom: 10px;">🔄 MIRROR MODE: OFF</button>
-            <div class="smart-panel">
-                <div style="display:flex; justify-content: space-between; align-items:center;">
-                    <span style="font-family: 'Orbitron', sans-serif; font-size:11px; font-weight:bold; color:#fff;">INTELLIGENCE MODE</span>
-                    <button id="autoToggleBtn" class="btn-small" style="background:#00aaff; color:#000;" onclick="toggleAutoMode()">AUTO SIZE: ON</button>
-                </div>
-                <div class="smart-row">
-                    <div style="flex: 1.2;"><label>Combo</label><input type="number" id="smPat" class="smart-input" placeholder="##" oninput="if(this.value.length>2)this.value=this.value.slice(0,2);"></div>
-                    <div style="flex: 1.5; display:none;" id="manualSizeWrap"><label>Size</label><select id="smSize" class="smart-input" style="color:#fff;"><option value="BIG">BIG</option><option value="SMALL">SMALL</option></select></div>
-                    <div style="flex: 1;"><label>Result</label><input type="number" id="smNum" class="smart-input" placeholder="#" oninput="if(this.value.length>1)this.value=this.value.slice(0,1);" onkeypress="if(event.key==='Enter') smartPublish()"></div>
-                    <div style="flex: 1;"><button class="smart-input" style="margin-bottom:0;" onclick="smartPublish()">GO</button></div>
-                </div>
-                <div style="font-size:8px; color:#666; text-align:center; margin-top:5px;">Pro Tip: Type Number & Press ENTER</div>
-            </div>
-            <h3 style="margin-top:20px; font-size:11px; color:#888;">LIVE MONITOR (100 COMBINATIONS)</h3>
-            <div class="pattern-wrap">
-                <table><thead><tr><th>COMB</th><th>STATUS</th></tr></thead><tbody id="patternTableBody"></tbody></table>
-            </div>
+        <div class="switch-container">
+            <span style="color: var(--red); font-weight: bold; font-size: 14px;">GLOBAL KILL SWITCH<br><span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Activates Maintenance Screen</span></span>
+            <label class="switch"><input type="checkbox" id="maintToggle" onchange="toggleMaint()"><span class="slider"></span></label>
         </div>
-
-        <div class="container">
-            <h3>👥 NODE DATABASE (USERS)</h3>
-            <div style="display: flex; gap: 8px; margin-bottom: 15px;">
-                <input type="number" id="newUid" placeholder="Ghost UID" style="margin:0;">
-                <input type="date" id="newDate" style="margin:0;">
-                <button class="btn-small" onclick="addGhostUser()" style="width:auto; padding: 0 15px;">INJECT</button>
-            </div>
-            
-            <div class="pattern-wrap" style="max-height: 150px; margin-bottom: 15px;">
-                <table>
-                    <thead><tr><th>TAG</th><th>UID</th><th>EXPIRY</th><th style="text-align: right;">CMD</th></tr></thead>
-                    <tbody id="ghostListBody"></tbody>
-                    <tbody id="mainListBody"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="container">
-            <h3>🔗 SYSTEM ROUTING & SUPPORT</h3>
-            <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-                <input type="text" id="linkA" placeholder="Sikkim URL" style="margin:0;">
-                <button class="btn-dark" style="width: auto; padding: 0 15px;" onclick="setActiveLink()">DEPLOY</button>
-            </div>
-            <div style="display: flex; gap: 8px;">
-                <input type="text" id="tgInput" placeholder="TG Username" style="margin:0;">
-                <button class="btn-dark" style="width: auto; padding: 0 15px;" onclick="setTelegram()">SET TG</button>
-            </div>
-            <p style="font-size: 9px; color: #6688aa; text-align: center; margin:5px 0 0 0; font-family:'Orbitron', sans-serif;">LIVE TG ID: <span id="currentTg" style="color:#00aaff; font-weight:bold;">Loading...</span></p>
-        </div>
-
-        <button class="btn-red" style="max-width: 480px; margin-bottom: 30px;" onclick="location.reload()">ERASE LOGS & LOGOUT</button>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-        const db = getDatabase(initializeApp({ apiKey: "AIzaSyB2w6_FoCuFfrSJWZGk2x3zLn6xaVwUT5I", databaseURL: "https://rocky-tool-default-rtdb.asia-southeast1.firebasedatabase.app" }));
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playSnd(type) {
-            if(audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.connect(gain); gain.connect(audioCtx.destination); let now = audioCtx.currentTime;
-            if(type==='click'){ osc.type='square'; osc.frequency.setValueAtTime(800, now); gain.gain.setValueAtTime(0.1,now); gain.gain.exponentialRampToValueAtTime(0.01,now+0.1); osc.start(now); osc.stop(now+0.1); }
-            else if(type==='success'){ osc.type='sine'; osc.frequency.setValueAtTime(600, now); osc.frequency.exponentialRampToValueAtTime(1200, now+0.3); gain.gain.setValueAtTime(0.1,now); gain.gain.linearRampToValueAtTime(0,now+0.3); osc.start(now); osc.stop(now+0.3); }
+        // 🔥 13L NEW FIREBASE CONFIG 🔥
+        const firebaseConfig = {
+            apiKey: "AIzaSyCRguf69mkxGGceD0wBhOwAtRK8UljJocw",
+            authDomain: "l-new-26288.firebaseapp.com",
+            databaseURL: "https://l-new-26288-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "l-new-26288"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        window.login = () => { if(document.getElementById('pass').value === "ROCKYDEV") { document.getElementById('loginBox').classList.add('hidden'); document.getElementById('devBox').classList.remove('hidden'); init(); } else alert("Wrong PIN"); };
+
+        function init() {
+            onValue(ref(db, 'settings/link_13l'), s => { if(s.exists()) document.getElementById('gameLink').value = s.val(); });
+            onValue(ref(db, 'settings/maintenance'), s => { document.getElementById('maintToggle').checked = s.exists() ? s.val() : false; });
         }
 
-        function showToast(msg, isErr=false) { let t = document.getElementById("toast"); t.innerText = "> " + msg; t.style.borderLeftColor = isErr ? "#ff2a2a" : "#00aaff"; t.className = "show"; setTimeout(() => t.className = "", 3000); playSnd(isErr ? 'click' : 'success'); }
-
-        let isAutoMode = true; let isRevMode = false; let gCountVal = 0; let mCountVal = 0;
-
-        window.toggleAutoMode = () => {
-            playSnd('click'); isAutoMode = !isAutoMode; let btn = document.getElementById('autoToggleBtn'); let sizeWrap = document.getElementById('manualSizeWrap');
-            if(isAutoMode) { btn.innerText = "AUTO SIZE: ON"; btn.style.background = "#00aaff"; btn.style.color = "#000"; sizeWrap.style.display = "none"; } 
-            else { btn.innerText = "AUTO SIZE: OFF"; btn.style.background = "#ff2a2a"; btn.style.color = "#fff"; sizeWrap.style.display = "block"; }
-        };
-
-        window.toggleReverseMode = async () => { playSnd('click'); await set(ref(db, 'settings/reverse_mode'), !isRevMode); showToast("MIRROR MODE " + (!isRevMode ? "ACTIVATED" : "DEACTIVATED")); };
-
-        window.smartPublish = async () => {
-            playSnd('click'); let pat = document.getElementById('smPat').value.trim(); let num = document.getElementById('smNum').value.trim();
-            if(pat.length !== 2) return showToast("ENTER 2-DIGIT COMBO", true);
-            if(num === "" || num < 0 || num > 9) return showToast("ENTER VALID RESULT", true);
-            let n1 = pat[0]; let n2 = pat[1]; let key = `${n1}-${n2}`; let size = "";
-            if(isAutoMode) { size = (num >= 5) ? "BIG" : "SMALL"; } else { size = document.getElementById('smSize').value; }
-            let finalResult = `${size} [${num}]`; await set(ref(db, `patterns/${key}`), finalResult); showToast(`DEPLOYED: ${key} ➔ ${finalResult}`);
-            document.getElementById('smPat').value = ""; document.getElementById('smNum').value = ""; document.getElementById('smPat').focus();
-        };
-
-        function generateMonitorTable() {
-            let tbody = document.getElementById('patternTableBody'); tbody.innerHTML = "";
-            for(let i=0; i<=9; i++) { for(let j=0; j<=9; j++) { let key = `${i}-${j}`; let tr = document.createElement('tr'); tr.innerHTML = `<td style="color:#fff; font-weight:bold; width:30%;">${key}</td><td id="status-${key}" class="status-unset">UNSET</td>`; tbody.appendChild(tr); } }
-        }
-
-        window.loginAdmin = () => {
-            if(document.getElementById('adminPass').value === "GHOST123") { document.getElementById('loginScreen').style.display = 'none'; document.getElementById('dashboard').style.display = 'flex'; document.getElementById('newDate').valueAsDate = new Date(); generateMonitorTable(); loadData(); showToast("ROOT ACCESS GRANTED"); } else showToast("AUTH FAILED", true);
-        };
-
-        function updateTotalCount() { document.getElementById('statUsers').innerText = mCountVal + gCountVal; }
-
-        function loadData() {
-            // LOAD GHOST USERS
-            onValue(ref(db, 'ghost_uids'), (snap) => { 
-                let tbody = document.getElementById('ghostListBody'); tbody.innerHTML = ""; gCountVal = 0; 
-                if(snap.exists()) {
-                    snap.forEach(c => { 
-                        gCountVal++; 
-                        tbody.innerHTML += `<tr><td><span class="tag-ghost">GHOST</span></td><td style="color:#00aaff; font-weight:bold;">${c.key}</td><td>${c.val()}</td><td style="text-align:right;"><button class="btn-red btn-small" onclick="banGhost('${c.key}')">DEL</button></td></tr>`; 
-                    });
-                }
-                updateTotalCount();
-            });
-
-            // LOAD MAIN USERS
-            onValue(ref(db, 'approved_uids'), (snap) => { 
-                let tbody = document.getElementById('mainListBody'); tbody.innerHTML = ""; mCountVal = 0; 
-                if(snap.exists()) {
-                    snap.forEach(c => { 
-                        mCountVal++; 
-                        tbody.innerHTML += `<tr><td><span class="tag-main">MAIN</span></td><td style="color:#ff2a2a;">${c.key}</td><td>${c.val()}</td><td style="text-align:right; color:#444; font-size:8px;">LOCKED</td></tr>`; 
-                    });
-                }
-                updateTotalCount();
-            });
-
-            onValue(ref(db, 'settings/telegram_id'), (snap) => { if(snap.exists()) document.getElementById('currentTg').innerText = "@" + snap.val(); });
-            onValue(ref(db, 'settings/reverse_mode'), (snap) => { isRevMode = snap.val() || false; let rBtn = document.getElementById('revToggleBtn'); if(isRevMode) { rBtn.innerText = "🔄 MIRROR MODE: ON (ACTIVE)"; rBtn.className = "btn-red"; } else { rBtn.innerText = "🔄 MIRROR MODE: OFF"; rBtn.className = "btn-dark"; } });
-            onValue(ref(db, 'patterns'), (snap) => {
-                for(let i=0; i<=9; i++) { for(let j=0; j<=9; j++) { let st = document.getElementById(`status-${i}-${j}`); if(st){ st.innerText = "UNSET"; st.className = "status-unset"; } } }
-                if(snap.exists()) { snap.forEach(c => { let statCell = document.getElementById(`status-${c.key}`); if(statCell) { statCell.innerText = c.val(); statCell.className = "status-live"; } }); }
-            });
-        }
-
-        window.addGhostUser = async () => { playSnd('click'); let uid = document.getElementById('newUid').value, date = document.getElementById('newDate').value; if(!uid) return showToast("UID REQUIRED", true); await set(ref(db, 'ghost_uids/' + uid), date); document.getElementById('newUid').value = ""; showToast("GHOST INJECTED"); };
-        window.banGhost = async (uid) => { playSnd('click'); if(confirm("ERASE GHOST " + uid + "?")) { await remove(ref(db, 'ghost_uids/' + uid)); showToast("GHOST ERASED"); } };
-        window.setActiveLink = async () => { playSnd('click'); let link = document.getElementById('linkA').value; if(!link) return showToast("URL REQUIRED", true); await set(ref(db, 'settings/active_link'), link); showToast("UPLINK ROUTED"); document.getElementById('linkA').value="";};
-        window.setTelegram = async () => { playSnd('click'); let tg = document.getElementById('tgInput').value.replace('@', '').trim(); if(!tg) return showToast("ENTER TG USERNAME", true); await set(ref(db, 'settings/telegram_id'), tg); document.getElementById('tgInput').value = ""; showToast("TG CONTACT UPDATED"); };
+        window.saveLink = async () => { await set(ref(db, 'settings/link_13l'), document.getElementById('gameLink').value); alert("Link Updated!"); };
+        window.toggleMaint = async () => { await set(ref(db, 'settings/maintenance'), document.getElementById('maintToggle').checked); };
     </script>
 </body>
 </html>
