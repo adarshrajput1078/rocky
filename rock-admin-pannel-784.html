@@ -2,170 +2,316 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUB-ADMIN TERMINAL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ULTIMATE ADMIN | 13L EDITION</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Rajdhani:wght@700;900&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@400;600;800&display=swap');
-        body { margin: 0; padding: 15px; font-family: 'Poppins', sans-serif; background: #050505; color: white; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
-        .container { background: linear-gradient(135deg, rgba(20,20,20,0.95), rgba(5,5,5,0.95)); padding: 20px; border-radius: 8px; width: 100%; max-width: 480px; border: 1px solid rgba(0, 255, 204, 0.2); margin-bottom: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
-        h2 { color: #fff; text-align: center; font-weight: 900; margin-top: 0; border-bottom: 1px solid #222; padding-bottom: 10px; font-family: 'Orbitron', sans-serif; letter-spacing: 2px;}
-        h2 span { color: #ff2a2a; text-shadow: 0 0 10px #ff2a2a; }
-        h3 { color: #00ffcc; font-size: 13px; margin-top: 0; font-family: 'Orbitron', sans-serif; letter-spacing: 1px;}
-        label { font-size: 10px; font-weight: bold; color: #888; text-transform: uppercase; margin-bottom: 4px; display: block; font-family: 'Orbitron', sans-serif; }
-        input, select { width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #333; background: rgba(0,0,0,0.8); color: #00ffcc; font-family: 'Orbitron', sans-serif; box-sizing: border-box; text-align: center;}
-        input:focus, select:focus { border-color: #00ffcc; outline: none; box-shadow: 0 0 10px rgba(0, 255, 204, 0.3); }
-        button { width: 100%; padding: 10px; color: #000; border: none; border-radius: 4px; font-weight: 900; cursor: pointer; background: #00ffcc; text-transform: uppercase; font-family: 'Orbitron', sans-serif; transition: 0.2s;}
-        button:active { transform: scale(0.96); }
-        .btn-red { background: #ff2a2a; color: white; }
-        .btn-dark { background: #111; color: #00ffcc; border: 1px solid #00ffcc;}
-        .btn-small { padding: 4px 8px; font-size: 9px; width: auto; margin:0;}
-        .stats { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; max-width: 480px; }
-        .stat-box { flex: 1; background: #111; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #222; }
-        .stat-num { font-size: 22px; font-weight: 800; color: #fff; font-family: 'Orbitron', sans-serif;}
-        .smart-panel { background: rgba(0, 255, 204, 0.05); padding: 15px; border-radius: 6px; border: 1px dashed #00ffcc; margin-bottom: 15px; }
-        .smart-row { display: flex; gap: 8px; align-items: flex-end; margin-top: 10px; }
-        .smart-input { font-size: 16px; font-weight: bold; height: 40px; }
-        .pattern-wrap { max-height: 200px; overflow-y: auto; background: #0a0a0a; border-radius: 4px; border: 1px solid #222;}
-        .pattern-wrap table { width: 100%; border-collapse: collapse; font-size: 10px; font-family: 'Orbitron', sans-serif;}
-        .pattern-wrap th, .pattern-wrap td { border-bottom: 1px solid #222; padding: 8px 4px; text-align: center; vertical-align: middle;}
-        .pattern-wrap th { background: #151515; color: #888; position: sticky; top: 0; z-index: 2; border-bottom: 2px solid #333;}
-        .status-live { color: #00ffcc; font-weight: bold; text-shadow: 0 0 5px #00ffcc;}
-        .status-unset { color: #444; }
-        #toast { position: fixed; bottom: -50px; left: 50%; transform: translateX(-50%); background: #0a0a0a; color: white; padding: 10px 20px; border-radius: 4px; font-size: 11px; font-weight: bold; border-left: 2px solid #00ffcc; transition: 0.4s; z-index: 1000; font-family: 'Orbitron', sans-serif;}
-        #toast.show { bottom: 30px; }
-        #dashboard { display: none; width: 100%; flex-direction: column; align-items: center; }
+        :root { --bg-dark: #0a0202; --bg-panel: #1a0505; --primary: #dc2626; --primary-dark: #991b1b; --gold: #f59e0b; --gold-light: #fbbf24; --cyan: #06b6d4; --green: #10b981; --red: #ef4444; --text-main: #f8fafc; --text-muted: #94a3b8; --border: #3f0f0f; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text-main); height: 100dvh; overflow: hidden; display: flex; flex-direction: column; }
+        
+        .mobile-header { display: none; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--bg-panel); border-bottom: 2px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 100;}
+        .mobile-header h2 { font-family: 'Rajdhani'; font-size: 22px; color: var(--gold); margin: 0; letter-spacing: 1px;}
+        .menu-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 8px 12px; border-radius: 6px; font-size: 18px; cursor: pointer; font-family: 'JetBrains Mono';}
+        
+        .app-container { display: flex; flex: 1; overflow: hidden; position: relative;}
+        .sidebar { width: 260px; background: var(--bg-panel); border-right: 2px solid var(--border); padding: 20px 0; display: flex; flex-direction: column; z-index: 999; transition: transform 0.3s ease;}
+        .brand { font-family: 'Rajdhani'; font-size: 28px; font-weight: 900; color: #fff; text-align: center; margin-bottom: 25px; letter-spacing: 1px;}
+        .brand span { color: var(--gold); text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);}
+        .nav-item { padding: 14px 20px; margin: 5px 15px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-muted); display: flex; align-items: center; gap: 10px; transition: 0.2s;}
+        .nav-item.active, .nav-item:hover { background: linear-gradient(90deg, rgba(220,38,38,0.15), transparent); color: var(--gold); border-left: 3px solid var(--gold); }
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 998; display: none; backdrop-filter: blur(5px);}
+
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative;}
+        .view-section { padding: 20px; display: none; overflow-y: auto; height: 100%; -webkit-overflow-scrolling: touch;}
+        .view-section.active { display: block; animation: fadeIn 0.3s forwards;}
+        @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to {opacity:1; transform:translateY(0);} }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 25px;}
+        .stat-card { background: rgba(0,0,0,0.5); border: 1px solid var(--border); padding: 20px; border-radius: 12px; border-left: 4px solid var(--primary); box-shadow: inset 0 0 15px rgba(0,0,0,0.8);}
+        
+        .table-wrapper { width: 100%; overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-panel); box-shadow: 0 10px 30px rgba(0,0,0,0.5); -webkit-overflow-scrolling: touch;}
+        table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; min-width: 800px;}
+        th { background: rgba(0,0,0,0.8); padding: 15px; color: var(--gold); border-bottom: 1px solid var(--border); white-space: nowrap; font-family: 'Rajdhani'; font-size: 14px; letter-spacing: 1px;}
+        td { padding: 15px; border-bottom: 1px dashed rgba(255,255,255,0.05); vertical-align: middle;}
+        
+        button { font-family: 'Inter'; cursor: pointer; border: none; padding: 12px 16px; border-radius: 8px; font-weight: 700; color: #fff; font-size: 12px; transition: 0.2s; white-space: nowrap; letter-spacing: 0.5px;}
+        button:active { transform: scale(0.95); }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); box-shadow: 0 4px 15px rgba(220,38,38,0.3); } 
+        .btn-warning { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #000; box-shadow: 0 4px 15px rgba(245,158,11,0.3);}
+        .btn-success { background: var(--green); box-shadow: 0 4px 15px rgba(16,185,129,0.3);} 
+        .btn-danger { background: var(--red); box-shadow: 0 4px 15px rgba(239,68,68,0.3);}
+        .btn-dark { background: #290808; color: var(--gold); border: 1px solid var(--border);}
+        .action-group { display: flex; gap: 8px; flex-wrap: wrap; }
+        
+        input, select { padding: 14px; background: #050101; border: 1px solid var(--border); color: #fff; border-radius: 8px; outline: none; width: 100%; font-family: 'Inter'; transition: 0.3s; margin-bottom: 10px;}
+        input:focus, select:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(245,158,11,0.2);}
+        
+        .msg-box { background: rgba(0,0,0,0.4); border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: inset 0 0 20px rgba(0,0,0,0.8);}
+        .flex-wrap-gap { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 10px;}
+        .flex-wrap-gap > * { flex: 1 1 100%; }
+        
+        .tag { padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; display: inline-block;}
+        .tag-vip { background: rgba(245,158,11,0.2); color: var(--gold); border: 1px solid rgba(245,158,11,0.5);}
+        .tag-trial { background: rgba(220,38,38,0.2); color: var(--primary); border: 1px solid rgba(220,38,38,0.5);}
+        .tag-expired { background: rgba(239,68,68,0.2); color: var(--red); border: 1px solid rgba(239,68,68,0.5);}
+
+        .login-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #290808 0%, #0a0202 100%); display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px;}
+        .login-card { background: var(--bg-panel); border: 2px solid #7f1d1d; padding: 40px 30px; border-radius: 20px; text-align: center; width: 100%; max-width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,0.9), inset 0 0 30px rgba(220,38,38,0.1);}
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 99999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(8px); padding: 15px;}
+        .modal-box { background: linear-gradient(145deg, #1a0505, #050101); border: 2px solid var(--gold); padding: 25px; border-radius: 16px; width: 100%; max-width: 380px; box-shadow: 0 25px 50px rgba(0,0,0,0.9); animation: popIn 0.3s forwards;}
+        @keyframes popIn { 0% { transform: scale(0.9); opacity: 0;} 100% { transform: scale(1); opacity: 1;} }
+
+        .hidden { display: none !important; }
+        #toast { position:fixed; bottom:25px; left:50%; transform:translateX(-50%) translateY(150%); background:var(--green); color:#000; padding:12px 25px; border-radius:30px; font-weight:800; font-size:13px; z-index:99999; transition:0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow:0 10px 30px rgba(16,185,129,0.5); white-space:nowrap;}
+        #toast.show { transform:translateX(-50%) translateY(0); }
+
+        @media (min-width: 768px) {
+            .mobile-header { display: none; }
+            .sidebar { transform: translateX(0) !important; position: relative;}
+            .flex-wrap-gap > input, .flex-wrap-gap > select { flex: 1 1 auto; margin-bottom: 0;}
+            .flex-wrap-gap > button { flex: 0 0 auto; }
+        }
+        @media (max-width: 767px) {
+            .mobile-header { display: flex; }
+            .sidebar { position: absolute; height: 100%; transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .view-section { padding: 15px; }
+        }
     </style>
 </head>
 <body>
-    <div id="toast">SYS MSG</div>
-    <div class="container" id="loginScreen" style="margin-top: 50px;">
-        <h2>SUB-ADMIN <span>TERMINAL</span></h2>
-        <input type="password" id="adminPass" placeholder="Enter Admin Key">
-        <button onclick="loginAdmin()">AUTHENTICATE</button>
+
+    <div id="toast">Action Successful!</div>
+
+    <div id="timeModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 style="color: var(--gold); margin-bottom: 5px; font-family:'Rajdhani'; font-size: 24px;">EDIT VALIDITY</h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">UID: <span id="timeTargetUid" style="color:#fff; font-family:'JetBrains Mono'; font-weight:bold;"></span></p>
+            <select id="editTimeDuration" style="margin-bottom: 15px; font-weight:bold; background:#000;">
+                <option value="1">+ Add 1 Day</option><option value="3">+ Add 3 Days</option><option value="7">+ Add 7 Days</option><option value="30">+ Add 30 Days</option>
+                <option value="999">Grant LIFETIME</option><option value="-1" style="color:var(--red);">☠️ EXPIRE (Kick)</option>
+            </select>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-warning" style="flex: 1;" onclick="confirmTimeUpdate()">UPDATE</button>
+                <button class="btn-dark" style="flex: 1;" onclick="document.getElementById('timeModal').style.display='none'">CANCEL</button>
+            </div>
+        </div>
     </div>
 
-    <div id="dashboard">
-        <div class="stats">
-            <div class="stat-box" style="border-bottom: 2px solid #ff2a2a;"><div class="stat-num" id="statUsers">0</div><div style="font-size:9px; color:#888;">MY USERS</div></div>
-            <div class="stat-box" style="border-bottom: 2px solid #00ffcc;"><div class="stat-num" id="statPatterns">0</div><div style="font-size:9px; color:#888;">LIVE PATTERNS</div></div>
+    <div class="login-wrapper" id="loginBox">
+        <div class="login-card">
+            <h2 style="font-family:'Rajdhani'; font-size: 34px; margin-bottom: 5px; color: #fff;">13L <span style="color:var(--primary);">ADMIN</span></h2>
+            <p style="font-size: 11px; color: var(--gold); margin-bottom: 25px; letter-spacing: 2px; font-weight:bold;">ROYAL V5 CORE</p>
+            <input type="password" id="pass" placeholder="ENTER SECURE PIN" style="text-align:center; letter-spacing:3px; font-family:'JetBrains Mono'; font-weight:bold; font-size:16px;">
+            <button class="btn-primary" style="width: 100%; padding: 16px; font-size: 14px;" onclick="login()">AUTHORIZE ACCESS</button>
+        </div>
+    </div>
+
+    <div class="mobile-header">
+        <h2>13L <span style="color:var(--primary);">CORE</span></h2>
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    </div>
+
+    <div class="app-container">
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+        <div class="sidebar" id="sidebar">
+            <div class="brand">13L <span>ADMIN</span></div>
+            <div class="nav-item active" onclick="switchView('v-dashboard', this); closeMobileSidebar();">📊 Control Panel</div>
+            <div class="nav-item" onclick="switchView('v-req', this); closeMobileSidebar();">⚡ Pending Gateways</div>
+            <div class="nav-item" onclick="switchView('v-usr', this); closeMobileSidebar();">🛡️ Manage Users</div>
+            <div class="nav-item" onclick="switchView('v-mat', this); closeMobileSidebar();">🔮 Prediction Matrix</div>
+            <div class="nav-item" style="color:var(--gold);" onclick="switchView('v-msg', this); closeMobileSidebar();">📩 System Broadcast</div>
         </div>
 
-        <div class="container">
-            <h3>⚡ SMART COMMAND CENTER</h3>
-            <button id="revToggleBtn" class="btn-dark" onclick="toggleReverseMode()" style="margin-bottom: 10px;">🔄 MIRROR MODE: OFF</button>
-            <div class="smart-panel">
-                <div style="display:flex; justify-content: space-between; align-items:center;">
-                    <span style="font-family: 'Orbitron', sans-serif; font-size:11px; font-weight:bold; color:#fff;">INTELLIGENCE MODE</span>
-                    <button id="autoToggleBtn" class="btn-small" style="background:#00ffcc; color:#000;" onclick="toggleAutoMode()">AUTO SIZE: ON</button>
-                </div>
-                <div class="smart-row">
-                    <div style="flex: 1.2;"><label>Combo</label><input type="number" id="smPat" class="smart-input" placeholder="##" oninput="if(this.value.length>2)this.value=this.value.slice(0,2);"></div>
-                    <div style="flex: 1.5; display:none;" id="manualSizeWrap"><label>Size</label><select id="smSize" class="smart-input" style="color:#fff;"><option value="BIG">BIG</option><option value="SMALL">SMALL</option></select></div>
-                    <div style="flex: 1;"><label>Result</label><input type="number" id="smNum" class="smart-input" placeholder="#" oninput="if(this.value.length>1)this.value=this.value.slice(0,1);" onkeypress="if(event.key==='Enter') smartPublish()"></div>
-                    <div style="flex: 1;"><button class="smart-input" style="margin-bottom:0;" onclick="smartPublish()">GO</button></div>
-                </div>
-                <div style="font-size:8px; color:#666; text-align:center; margin-top:5px;">Pro Tip: Type Number & Press ENTER</div>
-            </div>
-            <h3 style="margin-top:20px; font-size:11px; color:#888;">LIVE MONITOR (100 COMBINATIONS)</h3>
-            <div class="pattern-wrap">
-                <table><thead><tr><th>COMB</th><th>STATUS</th></tr></thead><tbody id="patternTableBody"></tbody></table>
-            </div>
-        </div>
-
-        <div class="container">
-            <h3>👥 USER MANAGEMENT</h3>
-            <div style="display: flex; gap: 8px; margin-bottom: 15px;">
-                <input type="number" id="newUid" placeholder="UID" style="margin:0;">
-                <input type="date" id="newDate" style="margin:0;">
-                <button class="btn-small" onclick="addUser()" style="width:auto; padding: 0 15px;">ADD</button>
-            </div>
+        <div class="main-content hidden" id="mainContent">
             
-            <div class="pattern-wrap" style="max-height: 150px; margin-bottom: 15px;">
-                <table>
-                    <thead><tr><th>UID</th><th>EXPIRY</th><th style="text-align: right;">ACTION</th></tr></thead>
-                    <tbody id="userListBody"></tbody>
-                </table>
+            <div id="v-dashboard" class="view-section active">
+                <h2 style="margin-bottom: 20px; font-family:'Rajdhani'; color:var(--gold);">System Overview</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card" style="border-color: var(--primary);"><div style="font-size:11px; color:var(--text-muted); font-weight:bold;">TOTAL USERS</div><div id="statTotal" style="font-size:26px; font-family:'JetBrains Mono'; font-weight:bold; color:#fff;">0</div></div>
+                    <div class="stat-card" style="border-color: var(--gold);"><div style="font-size:11px; color:var(--text-muted); font-weight:bold;">VIP FLEET</div><div id="statVip" style="font-size:26px; font-family:'JetBrains Mono'; font-weight:bold; color:var(--gold);">0</div></div>
+                    <div class="stat-card" style="border-color: var(--red);"><div style="font-size:11px; color:var(--text-muted); font-weight:bold;">EXPIRED</div><div id="statExpired" style="font-size:26px; font-family:'JetBrains Mono'; font-weight:bold; color:var(--red);">0</div></div>
+                </div>
+
+                <div class="msg-box" style="border-top: 3px solid var(--gold);">
+                    <h3 style="color:var(--gold); margin-bottom:8px; font-family:'Rajdhani'; font-size:20px;">☢️ MASS ACTIONS</h3>
+                    <p style="font-size:11px; color:var(--text-muted);">Execute command on ALL active users.</p>
+                    <div class="flex-wrap-gap">
+                        <select id="massActionSelect" style="font-family:'Inter'; font-weight:bold;">
+                            <option value="reset_all">🔄 Reset Plays (0/5) for All</option>
+                            <option value="add_7_days">⏳ Add +7 Days to All</option>
+                            <option value="make_all_vip">⭐ Make ALL VIP (30 Days)</option>
+                            <option value="expire_all_free" style="color:var(--red);">☠️ Expire All Free/Trial</option>
+                        </select>
+                        <button class="btn-warning" onclick="executeMassAction()">⚡ EXECUTE COMMAND</button>
+                    </div>
+                </div>
+
+                <div class="msg-box" style="border-top: 3px solid var(--primary);">
+                    <h3 style="color:var(--primary); margin-bottom:8px; font-family:'Rajdhani'; font-size:20px;">⚡ MANUAL INJECT</h3>
+                    <p style="font-size:11px; color:var(--text-muted);">Grant access dynamically.</p>
+                    <div class="flex-wrap-gap">
+                        <input type="number" id="manualUid" placeholder="Target UID" style="font-family:'JetBrains Mono'; font-weight:bold;">
+                        <select id="manualVipDuration">
+                            <option value="1">1 Day</option><option value="3">3 Days</option><option value="7">7 Days</option><option value="30">30 Days</option><option value="999" selected>Lifetime</option>
+                        </select>
+                        <button class="btn-dark" onclick="addManualUser(false)">TRIAL</button>
+                        <button class="btn-primary" onclick="addManualUser(true)">GRANT VIP</button>
+                    </div>
+                </div>
             </div>
 
-            <label>Set Telegram Contact</label>
-            <div style="display: flex; gap: 8px;">
-                <input type="text" id="tgInput" placeholder="TG Username" style="margin:0;">
-                <button class="btn-small" onclick="setTelegram()" style="width:auto; padding: 0 15px;">SET</button>
+            <div id="v-req" class="view-section">
+                <h2 style="margin-bottom: 20px; font-family:'Rajdhani'; color:var(--gold);">Verification Queue</h2>
+                <div class="table-wrapper"><table><thead><tr><th>UID</th><th>HARDWARE ID</th><th>ACTIONS</th></tr></thead><tbody id="req-list"></tbody></table></div>
             </div>
-            <p style="font-size: 9px; color: #888; text-align: center; margin:5px 0 0 0; font-family:'Orbitron', sans-serif;">LIVE TG: <span id="currentTg" style="color:#00ffcc; font-weight:bold;">...</span></p>
+
+            <div id="v-usr" class="view-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap:wrap; gap:10px;">
+                    <h2 style="font-family:'Rajdhani'; color:var(--gold); margin:0;">User Database</h2>
+                    <button class="btn-danger" style="padding: 10px 15px; font-size: 11px;" onclick="purgeDeadNodes()">🧹 PURGE EXPIRED</button>
+                </div>
+                <div class="table-wrapper"><table><thead><tr><th>UID</th><th>STATUS</th><th>VALIDITY</th><th>USAGE</th><th>ACTIONS</th></tr></thead><tbody id="usr-list"></tbody></table></div>
+            </div>
+
+            <div id="v-mat" class="view-section">
+                <h2 style="margin-bottom: 20px; font-family:'Rajdhani'; color:var(--gold);">Prediction Matrix</h2>
+                <div class="table-wrapper"><table><thead><tr><th>COMBINATION</th><th>RESULT INPUT</th><th>ACTION</th></tr></thead><tbody id="mat-list"></tbody></table></div>
+            </div>
+
+            <div id="v-msg" class="view-section">
+                <h2 style="margin-bottom: 20px; font-family:'Rajdhani'; color:var(--gold);">System Transmissions</h2>
+                <div class="msg-box" style="border-top: 3px solid var(--green);">
+                    <h3 style="color:var(--green); margin-bottom:10px; font-family:'Rajdhani'; font-size:20px;">🌐 GLOBAL BROADCAST</h3>
+                    <input type="text" id="globalText" placeholder="Message for all active users...">
+                    <button class="btn-success" style="width:100%; padding:14px;" onclick="sendGlobalMessage()">SEND BROADCAST</button>
+                </div>
+                <div class="msg-box" style="border-top: 3px solid var(--primary);">
+                    <h3 style="color:var(--primary); margin-bottom:10px; font-family:'Rajdhani'; font-size:20px;">🎯 DIRECT MESSAGE (DM)</h3>
+                    <input type="number" id="dmUid" placeholder="Target UID">
+                    <input type="text" id="dmText" placeholder="Discrete message...">
+                    <button class="btn-primary" style="width:100%; padding:14px;" onclick="sendDirectMessage()">SEND DM</button>
+                </div>
+            </div>
         </div>
-        <button class="btn-red" style="max-width: 480px; margin-bottom:30px;" onclick="location.reload()">TERMINATE SESSION</button>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-        const db = getDatabase(initializeApp({ apiKey: "AIzaSyB2w6_FoCuFfrSJWZGk2x3zLn6xaVwUT5I", databaseURL: "https://rocky-tool-default-rtdb.asia-southeast1.firebasedatabase.app" }));
+        import { getDatabase, ref, get, set, update, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playSnd(type) {
-            if(audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.connect(gain); gain.connect(audioCtx.destination); let now = audioCtx.currentTime;
-            if(type==='click'){ osc.type='square'; osc.frequency.setValueAtTime(800, now); gain.gain.setValueAtTime(0.1,now); gain.gain.exponentialRampToValueAtTime(0.01,now+0.1); osc.start(now); osc.stop(now+0.1); }
-            else if(type==='success'){ osc.type='sine'; osc.frequency.setValueAtTime(600, now); osc.frequency.exponentialRampToValueAtTime(1200, now+0.3); gain.gain.setValueAtTime(0.1,now); gain.gain.linearRampToValueAtTime(0,now+0.3); osc.start(now); osc.stop(now+0.3); }
-        }
-
-        function showToast(msg, isErr=false) { let t = document.getElementById("toast"); t.innerText = "> " + msg; t.style.borderLeftColor = isErr ? "#ff2a2a" : "#00ffcc"; t.className = "show"; setTimeout(() => t.className = "", 3000); playSnd(isErr ? 'click' : 'success'); }
-
-        let isAutoMode = true; let isRevMode = false;
-
-        window.toggleAutoMode = () => {
-            playSnd('click'); isAutoMode = !isAutoMode; let btn = document.getElementById('autoToggleBtn'); let sizeWrap = document.getElementById('manualSizeWrap');
-            if(isAutoMode) { btn.innerText = "AUTO SIZE: ON"; btn.style.background = "#00ffcc"; btn.style.color = "#000"; sizeWrap.style.display = "none"; } 
-            else { btn.innerText = "AUTO SIZE: OFF"; btn.style.background = "#ff2a2a"; btn.style.color = "#fff"; sizeWrap.style.display = "block"; }
+        // 🔥 13L NEW FIREBASE CONFIG 🔥
+        const firebaseConfig = {
+            apiKey: "AIzaSyCRguf69mkxGGceD0wBhOwAtRK8UljJocw",
+            authDomain: "l-new-26288.firebaseapp.com",
+            databaseURL: "https://l-new-26288-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "l-new-26288"
         };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
-        window.toggleReverseMode = async () => { playSnd('click'); await set(ref(db, 'settings/reverse_mode'), !isRevMode); showToast("MIRROR MODE " + (!isRevMode ? "ACTIVATED" : "DEACTIVATED")); };
+        let currentTimeUID = ""; let expiredUsersList = [];
 
-        window.smartPublish = async () => {
-            playSnd('click'); let pat = document.getElementById('smPat').value.trim(); let num = document.getElementById('smNum').value.trim();
-            if(pat.length !== 2) return showToast("ENTER 2-DIGIT COMBO (e.g. 45)", true);
-            if(num === "" || num < 0 || num > 9) return showToast("ENTER VALID RESULT (0-9)", true);
-            let n1 = pat[0]; let n2 = pat[1]; let key = `${n1}-${n2}`; let size = "";
-            if(isAutoMode) { size = (num >= 5) ? "BIG" : "SMALL"; } else { size = document.getElementById('smSize').value; }
-            let finalResult = `${size} [${num}]`; await set(ref(db, `patterns/${key}`), finalResult); showToast(`DEPLOYED: ${key} ➔ ${finalResult}`);
-            document.getElementById('smPat').value = ""; document.getElementById('smNum').value = ""; document.getElementById('smPat').focus(); 
-        };
+        window.showToast = (msg) => { let t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); };
+        window.switchView = (id, el) => { document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active')); document.querySelectorAll('.nav-item').forEach(v => v.classList.remove('active')); document.getElementById(id).classList.add('active'); el.classList.add('active'); };
+        window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('open'); let overlay = document.getElementById('sidebarOverlay'); overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block'; };
+        window.closeMobileSidebar = () => { if(window.innerWidth < 768) { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').style.display='none'; }};
 
-        function generateMonitorTable() {
-            let tbody = document.getElementById('patternTableBody'); tbody.innerHTML = "";
-            for(let i=0; i<=9; i++) { for(let j=0; j<=9; j++) { let key = `${i}-${j}`; let tr = document.createElement('tr'); tr.innerHTML = `<td style="color:#fff; font-weight:bold; width:30%;">${key}</td><td id="status-${key}" class="status-unset">UNSET</td>`; tbody.appendChild(tr); } }
-        }
+        window.login = () => { if(document.getElementById('pass').value === "SIKKIMADMIN") { document.getElementById('loginBox').style.display='none'; document.getElementById('mainContent').classList.remove('hidden'); initSystem(); } else alert("Access Denied: Invalid PIN"); };
 
-        window.loginAdmin = () => {
-            if(document.getElementById('adminPass').value === "MASTER123") { document.getElementById('loginScreen').style.display = 'none'; document.getElementById('dashboard').style.display = 'flex'; document.getElementById('newDate').valueAsDate = new Date(); generateMonitorTable(); loadData(); showToast("ACCESS GRANTED"); } else showToast("AUTH FAILED", true);
-        };
+        function initSystem() {
+            onValue(ref(db, 'uid_requests'), s => {
+                let html = ""; if(s.exists()) { s.forEach(c => { html += `<tr><td style="font-family:'JetBrains Mono'; color:var(--primary); font-size:14px; font-weight:bold;">${c.key}</td><td style="font-size:11px; color:var(--text-muted);">${c.val().deviceId || "Unknown"}</td><td><div class="action-group"><button class="btn-success" onclick="apprReq('${c.key}')">APPROVE</button> <button class="btn-danger" onclick="rejReq('${c.key}')">REJECT</button></div></td></tr>`; }); }
+                document.getElementById('req-list').innerHTML = html || `<tr><td colspan="3" style="text-align:center; padding:30px; color:var(--text-muted);">No Pending Gateways.</td></tr>`;
+            });
 
-        function loadData() {
-            // LOAD USERS IN TABLE
-            onValue(ref(db, 'approved_uids'), (snap) => { 
-                let tbody = document.getElementById('userListBody'); tbody.innerHTML = ""; let count = 0; 
-                if(snap.exists()) {
-                    snap.forEach(c => { 
-                        count++; 
-                        tbody.innerHTML += `<tr><td style="color:#00ffcc; font-weight:bold;">${c.key}</td><td>${c.val()}</td><td style="text-align:right;"><button class="btn-red btn-small" onclick="banUser('${c.key}')">BAN</button></td></tr>`; 
+            onValue(ref(db, 'approved_uids'), s => {
+                let html = ""; let tot = 0; let vip = 0; let expCount = 0; let now = Date.now(); expiredUsersList = [];
+                if(s.exists()) {
+                    s.forEach(c => { 
+                        tot++; let d = c.val(); let uid = c.key; if(d.is_premium) vip++;
+                        let daysLeft = d.expireAt ? Math.ceil((d.expireAt - now) / (1000 * 60 * 60 * 24)) : "LIFETIME";
+                        let expiryText = "";
+                        if(daysLeft === "LIFETIME" || daysLeft > 900) { expiryText = `<span style="color:var(--gold); font-size:11px; font-weight:bold;">LIFETIME</span>`; } 
+                        else if(daysLeft <= 0) { expiryText = `<span style="color:var(--red); font-size:11px; font-weight:bold;">EXPIRED</span>`; expCount++; expiredUsersList.push(uid); } 
+                        else { expiryText = `<span style="color:var(--green); font-size:11px; font-weight:bold;">${daysLeft} DAYS LEFT</span>`; }
+
+                        let badge = (daysLeft <= 0) ? `<span class="tag tag-expired">EXPIRED</span>` : (d.is_premium ? `<span class="tag tag-vip">VIP</span>` : `<span class="tag tag-trial">TRIAL</span>`);
+                        let usage = d.is_premium ? `<span style="color:var(--gold);">UNLIMITED</span>` : `<span style="color:var(--cyan);">${d.predictions_used||0} / 5</span>`;
+                        
+                        let actions = `<div class="action-group">`;
+                        actions += `<button class="btn-warning" onclick="openTimeModal('${uid}')">⏳ TIME</button>`;
+                        if(!d.is_premium) actions += `<button class="btn-dark" onclick="resetPlays('${uid}')">🔄 0/5</button>`;
+                        actions += `<button class="btn-primary" onclick="unlinkDevice('${uid}')">UNLINK</button>`;
+                        actions += `<button class="btn-danger" onclick="banUser('${uid}')">PURGE</button>`;
+                        actions += `</div>`;
+                        
+                        html += `<tr><td style="font-family:'JetBrains Mono'; font-size:14px; font-weight:bold; color:var(--text-main);">${uid}</td><td>${badge}</td><td>${expiryText}</td><td style="font-family:'JetBrains Mono'; font-weight:bold;">${usage}</td><td>${actions}</td></tr>`; 
                     });
                 }
-                document.getElementById('statUsers').innerText = count; 
+                document.getElementById('usr-list').innerHTML = html || `<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">Database Empty.</td></tr>`;
+                document.getElementById('statTotal').innerText = tot; document.getElementById('statVip').innerText = vip; document.getElementById('statExpired').innerText = expCount;
             });
-            
-            onValue(ref(db, 'settings/telegram_id'), (snap) => { if(snap.exists()) document.getElementById('currentTg').innerText = "@" + snap.val(); });
-            onValue(ref(db, 'settings/reverse_mode'), (snap) => { isRevMode = snap.val() || false; let rBtn = document.getElementById('revToggleBtn'); if(isRevMode) { rBtn.innerText = "🔄 MIRROR MODE: ON (ACTIVE)"; rBtn.className = "btn-red"; } else { rBtn.innerText = "🔄 MIRROR MODE: OFF"; rBtn.className = "btn-dark"; } });
-            onValue(ref(db, 'patterns'), (snap) => {
-                let count = 0; for(let i=0; i<=9; i++) { for(let j=0; j<=9; j++) { let st = document.getElementById(`status-${i}-${j}`); if(st){ st.innerText = "UNSET"; st.className = "status-unset"; } } }
-                if(snap.exists()) { snap.forEach(c => { count++; let statCell = document.getElementById(`status-${c.key}`); if(statCell) { statCell.innerText = c.val(); statCell.className = "status-live"; } }); }
-                document.getElementById('statPatterns').innerText = count + "/100";
-            });
+            buildMatrix();
         }
 
-        window.addUser = async () => { playSnd('click'); let uid = document.getElementById('newUid').value, date = document.getElementById('newDate').value; if(!uid) return showToast("UID REQUIRED", true); await set(ref(db, 'approved_uids/' + uid), date); document.getElementById('newUid').value = ""; showToast("USER UPLOADED"); };
-        window.banUser = async (uid) => { playSnd('click'); if(confirm("BAN " + uid + "?")) { await remove(ref(db, 'approved_uids/' + uid)); showToast("USER TERMINATED"); } };
-        window.setTelegram = async () => { playSnd('click'); let tg = document.getElementById('tgInput').value.replace('@', '').trim(); if(!tg) return showToast("ENTER TG USERNAME", true); await set(ref(db, 'settings/telegram_id'), tg); document.getElementById('tgInput').value = ""; showToast("TG CONTACT UPDATED"); };
+        window.executeMassAction = async () => {
+            let action = document.getElementById('massActionSelect').value;
+            if(!confirm("⚠️ EXTREME WARNING: Execute on ALL users?")) return;
+            try {
+                let snap = await get(ref(db, 'approved_uids'));
+                if(!snap.exists()) return showToast("No users found.");
+                let updates = {}; let now = Date.now(); let count = 0;
+                snap.forEach(child => {
+                    let uid = child.key; let d = child.val();
+                    if(action === 'reset_all') { if(!d.is_premium) { updates[`approved_uids/${uid}/predictions_used`] = 0; count++; } }
+                    else if(action === 'add_7_days') { let currentExp = d.expireAt || now; if(currentExp < now) currentExp = now; updates[`approved_uids/${uid}/expireAt`] = currentExp + (7 * 86400000); count++; }
+                    else if(action === 'make_all_vip') { updates[`approved_uids/${uid}/is_premium`] = true; updates[`approved_uids/${uid}/expireAt`] = now + (30 * 86400000); count++; }
+                    else if(action === 'expire_all_free') { if(!d.is_premium) { updates[`approved_uids/${uid}/expireAt`] = now - 10000; count++; } }
+                });
+                if(count > 0) { await update(ref(db), updates); showToast(`Action executed on ${count} users!`); } else { showToast("No targets found."); }
+            } catch(e) { alert("Error: " + e.message); }
+        };
+
+        window.addManualUser = async (isVip) => {
+            let uid = document.getElementById('manualUid').value.trim(); if(!uid) return alert("Enter UID!");
+            let days = parseInt(document.getElementById('manualVipDuration').value); let expireAt = Date.now() + (days * 86400000);
+            await set(ref(db, 'approved_uids/'+uid), { active:true, predictions_used:0, is_premium:isVip, expireAt: expireAt });
+            document.getElementById('manualUid').value = ""; showToast(`UID ${uid} Injected!`);
+        };
+
+        window.openTimeModal = (uid) => { currentTimeUID = uid; document.getElementById('timeTargetUid').innerText = uid; document.getElementById('timeModal').style.display = 'flex'; };
+        window.confirmTimeUpdate = async () => {
+            let val = parseInt(document.getElementById('editTimeDuration').value); let expireAt;
+            if(val === -1) expireAt = Date.now() - 10000; else if(val === 999) expireAt = Date.now() + (999 * 86400000); else expireAt = Date.now() + (val * 86400000);
+            await update(ref(db, 'approved_uids/'+currentTimeUID), { expireAt: expireAt });
+            document.getElementById('timeModal').style.display = 'none'; showToast(`Validity updated!`);
+        };
+
+        window.purgeDeadNodes = async () => {
+            if(expiredUsersList.length === 0) return showToast("No expired users.");
+            if(!confirm(`Delete ${expiredUsersList.length} expired users permanently?`)) return;
+            let count = 0; for(let uid of expiredUsersList) { await remove(ref(db, 'approved_uids/'+uid)); await remove(ref(db, 'device_bindings/'+uid)); count++; }
+            showToast(`Cleaned ${count} nodes.`);
+        };
+
+        window.apprReq = async (uid) => { await set(ref(db, 'approved_uids/'+uid), {active:true, predictions_used:0, is_premium:false, expireAt: Date.now() + (30*86400000)}); await remove(ref(db, 'uid_requests/'+uid)); showToast("Approved"); };
+        window.rejReq = async (uid) => { await remove(ref(db, 'uid_requests/'+uid)); showToast("Rejected"); };
+        window.resetPlays = async (uid) => { await update(ref(db, 'approved_uids/'+uid), { predictions_used: 0 }); showToast("Plays reset"); };
+        window.unlinkDevice = async (uid) => { await remove(ref(db, 'device_bindings/'+uid)); showToast("Device unlinked"); };
+        window.banUser = async (uid) => { if(confirm("Ban user?")) { await remove(ref(db, 'approved_uids/'+uid)); await remove(ref(db, 'device_bindings/'+uid)); showToast("User banned"); } };
+
+        function buildMatrix() {
+            let html = ""; for(let i=0; i<=9; i++) { for(let j=0; j<=9; j++) { let k = `${i}-${j}`; html += `<tr><td style="font-family:'JetBrains Mono'; font-weight:bold; color:var(--gold);">${k}</td><td><input type="number" id="m-${k}" style="min-width:60px; margin:0; text-align:center;" min="0" max="9" placeholder="#"></td><td><button class="btn-primary" onclick="saveM('${k}')">SET</button></td></tr>`; }}
+            document.getElementById('mat-list').innerHTML = html;
+        }
+        window.saveM = async (k) => { let v = document.getElementById(`m-${k}`).value; if(v!=="") await set(ref(db, `patterns/${k}`), `${parseInt(v)>=5?"BIG":"SMALL"} [${v}]`); document.getElementById(`m-${k}`).value=""; showToast("Saved!"); };
+
+        window.sendGlobalMessage = async () => { let txt = document.getElementById('globalText').value.trim(); if(!txt) return alert("Enter MSG!"); await set(ref(db, 'settings/global_broadcast'), { text: txt, time: Date.now() }); showToast("Sent!"); document.getElementById('globalText').value = ""; };
+        window.sendDirectMessage = async () => { let uid = document.getElementById('dmUid').value.trim(); let txt = document.getElementById('dmText').value.trim(); if(!uid || !txt) return alert("Fill UID & MSG!"); await set(ref(db, 'user_messages/' + uid), {text: txt, time: Date.now(), read: false}); showToast(`Sent to ${uid}!`); document.getElementById('dmText').value = ""; };
     </script>
 </body>
 </html>
